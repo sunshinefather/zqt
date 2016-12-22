@@ -119,14 +119,14 @@ public class Hospital implements Serializable {
 	/**
 	 * 机构类型
 	 */
-	private String hospitalType;
-	private String isHighSalary;
-	private String highSalaryStart;
-	private String highSalaryEnd;
-	private String registeredCapital;
-	private String bln;
-	private String peoples;
-	private String technicalPatent;
+	private String hospitalType;//类型
+	private String isHighSalary;//是否高薪企业
+	private String highSalaryStart;//高薪企业获得时间
+	private String highSalaryEnd;//高薪企业结束时间
+	private String registeredCapital;//注册资本
+	private String bln;//营业执照号
+	private String peoples;//企业人数
+	private String technicalPatent;//技术专利
 	private List<AgencyOverview> agencyOverviews;
 
 	public String getHospitalId() {
