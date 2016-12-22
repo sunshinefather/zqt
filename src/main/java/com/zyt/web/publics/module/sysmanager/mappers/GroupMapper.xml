@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.sysmanager.dao.GroupDao">
+	 <resultMap type="Group" id="groupResultMap">
+		<id column="id" property="id" />
+		<result column="group_name" property="groupName" />
+		<result column="group_code" property="groupCode" />
+		<result column="enabled" property="enabled"/>
+		<association property="organization"  javaType="Hospital">
+			<id property="hospitalId" column="org_id"/>
+			<result property="parentId" column="parent_id"/>
+			<result property="hospitalName" column="hospital_name"/>
+		</association>
+		<collection property="roles"  ofType="Role">
+			<id property="id" column="role_id"/>
+			<result property="roleCode" column="role_code"/>
+			<result property="roleName" column="role_name"/>
+		</collection>
+	</resultMap>
+	<sql id="group_columns">
+		<![CDATA[
+			`id`,
+			`group_code`,
+			`group_name`,
+			`enabled`,
+			`org_id`
+		]]>
+	</sql>
+	<sql id="role_group_columns">
+		<![CDATA[
+			`role_id`,
+			`group_id`
+		]]>
+	</sql>
+	<sql id="role_columns">
+		<![CDATA[
+			`role_code`,
+			`role_name`
+		]]>
+	</sql>
+	
+	<select id="findList" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="groupResultMap">
+		 <![CDATA[
+		 	SELECT 
+		 ]]>
+		 	a.`id`,
+			`group_code`,
+			`group_name`,
+			a.`enabled`,
+			a.`org_id`,
+		 	`role_id`,
+			`group_id`,
+		 	`role_code`,
+			`role_name`,
+			`region_name`,
+			`parent_id`
+		 <![CDATA[
+		 	FROM sys_group a
+		 	LEFT JOIN sys_role_group b
+		 	ON a.id = b.group_id
+		 	LEFT JOIN sys_role c
+		 	ON b.role_id = c.id
+		 	LEFT JOIN sys_region d
+		 	ON c.region_id = d.id
+		 ]]>
+	 	<where>
+	 		<if test="whereParameters.userType != '0'.toString()" >
+			 	<choose>
+		 			<when test="whereParameters.userType == 100"><!-- 区域用户 -->
+				   		c.region_id in
+				 		<foreach collection="whereParameters.regionIds" item="i" open="(" separator="," close=")">
+				 			#{i}
+				 		</foreach>
+				   	</when>
+				   	<otherwise><!-- 机构用户 -->
+				   		 AND c.`org_id` in
+						 <foreach collection="whereParameters.orgIds" item="orgId" open="(" separator="," close=")">
+						 		#{orgId}
+						 </foreach>
+				   	</otherwise>
+				 </choose>
+	 		</if>
+			 <if test="whereParameters.groupName != null and whereParameters.groupName != '' ">
+			 		AND
+			 		`group_name` like '%${whereParameters.groupName}%'
+			 </if>
+			 <if test="whereParameters.regionName != null and whereParameters.regionName != '' ">
+			 		AND
+			 		`region_name` like '%${whereParameters.regionName}%'
+			 </if>
+	 	</where>
+		 <![CDATA[
+			ORDER BY a.id desc
+			]]>
+	</select>
+	
+	<select id="findGroupList" parameterType="map" resultMap="groupResultMap">
+		<![CDATA[
+		 	SELECT 
+		 ]]>
+		 	a.`id`,
+			a.`group_code`,
+			a.`group_name`,
+			a.`enabled`,
+			a.`org_id`
+		 <![CDATA[
+		 	FROM sys_group a
+		 	LEFT JOIN
+            	sys_role_group b
+            ON
+            	a.id = b.group_id
+           LEFT  JOIN
+            	sys_role c
+            ON
+            	c.id = b.role_id
+		 ]]>
+		 <where>
+		 	a.`enabled` = 1
+ 			<if test="userType != '0'.toString() ">
+ 				<choose>
+				 	<when test="userType == 100"><!-- 区域用户 -->
+				   			AND 
+				   			c.region_id in
+				 		<foreach collection="regionIds" item="regionId" open="(" separator="," close=")">
+				 			#{regionId}
+				 		</foreach>
+				   	</when>
+				   	<otherwise><!-- 机构用户 -->
+				   		AND a.`org_id` in
+						 <foreach collection="orgIds" item="orgId" open="(" separator="," close=")">
+						 		#{orgId}
+						 </foreach>
+				   	</otherwise>
+			 	</choose>
+ 			</if>
+		 </where>
+	</select>
+	
+	<select id="findGroupById" parameterType="java.lang.String" resultMap="groupResultMap">
+	 	<![CDATA[
+		 	SELECT 
+			 	a.`id`,
+				a.`group_code`,
+				a.`group_name`,
+				a.`enabled`,
+				a.`org_id`,
+				f.`hospital_name`,
+				b.`role_id`,
+				c.`role_name`
+			FROM sys_group a
+		 	LEFT JOIN sys_role_group b
+		 	ON a.id = b.group_id
+		 	LEFT JOIN sys_role c
+		 	ON b.role_id = c.id
+		 	LEFT JOIN biz_hospital f
+		 	ON f.hospital_id = a.org_id
+		 ]]>
+		 <where>
+		 	a.`id` = #{id}
+		 </where>
+	</select>
+	<!-- 根据区域id查找该区域下所有用户组 -->
+	<select id="findGroupByRegion" parameterType="java.lang.String" resultMap="groupResultMap">
+		 	SELECT 
+		 		group_name  
+		 	FROM 
+		 		sys_group a
+		 	LEFT JOIN
+		 		sys_role_group b
+		 	ON	a.id = b.group_id
+		 	LEFT JOIN
+		 		sys_role c
+		 	ON b.role_id = c.id
+		 	 where 
+		 	 	c.region_id = #{regionId}
+	</select>
+	
+	
+	<insert id="save" parameterType="Group" >
+		<![CDATA[
+			INSERT INTO sys_group(
+		 ]]>
+			<include refid="group_columns"/>
+		<![CDATA[
+			)VALUE(
+				#{id},
+				#{groupCode},
+				#{groupName},
+				#{enabled},
+				#{organization.hospitalId}
+			)
+		 ]]>
+	</insert>
+	
+	<insert id="saveGroupRoleLink" parameterType="Group">
+		<![CDATA[
+			INSERT INTO sys_role_group(
+		 ]]>
+			<include refid="role_group_columns"/>
+		<![CDATA[
+			)VALUES
+		]]>
+		<foreach collection="roles" item="role"   separator=","  >
+				(
+					#{role.id},
+					#{id}
+				)
+				
+		</foreach>
+	</insert>
+	
+	<delete id="delete" parameterType="Group">
+		<![CDATA[
+			DELETE FROM `sys_group` 
+		]]>
+		<where>
+			`id`   = #{id}
+		</where>
+	</delete>
+	
+	<delete id="deleteGroupRoleLink" parameterType="Group">
+		<![CDATA[
+			DELETE FROM `sys_role_group` 
+		]]>
+		<where>
+			`group_id`   = #{id}
+		</where>
+	</delete>
+	
+	
+	<delete id="deleteBatch" parameterType="map">
+		<![CDATA[
+			DELETE 
+				sg.*,srg.*
+			FROM
+				sys_group sg
+			LEFT JOIN sys_role_group srg
+			ON sg.id = srg.group_id
+			WHERE
+			sg.id IN 
+		]]>
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="Group">
+		UPDATE	sys_group SET
+			`group_name` = #{groupName}
+			<if test="groupCode != null and groupCode != '' ">
+				,`group_code` = #{groupCode}
+			</if>
+			<if test="enabled != null">
+				,`enabled` = #{enabled}
+			</if>
+			<if test="organization != null and organization.hospitalId != null">
+				,`org_id` = #{organization.hospitalId}
+			</if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	<update id="transform" parameterType="map">
+		UPDATE	sys_group SET
+		`enabled` = #{state}
+		<where>
+			`id`  in
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+		</where>
+	</update>
+	
+	
+</mapper>

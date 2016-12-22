@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.sysmanager.dao.ResourceDao">
+
+	<sql id="baseColumn">id,r_code,resource_name,resource_url,parent,level_seq,resource_type,project</sql>
+	
+	<resultMap type="Resource" id="baseMap">
+		<id column="id" property="id" jdbcType="VARCHAR" javaType="String"/>
+		<result column="r_code" property="code" jdbcType="VARCHAR" javaType="String"/>
+		<result column="resource_name" property="resourceName" jdbcType="VARCHAR" javaType="String"/>
+		<result column="resource_url" property="resourceUrl" jdbcType="VARCHAR" javaType="String"/>
+		<result column="parent" property="parent" jdbcType="VARCHAR" javaType="String"/>
+		<result column="level_seq" property="order"  jdbcType="INTEGER" javaType="Integer"/>
+		<result column="resource_type" property="resourceType" javaType="String"/>
+		<result column="project" property="project" javaType="String"/>
+	</resultMap>
+	
+	<!-- 获取所有的系统资源 -->
+	<select id="getResources" resultMap="baseMap">
+		select <include refid="baseColumn"/> from sys_resource sr
+		<where>
+		    <if test="resourceType != null">
+		        sr.resource_type = #{resourceType}
+		    </if>
+		    <if test="projects != null and projects.size() > 0">
+		          and  sr.project in 
+		        <foreach collection="projects" item="p" open="(" separator="," close=")">
+		              #{p}
+		        </foreach>
+		    </if>
+		</where>
+		ORDER BY sr.level_seq
+	</select>
+	
+	<!-- 根据Id获取资源信息 -->
+	<select id="getResourceById" resultMap="baseMap" parameterType="java.lang.String">
+		select <include refid="baseColumn"/> from sys_resource sr 
+		<where>
+			sr.id = #{resourceId}
+		</where>
+	</select>
+	
+	<!-- 添加资源信息 -->
+	<insert id="insertResource" parameterType="Resource" keyProperty="id" >
+		insert into sys_resource(<include refid="baseColumn"/>) 
+		     values(#{id},#{code},#{resourceName},#{resourceUrl},#{parent},#{order},#{resourceType},#{project});
+	</insert>
+	<update id="updateResource" parameterType="Resource">
+	   update sys_resource set r_code=#{code},resource_name=#{resourceName},resource_url=#{resourceUrl},level_seq=#{order},resource_type=#{resourceType},project=#{project} where id=#{id}
+	</update>
+	<!-- 删除资源信息,包括下面的子节点信息一起删除 -->
+	<delete id="deleteResourceById" parameterType="String">
+		<![CDATA[
+			DELETE sr.*,srr.* FROM sys_resource sr LEFT JOIN sys_role_resource srr ON sr.`id`=srr.`resource_id` 
+			WHERE srr.`resource_id`=#{resourceId} OR sr.`id`=#{resourceId} OR sr.`parent`=#{resourceId}
+		]]>
+	</delete>
+	
+	<!-- 根据角色Id获取对应的资源信息 -->
+	<select id="findResourceByRoleIds"  resultMap="baseMap" parameterType="java.util.Map">
+		SELECT <include refid="baseColumn"/> FROM sys_resource sr LEFT JOIN sys_role_resource  srr ON sr.`id`=srr.`resource_id`
+		 <where>
+		 	srr.`role_id` in
+			 <foreach collection="roles" open="(" separator="," close=")" item="role">
+		 		#{role.id}
+		 	</foreach>
+			 <if test="resourceType != null">
+			 	and sr.resource_type = #{resourceType}
+			 </if>
+			 <if test="projects != null and projects.size() > 0">
+                  and  sr.project in 
+                <foreach collection="projects" item="p" open="(" separator="," close=")">
+                      #{p}
+                </foreach>
+            </if>
+		 </where> 
+		 
+		 ORDER BY sr.level_seq
+	</select>
+	<!-- 单个角色获取资源 -->
+	<select id="findResourceByRoleId" resultMap="baseMap">
+		SELECT <include refid="baseColumn"/>
+			FROM sys_resource sr
+				WHERE EXISTS(SELECT
+                 srr.resource_id
+               FROM sys_role_resource srr
+               WHERE sr.id=srr.resource_id AND srr.`role_id` = #{roleId})  ORDER BY sr.level_seq;
+	</select>
+	<!-- 查找一级菜单资源 -->
+	<select id="findFirstLevelResourceByRoleId" resultMap="baseMap">
+		select <include refid="baseColumn"/> from sys_resource sr where sr.parent="0" or sr.parent is null;
+	</select>
+	<!-- 资源ID的下一级资源 -->
+	<select id="findNextLevelResourceByRoleId" resultMap="baseMap" parameterType="String">
+		select <include refid="baseColumn"/> from sys_resource sr where sr.parent=#{resourceId};
+	</select>
+	<!-- 更新资源信息 -->
+	<update id="updateResourceById" parameterType="Resource">
+		UPDATE sys_resource sr 
+		<set>
+			<if test="resourceName!=null and resourceName!='' ">
+				sr.resource_name =#{resourceName},
+			</if>
+			<if test="resourceUrl!=null and resourceUrl!='' ">
+				sr.resource_url=#{resourceUrl},
+			</if>
+			<if test="code!=null and code!='' ">
+				sr.r_code=#{code},
+			</if>
+			<if test="order!=null and order!='' ">
+				sr.level_seq=#{order},
+			</if>
+            <if test="resourceType != null and resourceType  != '' ">
+                sr.resource_type=#{resourceType},
+            </if>
+			<if test="project !=null and project !='' ">
+                sr.project=#{project},
+            </if>
+		</set>
+		<where>
+			sr.id=#{id};
+		</where>
+	</update>
+	
+</mapper>

@@ -1,0 +1,32 @@
+@charset "utf-8";
+/*
+*Author Wu FengYang
+*/
+body{background:url(../images/bg.gif) repeat #fbfbf9; color:#141414;font:12.3px/1.5 \5b8b\4f53;font-family:"微软雅黑", "宋体";}
+html,body,ul,ol,dl,dd,h1,h2,h3,h4,h5,h6,pre,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0}
+table{border-collapse:collapse;border-spacing:0;table-layout:fixed}
+i {font-family:"宋体";font-style:normal;font-weight:normal; color:#d1d1d1}
+em,s {font-style:normal;font-weight:normal}
+label {display:inline-block;margin-bottom: 5px;}
+ol,ul,dl,li,dt,dd,p{list-style-type:none; list-style:none;margin:0px; padding:0px}
+fieldset,img{border:none;vertical-align:top}
+object,select,input,textarea {vertical-align:middle;font-family:Tahoma,inherit;line-height: normal}
+button,html input[type="button"],input[type="reset"],input[type="submit"] {font-family:"微软雅黑"; cursor: pointer;}
+button[disabled], html input[disabled] {cursor:default}
+input[type="checkbox"],input[type="radio"] { margin-right:3px; padding:0;box-sizing: border-box; font-family:Tahoma; vertical-align:middle}
+textarea {overflow:auto; vertical-align:top; outline:none;}
+
+.clear {clear:both; height:0; overflow:hidden; display:block}
+.clearfix:after {clear:both; height:0; overflow:hidden; display:block; visibility:hidden; content:".";}
+a {color:#2a2a2a; text-decoration:none} 
+a:hover {color:#019b79; text-decoration:underline}
+a:focus { outline:none;-moz-outline:none}
+
+.fl {float:left}
+.fr {float:right}
+
+
+
+
+
+

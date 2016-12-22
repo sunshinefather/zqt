@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.sysmanager.dao.RoleDao">
+	 <resultMap type="Role" id="roleResultMap">
+		<id column="id" property="id" />
+		<result column="role_name" property="roleName" />
+		<result column="role_code" property="roleCode" />
+		<result column="enabled" property="enabled"/>
+		<association property="region"  javaType="Region">
+			<id property="id" column="region_id"/>
+			<result property="formatCode" column="format_code"/>
+			<result property="parentId" column="parent_id"/>
+			<result property="regionName" column="region_name"/>
+		</association>
+		<association property="organization" javaType="Hospital">
+			<id column="org_id" property="hospitalId"/>
+			<result column="hospital_name" property="hospitalName"/>
+		</association>
+		<collection property="groups" ofType="Group">
+			<id property="id" column="group_id"/>
+			<result property="groupCode" column="group_code"/>
+			<result property="groupName" column="group_name"/>
+		</collection>
+		<collection property="resources" ofType="Resource">
+			<id property="id" column="resource_id"/>
+		</collection>
+	</resultMap>
+	<sql id="role_columns">
+		<![CDATA[
+			`id`,
+			`role_code`,
+			`role_name`,
+			`enabled`,
+			`region_id`,
+			`org_id`
+		]]>
+	</sql>
+	<sql id="region_columns">
+		<![CDATA[
+			`format_code`,
+			`parent_id`,
+			`region_name`
+		]]>
+	</sql>
+	<sql id="role_group_columns">
+		<![CDATA[
+			`role_id`,
+			`group_id`
+		]]>
+	</sql>
+	
+	<sql id="role_resource_columns">
+		<![CDATA[
+			`role_id`,
+			`resource_id`
+		]]>
+	</sql>
+	
+	<sql id="group_columns">
+		<![CDATA[
+			`group_code`,
+			`group_name`
+		]]>
+	</sql>
+	
+	<select id="findList" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="roleResultMap">
+		 <![CDATA[
+		 	SELECT 
+		 ]]>
+		 	a.`id`,
+			`role_code`,
+			`role_name`,
+			a.`enabled`,
+		 	`role_id`,
+			a.`region_id`,
+		 	`format_code`,
+			`parent_id`,
+			`region_name`,
+		 	`group_code`,
+			`group_name`
+		 <![CDATA[
+		 	FROM sys_role a
+		 	LEFT JOIN sys_region b
+		 	ON a.region_id = b.id
+		 	LEFT JOIN sys_role_group c
+		 	ON a.id = c.role_id
+		 	LEFT JOIN sys_group d
+		 	ON d.id = c.group_id
+		 ]]>
+	 	<where>
+	 		<if test="whereParameters.userType != '0' .toString()">
+				 <choose>
+		 			<when test="whereParameters.userType == 100"><!-- 区域用户 -->
+				   		a.region_id in
+				 		<foreach collection="whereParameters.regionIds" item="i" open="(" separator="," close=")">
+				 			#{i}
+				 		</foreach>
+				   	</when>
+				   	<otherwise><!-- 机构用户 -->
+				   		AND a.`org_id` in
+						 <foreach collection="whereParameters.orgIds" item="orgId" open="(" separator="," close=")">
+						 		#{orgId}
+						 </foreach>
+				   	</otherwise>
+				 </choose>
+			 </if>
+			 <if test="whereParameters.roleName != null and whereParameters.roleName != '' ">
+			 		AND
+			 		`role_name` like '%${whereParameters.roleName}%'
+			 </if>
+			 <if test="whereParameters.roleName != null and whereParameters.roleName != '' ">
+			 		AND
+			 		`role_name` like '%${whereParameters.roleName}%'
+			 </if>
+			 <if test="whereParameters.roleName != null and whereParameters.roleName != '' ">
+			 		AND
+			 		`role_name` like '%${whereParameters.roleName}%'
+			 </if>
+	 	</where>
+		 <![CDATA[
+			ORDER BY a.id desc
+			]]>
+	</select>
+	
+	<select id="findAllRoles" resultMap="roleResultMap">
+		<![CDATA[
+			SELECT
+		]]>
+		<include refid="role_columns"/>
+		<![CDATA[
+			FROM sys_role
+		]]>
+		<where>
+			`enabled` = 1
+		</where>
+	</select>
+	
+	<select id="findRoleById" resultMap="roleResultMap">
+		<![CDATA[
+			SELECT
+				a.`id`,
+				`role_code`,
+				`role_name`,
+				a.`enabled`,
+			 	c.`role_id`,
+				a.`region_id`,
+			 	`format_code`,
+				`parent_id`,
+				`region_name`,
+			 	`group_code`,
+				`group_name`,
+				`group_id`,
+				`resource_id`
+			FROM sys_role a
+		 	LEFT JOIN sys_region b
+		 	ON a.region_id = b.id
+		 	LEFT JOIN sys_role_group c
+		 	ON a.id = c.role_id
+		 	LEFT JOIN sys_group d
+		 	ON d.id = c.group_id
+		 	LEFT JOIN sys_role_resource e
+		 	ON a.id = e.role_id
+		]]>
+		<where>
+			a.`id` = #{roleId}
+		</where>
+	</select>
+	
+	<select id="findRolesByUser"  parameterType="User" resultMap="roleResultMap">
+		<![CDATA[
+		 	SELECT 
+			 	a.`id`,
+				`role_code`,
+				`role_name`,
+				a.`enabled`,
+			 	`role_id`,
+				a.`region_id`,
+			 	`format_code`,
+				`parent_id`,
+				`region_name`,
+			 	`group_code`,
+				`group_name`,
+				e.`group_id`
+		 	FROM sys_role a
+		 	LEFT JOIN sys_region b
+		 	ON a.region_id = b.id
+		 	LEFT JOIN sys_role_group c
+		 	ON a.id = c.role_id
+		 	LEFT JOIN sys_group d
+		 	ON d.id = c.group_id
+		 	LEFT JOIN sys_user_group e
+		 	ON e.group_id = d.id
+		 ]]>
+		 <where>
+		 	a.`enabled` = 1
+		 	AND
+		 	e.user_id = #{id}
+		 </where>
+	</select>
+	
+	
+	<insert id="save" parameterType="Role" >
+		<![CDATA[
+			INSERT INTO sys_role(
+		 ]]>
+			<include refid="role_columns"/>
+		<![CDATA[
+			)VALUE(
+				#{id},
+				#{roleCode},
+				#{roleName},
+				#{enabled},
+				#{region.id},
+				#{organization.hospitalId}
+			)
+		 ]]>
+	</insert>
+	
+	<insert id="saveRoleGroupLink" parameterType="Role">
+		<![CDATA[
+			INSERT INTO sys_role_group(
+		 ]]>
+			<include refid="role_group_columns"/>
+		<![CDATA[
+			)VALUES
+		]]>
+		<foreach collection="groups" item="group"  separator="," >
+				(
+				#{id},
+				#{group.id}
+				)
+		</foreach>
+	</insert>
+	
+	<insert id="saveRoleResourceLink" parameterType="Role">
+		<![CDATA[
+			INSERT INTO sys_role_resource(
+		 ]]>
+			<include refid="role_resource_columns"/>
+		<![CDATA[
+			)VALUES
+		]]>
+		<foreach collection="resources" item="resource"   separator=","  >
+				(
+				#{id},
+				#{resource.id}
+				)
+		</foreach>
+	</insert>
+	<!-- 
+		补充方法:
+		删除角色信息，删除对应关联的中间表信息
+		@author maliang
+	 -->
+	<delete id="delete" parameterType="Role">
+		<!-- <![CDATA[
+			DELETE FROM `sys_role` 
+		]]>
+		<where>
+			`id`   = #{id}
+		</where>-->
+		
+		<![CDATA[
+			DELETE sr.*,srr.* FROM sys_role sr LEFT JOIN sys_role_resource srr ON sr.`id`=srr.`role_id` 
+			WHERE srr.`role_id`=#{id} OR sr.`id`=#{id}
+		]]>
+
+	</delete>
+	
+	<delete id="deleteBatch" parameterType="map">
+		<![CDATA[
+			DELETE 
+				sr.*, srr.*,srg.*
+			FROM
+				sys_role sr
+			LEFT JOIN sys_role_resource srr 
+			ON sr.`id` = srr.`role_id`
+			LEFT JOIN sys_role_group srg
+			ON sr.id = srg.role_id
+			WHERE
+			sr.id IN 
+		]]>
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteRoleGroupLink" parameterType="Role">
+		<![CDATA[
+			DELETE FROM sys_role_group
+		]]>
+		<where>
+			`role_id`   = #{id}
+		</where>
+	</delete>
+	
+	<delete id="deleteRoleResourceLink"  parameterType="Role">
+		<![CDATA[
+			DELETE FROM sys_role_resource
+		]]>
+		<where>
+			`role_id`   = #{id}
+		</where>
+	</delete>
+	
+	<update id="update" parameterType="Role">
+		UPDATE	sys_role SET
+			`role_name` = #{roleName}
+			<if test="roleCode != null and roleCode != '' ">
+				,`role_code` = #{roleCode}
+			</if>
+			<if test="enabled != null">
+				,`enabled` = #{enabled}
+			</if>
+			<if test="region != null and region.id != null and region.id != ''">
+				,`region_id` = #{region.id}
+			</if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	<update id="transform" parameterType ="map">
+		UPDATE	sys_role SET
+		`enabled` = #{state}
+		<where>
+			`id`  in
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+		</where>
+	</update>
+	
+	<select id="search" parameterType="map" resultMap="roleResultMap">
+		<![CDATA[
+			SELECT 
+				a.`id`,
+				a.`role_code`,
+				a.`role_name`,
+				a.`enabled`,
+				a.`region_id`,
+				c.`parent_id`,
+				c.`region_name`,
+				a.`org_id`,
+				b.`hospital_name`
+			FROM
+				sys_role a
+			LEFT JOIN 
+				biz_hospital b
+			ON a.org_id = b.hospital_id
+			LEFT JOIN
+				sys_region c
+			ON c.id = a.region_id
+		]]>
+	</select>
+</mapper>

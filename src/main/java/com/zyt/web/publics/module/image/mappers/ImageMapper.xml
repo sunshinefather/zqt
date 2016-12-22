@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.image.dao.ImageDao">
+	<sql id="baseCoum">id,file_suffix,file_saveAdd,file_name,web_add</sql>
+	<resultMap type="Image" id="baseMap">
+		<id column="id" property="imageId" />
+		<result column="file_suffix" property="fileSuffix"/>
+		<result column="file_saveAdd" property="saveAdd"/>
+		<result column="file_name" property="fileName"/>
+		<result column="web_add" property="webAdd"/>
+	</resultMap>
+	<insert id="insertImage" parameterType="Image">
+		insert into biz_image(<include refid="baseCoum"/>) values(#{imageId},#{fileSuffix},#{saveAdd},#{fileName},#{webAdd});
+	</insert>
+
+	<!--  根据ID获取图片 -->
+	<select id="getImageById" parameterType="String" resultMap="baseMap">
+		select <include refid="baseCoum"/> from biz_image bi where bi.id=#{imageId}
+	</select>
+
+	<delete id="deleteByIds" parameterType="java.lang.String">
+	    delete from biz_image 
+	    where id in
+	    <foreach collection="array" open="(" separator="," close=")" item="imageId">
+	        #{imageId}
+	    </foreach>
+	</delete>
+</mapper>

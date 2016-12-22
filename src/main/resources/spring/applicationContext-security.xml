@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/security 
+    http://www.springframework.org/schema/security/spring-security.xsd
+    http://www.springframework.org/schema/cache 
+    http://www.springframework.org/schema/cache/spring-cache.xsd">
+    
+    <!-- 使得Spring Security支持注解 -->
+	<global-method-security pre-post-annotations="enabled" />
+
+	<!-- 该路径下的资源不用过滤 -->
+	<http pattern="/index**" security="none" />
+	<http pattern="/remote/**" security="none"/>
+	<http pattern="/public/code/**" security="none"/>
+	<http pattern="/public/upload/**" security="none"/>
+	<http pattern="/uploads/**" security="none"/>
+	<http pattern="/public/svg/**" security="none"/>
+	<http pattern="/error**" security="none" />
+	<http pattern="/**/*.jpg" security="none" />
+    <http pattern="/**/*.png" security="none" />
+    <http pattern="/**/*.gif" security="none" />
+    <http pattern="/**/*.css" security="none" />
+    <http pattern="/**/*.js" security="none" />
+    <http pattern="/**/*.wav" security="none" />
+    <http pattern="/**/*.amr" security="none" />
+    <http pattern="/**/*.swf" security="none" />
+    <http pattern="/api/**" security="none" />
+    <http pattern="/navigate" security="none" />
+	<http pattern="/asset/**" security="none" />
+	<http pattern="/forward/**" security="none" />
+	
+    <!-- 未登陆处理点-->
+	<beans:bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+	   <beans:constructor-arg value="/index"/>
+	</beans:bean>
+	
+	<!-- 安全认证关键规则配置，其他的http标签也是对此规则的一个补充 -->
+	<http use-expressions="true" entry-point-ref="authenticationEntryPoint" authentication-manager-ref="authenticationManager"> 
+		
+		<!-- 记住密码 -->
+		<remember-me services-ref="rememberMeServices"/>
+		
+		<!-- 没有权限调跳转到此页面，或者交给处理器处理 -->
+		<access-denied-handler error-page="/accessdenied" />
+		<!-- session管理配置 -->
+		<session-management session-authentication-strategy-ref="sessionAuthenticationStrategy" invalid-session-url="/index" />
+		<!-- 并发过滤器 -->
+		<custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter" />
+		<!-- 自定义过滤器  -->
+		<custom-filter ref="securityFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+		<!-- 自定义登陆验证过滤器 -->
+		<custom-filter ref="authenticationProcessingFilter" before="FORM_LOGIN_FILTER" />
+		<!-- 注销过滤器 -->
+		<custom-filter ref="securityLogoutFilter" position="LOGOUT_FILTER" />
+	</http>
+	
+	<!-- 配置认证管理器 -->
+	<authentication-manager alias="authenticationManager" erase-credentials="false"> 
+		<authentication-provider ref="authenticationProvider"/>
+		<authentication-provider ref="rememberMeAuthenticationProvider"/>
+	</authentication-manager>
+	
+	<!-- 验证记住密码的key -->
+	<beans:bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+	    <beans:constructor-arg value="secret"/>
+	</beans:bean>
+	
+	<!-- 支持显示多种错误信息 -->
+	<beans:bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider"> 
+    	<beans:property name="userDetailsService" ref="securityUserDetailsService" />
+    	<beans:property name="hideUserNotFoundExceptions" value="false" />
+	</beans:bean>
+	
+	<!-- 前置过滤器 -->
+	<beans:bean id="securityFilter" class="com.zyt.web.security.SecurityFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="accessDecisionManager" ref="securityAccessDecisionManager" />
+		<beans:property name="securityMetadataSource" ref="securityMetadataSource" />
+	</beans:bean>
+		
+	<!-- 登陆验证过滤器 -->
+	<beans:bean id="authenticationProcessingFilter" class="com.zyt.web.security.filter.SecurityAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="filterProcessesUrl" value="/authenticationlogin" />
+		<beans:property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"/>
+		<beans:property name="authenticationFailureHandler" ref="authenticationFailureHandler"/>
+		<beans:property name="usernameParameter" value="userName"/>
+		<beans:property name="passwordParameter" value="password" />
+		<beans:property name="sessionValidateCode" value="validateCode" />
+		<beans:property name="validateCodeParameter" value="validateCode" />
+		<beans:property name="rememberMeServices" ref="rememberMeServices"/>
+	</beans:bean>
+	
+	<!-- 并发session过滤 -->
+	<beans:bean id="concurrencyFilter"  class="org.springframework.security.web.session.ConcurrentSessionFilter">  
+    	<beans:constructor-arg name="expiredUrl" value="/index"/>
+    	<beans:constructor-arg name="sessionRegistry" ref="sessionRegistry"/>
+    </beans:bean>
+    
+    <!-- session认证策略,可以配置防止session攻击 -->
+    <beans:bean id="sessionAuthenticationStrategy"  class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">  
+    	<beans:constructor-arg name="sessionRegistry"  ref="sessionRegistry" />  
+    	<beans:property name="maximumSessions" value="1" />  
+    </beans:bean>
+    
+    <!-- session登记,如果需要统计系统在线人数需要重写此类-->
+    <beans:bean id="sessionRegistry"  class="org.springframework.security.core.session.SessionRegistryImpl" />  
+    
+	<!-- 记住密码 -->
+	<beans:bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+	    <beans:constructor-arg value="secret"/>
+	    <beans:constructor-arg ref="securityUserDetailsService" />
+	    <beans:property name="parameter" value="rememberMe"/>
+	    <beans:property name="tokenValiditySeconds" value="864000"/>
+	</beans:bean>
+	
+	<!-- 加载用户特定的数据 -->
+	<beans:bean id="securityUserDetailsService" class="com.zyt.web.security.service.impl.SecurityUserDetailsServiceImpl"/>
+	
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
+	<beans:bean id="securityAccessDecisionManager" class="com.zyt.web.security.SecurityAccessDecisionManager"/>
+	
+	<!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，定义某一资源可以被哪些角色访问 -->
+	<beans:bean id="securityMetadataSource" class="com.zyt.web.security.SecurityMetadataSource"/>
+    
+    <!-- 登录成功处理器 -->
+    <beans:bean id="authenticationSuccessHandler" class="com.zyt.web.security.handler.LoginAuthenticationSuccessHandler">
+        <beans:property name="defaultTargetUrl" value="/dashboard" />
+        <beans:property name="alwaysUseDefaultTargetUrl" value="true" />
+    </beans:bean>
+	
+	<!-- 登陆失败处理器 -->
+	<beans:bean id="authenticationFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/index"/>
+	</beans:bean>
+
+	<!-- 注销过滤器 -->
+    <beans:bean id="securityLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<beans:property name="filterProcessesUrl" value="/logout" />
+		<beans:constructor-arg value="/index" />
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:ref local="rememberMeServices"/>
+				<beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+				<beans:bean class="com.zyt.web.security.handler.SecurityLogoutHandler"/>
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+</beans:beans>

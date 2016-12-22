@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+                        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>1.0</tlib-version>
+ 	<jsp-version>1.2</jsp-version>
+ 	<short-name>pageTags</short-name>
+ 	<description>分页标签</description>
+	<tag>
+		<!-- 对应的class -->
+		<name>pagin</name>
+		<tag-class>com.zyt.web.publics.tags.PageTag</tag-class>
+		<!-- 对应的属性值 -->
+		<attribute>
+			<name>uri</name>
+			<!-- 是否为可选属性 -->
+			<required>true</required>
+			<!-- 是否接受表达式计算结果 -->
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+			<description>分页请求地址</description>
+		</attribute>
+		
+		<attribute>
+			<name>currentPage</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Integer</type>
+			<description>当前页</description>
+		</attribute> 
+		
+		<attribute>
+			<name>totalPage</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Integer</type>
+			<description>总页数</description>
+		</attribute>
+		
+		<attribute>
+			<name>pageSize</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Integer</type>
+			<description>每页显示条数</description>
+		</attribute>
+		
+	</tag>
+	<tag>
+	  	<name>select</name>
+		<tag-class>com.zyt.web.publics.tags.PageSelect</tag-class>
+		<attribute>
+		  <name>key</name>
+		  <required>true</required>
+		  <rtexprvalue>true</rtexprvalue>
+		  <type>java.lang.String</type>
+		  <description>系统配置中定义的Key</description>
+		</attribute>
+		<attribute>
+		  <name>defaultValue</name>
+		  <required>false</required>
+		  <rtexprvalue>true</rtexprvalue>
+		  <type>java.lang.String</type>
+		  <description>默认值</description>
+		</attribute>
+		<attribute>
+		  <name>id</name>
+		  <required>false</required>
+		  <rtexprvalue>true</rtexprvalue>
+		  <type>java.lang.String</type>
+		  <description>标签id属性</description>
+		</attribute>
+		<attribute>
+		  <name>name</name>
+		  <required>false</required>
+		  <rtexprvalue>true</rtexprvalue>
+		  <type>java.lang.String</type>
+		  <description>标签name属性</description>
+		</attribute>
+		<attribute>
+		  <name>css</name>
+		  <required>false</required>
+		  <rtexprvalue>true</rtexprvalue>
+		  <type>java.lang.String</type>
+		  <description>标签class属性</description>
+		</attribute>
+		<attribute>
+		  <name>style</name>
+		  <required>false</required>
+		  <rtexprvalue>true</rtexprvalue>
+		  <type>java.lang.String</type>
+		  <description>标签style属性</description>
+		</attribute>
+		<attribute>
+		  <name>value</name>
+		  <required>false</required>
+		  <rtexprvalue>true</rtexprvalue>
+		  <type>java.lang.String</type>
+		  <description>如果传入值则查询key对应的值</description>
+		</attribute>		
+	</tag>
+</taglib>

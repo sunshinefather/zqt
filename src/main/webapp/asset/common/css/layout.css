@@ -1,0 +1,101 @@
+@import "global.css";
+/* Layout */
+#head {position:absolute; top:0; right:0; left:0; z-index:5; width:100%;height:68px;background:#4f9cd4;border-bottom:1px solid #1f84cc; min-width:1024px; max-width:none}
+#main {position:absolute;_position:relative;z-index:2;top:78px;right:8px;bottom:10px;left:8px;_height:100%;margin:0}
+#side {background:#FFF; position:absolute; top:0; bottom:0;left:0; float:left; border:1px solid #d4d4d4; border-radius:3px; width:205px;_height:100%; overflow:hidden; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.06)}
+#content {position:absolute; top:0;right:0;bottom:0;left:215px;overflow:auto;_height:100%; background:#fff; border:1px solid #d4d4d4; border-radius:3px; box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.06);min-width:787px; overflow-x:hidden}
+#content #ies {_position:relative;_overflow:auto;_width:100%;_height:100%;}
+#content #ies iframe {position:absolute;top:0;left:0;width:100%;height:100%}
+.bodybg {background:#e3e7ef !important}
+.topfixed {position:fixed; height:92px; background:#FFF; width:100%; z-index:10}
+.content {position:absolute; top:92px; left:0; right:0; margin:10px}
+/*head*/
+#head .left {display:inline; line-height:66px; width:400px; height:66px;font-size:28px;color:#FFF; font-weight:700; font-family:"Microsoft Yahei"; padding-left:45px;text-shadow:1px 1px 2px rgba(0,0,0,0.12);letter-spacing:4px;}
+#head .right {width:500px; height:69px; position:relative}
+#nav { padding-top:16px}
+#nav li {float:left; background:url(../images/navBg.png) 0 -70px; width:128px; height:35px; line-height:35px; color:#FFF; margin-right:10px; cursor:pointer; font-size:14px}
+#nav li a {color:#FFF; text-decoration:none; display:block}
+#nav li:hover { background-position:0 -35px; transition:ease-out 0.2s}
+#nav li:active { background-position:0 0; transition:none}
+#nav li s.sk {background:url(../images/iocna.png); width:23px; height:15px; display:inline-block; vertical-align:-2px; margin:0 10px 0 30px}
+#u_sp {position:absolute; top:23px; right:14px}
+#u_sp li {height:22px; float:left; color:#fff; font-size:12.5px}
+#u_sp li a {color:#FFF}
+#u_sp i {float:left; font-style:normal; color:#ffd4e0; margin:0 10px}
+#u_sp li .num { background:url(../images/Iocn.png) -35px 1px; width:22px; height:22px;text-align:center; display:inline-block}
+#u_sp li .num:hover { background-position:-35px -21px; cursor:pointer}
+#u_sp li .close {background:url(../images/Iocn.png) -36px -44px; display:block; width:22px; height:22px}
+#u_sp li .setting {background:url(../images/Iocn.png) -36px -66px; display:block; width:22px; height:22px}/*menu*/ 
+
+/*Current */
+.current {margin:15px 12px;}
+.current s {background:url(../images/Iocn.png) no-repeat -15px 0; width:15px; height:15px; display:inline-block; margin-right:8px; vertical-align:-4px}
+.current .stat {color:#2e87c8; margin-left:10px}
+
+/*Btnbox */
+.btnbox { background:#eff0f4; border-radius:3px; margin:0 10px; padding:7px 8px 0 8px; height:32px;}
+.btnbox i {font-style:normal; border-left:1px solid #c9c3a5; height:20px; margin:0 5px; display:inline-block; border-right:1px solid #fff; vertical-align:-7px; *vertical-align:7px;*margin-right:8px}
+.btnbox span {text-align:right; float:right; padding-top:3px; margin-right:8px}
+.btnbox span b {vertical-align:-3px; color:#F30; font-size:14px; margin:0 3px}
+
+/*fieldset */
+.boxfieldset {border:1px solid #d4d0be; border-radius:3px;position:relative; margin-bottom:10px; margin-top:20px; box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);width:100%;}
+.boxfieldset p {background:#FFF; position:absolute; left:10px; top:-12px; padding:0 6px; font-size:13px; font-weight:bold}
+.boxfieldset p.pink {color:#ff3368}
+.boxfieldset p.blue {color:#2080c9}
+.cont { margin:25px 0 8px 20px; overflow:hidden}
+.cont dd {height:36px; float:left; margin-right:10px}
+.cont dd label {margin-right:5px}
+
+/*Form */
+.forms {margin:20px; overflow:hidden}
+.forms dd { padding-bottom:15px}
+.forms dd input {font-family:tahoma; height:18px; width:220px}
+.forms dd select {font-family:tahoma; padding:2px; height:26px; line-height:26px}
+.forms dd select>option {padding-top:4px !important; height:22px; text-indent:4px}
+.forms dd label {width:120px; text-align:right; display:inline-block}
+.forms dd label span { color:#F30; font-weight:bold; vertical-align:-3px; margin-right:3px}
+
+.stat { overflow:hidden; height:26px; margin:3px 0 12px 5px}
+.stat li {display:inline-block; float:left; margin-right:20px; padding:2px 5px 0 8px; height:23px;}
+.stat li i {display:inline-block; background:#fff; width:10px; height:10px; border-radius:12px; padding:1px;line-height:10px; border:1px solid #ccc; margin-right:5px; vertical-align:-1px}
+.stat li i s {display:inline-block; width:10px; height:10px; border-radius:10px;line-height:10px; position:relative;*top:-4px}
+.stat li i.a s {background:#444}
+.stat li i.b s {background:#364bb9}
+.stat li i.c s {background:#a91ba9}
+.stat li i.d s {background:#e64ee6}
+.stat li i.e s {background:#cd0011}
+.stat li.cur { background:#ffd4d9;  border-radius:2px; box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2) inset, 0px 0px 1px rgba(0, 0, 0, 0.05)}
+
+
+
+
+
+.consul {position:absolute;  width:540px; height:488px; background:#fff; border:1px solid #00b48a; z-index:303; border-radius:3px; box-shadow:0px 0px 3px #ccc; display:none}
+.consullist { overflow:hidden;z-index:304;background:#fff;}
+.consul .head {background:#4F9CD4; height:48px; line-height:48px; vertical-align:middle; color:#fff; font-size:20px; padding-left:12px}
+.consul .head .img {display:block; float:left; width:30px; height:30px; margin-right:12px; margin-top:7px}
+.consul .head .img img {width:30px; height:30px; overflow:hidden; border-radius:30px; border:2px solid #fff}
+.consul .head .img img:hover {opacity:1}
+.consul .close {background:url(../images/iocn_pulc.png) no-repeat -133px -27px; width:24px; height:24px; position:absolute; top:-12px; right:-12px; cursor:pointer; z-index:1000}
+.consul .close:hover {background:url(../images/iocn_pulc.png) no-repeat -167px -27px; width:24px; height:24px; position:absolute; top:-12px; right:-12px;}
+
+.consul .tip {height:27px; line-height:27px; background:#eaeaea; width:100%; border-top:1px solid #f6f4f4; border-bottom:1px solid #e0dede}
+.consul .tip .ta {color:#f18300; margin-left:12px; font-weight:400}
+.consul .tip .tb {float:right; margin-right:10px}
+.cons_a { margin:10px 0 10px 20px; line-height:21px; float:left; clear:both}
+.cons_a dt {padding:0 0 3px 3px}
+.cons_a dd {border:1px solid #a5d3c8; border-radius:5px; min-width:120px; max-width:340px; padding: 5px 9px;
+position: relative; background:#dbf7f0; box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.75) inset;}
+.cons_a dd s {position:absolute; top:8px; left:-12px; background:url(../images/iocn_sys.png) no-repeat 0px -230px; width:13px; height:13px;}
+.cons_b {margin:10px 20px 10px 0; line-height:21px;float:right; clear:both}
+.cons_b dt {padding:0 3px 3px 0; text-align:right}
+.cons_b dd {border:1px solid #ccc; border-radius:5px; min-width:120px;max-width:340px;padding: 5px 9px; position: relative;background:#fff;
+box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.75) inset;}
+.cons_b dd s {position:absolute; top:8px; right:-10px; background:url(../images/iocn_sys.png) no-repeat 0px -255px; width:13px; height:13px;}
+.cons_bottom {position:absolute; bottom:0px; clear:both; width:100%; height:39px; padding-top:8px; border-top:1px dotted #ccc; text-align:right}
+.cons_bottom input { margin-right:10px}
+.cons_bottom .txt { text-align:left}
+.conslist .textarea {overflow-y:auto; height:75px; width:535px; border:none; font-size:14px; margin:0 0 0 5px; font-size:12.5px; line-height:22px;resize: none;}
+
+

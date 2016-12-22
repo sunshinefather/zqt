@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.hospital.dao.HospitalDao">
+	<resultMap type="Hospital" id="baseMap">
+		<id column="hospital_id" property="hospitalId"/>
+		<result column="hospital_name" property="hospitalName" jdbcType="VARCHAR"/>
+		<result column="hospital_type" property="hospitalType"/>
+		<result column="contact" property="contact"/>
+		<result column="contact2" property="contact2"/>
+		<result column="contact_phone" property="contactPhone"/>
+		<result column="contact_phone2" property="contactPhone2"/>
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+		<result column="parents_id" property="parentsId" jdbcType="VARCHAR"/>
+		<result column="isHighSalary" property="isHighSalary"/>
+		<result column="highSalaryStart" property="highSalaryStart"/>
+		<result column="highSalaryEnd" property="highSalaryEnd"/>
+		<result column="create_date" property="createDate"/>
+		<result column="registeredCapital" property="registeredCapital"/>
+		<result column="bln" property="bln"/>
+		<result column="peoples" property="peoples"/>
+		<result column="technicalPatent" property="technicalPatent"/>
+		<result column="introduction" property="introduction"/>
+		<result column="grade" property="grade"/>
+		<result column="region_id" property="regionId"/>
+		<result column="address" property="address"/>
+		<result column="lng" property="lng"/>
+		<result column="lat" property="lat"/>
+		<result column="logo" property="logo"/>
+		<result column="has_child" property="hasChild"/>
+		<result column="sort" property="sort"/>
+	</resultMap>
+	
+	<select id="getHospitals" resultMap="baseMap" parameterType="map">
+		select bo.* from biz_hospital bo
+		<where>
+		    <if test="regionIds != null and regionIds.length > 0">
+		        bo.region_id in
+			    <foreach collection="regionIds" item="regionId" open="(" separator="," close=")">
+			        #{regionId}
+			    </foreach>
+		    </if>
+		</where>
+		 order by sort asc
+	</select>
+	
+	<select id="findAll" resultMap="baseMap" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+		<![CDATA[
+			select bo.*
+		]]>
+		<if test="whereParameters.lat != null  and whereParameters.lng != null">
+			<![CDATA[
+				,(ACOS(SIN((${whereParameters.lat} * 3.1415) / 180 ) *SIN((bo.lat * 3.1415) / 180 ) + 
+			 	COS((${whereParameters.lat} * 3.1415) / 180 ) * COS((bo.lat * 3.1415) / 180 ) *COS((${whereParameters.lng} * 3.1415) / 180 - (bo.lng * 3.1415) / 180 ) ) * 6380) gps
+			 ]]>
+		</if>
+		 from biz_hospital bo
+		<where>
+		    <if test="whereParameters.hospitalName != null and whereParameters.hospitalName !='' ">
+		        <![CDATA[and instr(bo.hospital_name,#{whereParameters.hospitalName})>0]]>
+		      </if>
+		</where>
+		<choose>
+			<when test="whereParameters.lat != null  and whereParameters.lng != null">
+				order by gps asc
+			</when>
+			<otherwise>
+				order by sort asc
+			</otherwise>
+		</choose>
+	</select>
+		
+	<insert id="insertHospital" parameterType="Hospital">
+	    insert into biz_hospital values(#{hospitalId},#{hospitalName},#{hospitalType},#{isHighSalary},#{highSalaryStart},#{highSalaryEnd},#{createDate},#{registeredCapital},#{contact},#{contact2},#{contactPhone},#{contactPhone2},#{address},#{bln},#{peoples},#{technicalPatent},#{introduction},#{parentId},#{parentsId},#{grade},#{regionId},#{lng},#{lat},#{logo},#{hasChild},#{sort})
+	</insert>
+	
+	<update id="updateHospital" parameterType="Hospital">
+	    update biz_hospital set hospital_id = #{hospitalId}
+	    <if test="hospitalName != null and hospitalName != ''">
+	        ,hospital_name = #{hospitalName}
+	    </if>
+	    <if test="hospitalType != null and hospitalType!=''">
+	        ,hospital_type = #{hospitalType}
+	    </if>
+	    <if test="isHighSalary != null and isHighSalary!=''">
+	        ,isHighSalary = #{isHighSalary}
+	    </if>
+	    <if test="highSalaryStart != null and highSalaryStart != ''">
+	        ,highSalaryStart = #{highSalaryStart}
+	    </if>
+	    <if test="highSalaryEnd != null and highSalaryEnd != ''">
+	        ,highSalaryEnd = #{highSalaryEnd}
+	    </if>
+	    <if test="createDate != null and createDate != ''">
+	        ,create_date = #{createDate}
+	    </if>
+	    <if test="introduction != null and introduction != ''">
+	        ,introduction = #{introduction}
+	    </if> 
+	      <if test="registeredCapital != null and registeredCapital != ''">
+	        ,registeredCapital = #{registeredCapital}
+	    </if>
+	      <if test="contact != null and contact != ''">
+	        ,contact = #{contact}
+	    </if>
+	      <if test="contact2 != null and contact2 != ''">
+	        ,contact2 = #{contact2}
+	    </if>
+	      <if test="contactPhone != null and contactPhone != ''">
+	        ,contact_phone = #{contactPhone}
+	    </if>
+	    <if test="contactPhone2 != null and contactPhone2 != ''">
+	        ,contact_phone2 = #{contactPhone2}
+	    </if>
+	      <if test="address != null and address != ''">
+	        ,address = #{address}
+	    </if>
+	      <if test="bln != null and bln != ''">
+	        ,bln = #{bln}
+	    </if>
+	      <if test="peoples != null and peoples != ''">
+	        ,peoples = #{peoples}
+	    </if>
+	      <if test="technicalPatent != null and technicalPatent != ''">
+	        ,technicalPatent = #{technicalPatent}
+	    </if>
+	    where hospital_id = #{hospitalId}
+	</update>
+	
+	<delete id="deleteById" parameterType="string">
+	    delete from biz_hospital where hospital_id = #{hospitalId}
+	</delete>
+	
+	<delete id="deleteByIds" parameterType="string">
+	    delete from biz_hospital where hospital_id in
+		<foreach collection="array" open="(" separator="," close=")" item="id">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="getById" resultMap="baseMap" parameterType="string">
+	    select * from biz_hospital where hospital_id = #{id}
+	</select>
+	
+	<select id="getByPage" resultMap="baseMap">
+	    select * from biz_hospital order  by length(parents_id)
+	</select>
+	
+	<select id="getChildById" resultMap="baseMap" >
+	    select * from biz_hospital where parent_id = #{id}
+	</select>
+	
+	<select id="getByParentId" resultMap="baseMap" parameterType="java.lang.String">
+	    select * from biz_hospital where parents_id like CONCAT('%',#{parentId},'%')
+	</select>
+	
+	<select id="getByParentsId" resultMap="baseMap" parameterType="java.lang.String">
+	    select * from biz_hospital where parents_id like CONCAT('%',#{parentId},'%')  or hospital_id =#{parentId}
+	     order by length(parents_id)
+	</select>
+
+	<select id="getByUserId" resultMap="baseMap" parameterType="java.lang.String">
+	    select * from (
+		    select bo.* from biz_hospital bo 
+			inner join sys_ext_user ses on bo.hospital_id = ses.org_id
+			where ses.id = #{userId}
+			
+			UNION ALL
+			
+			select b.* from biz_hospital b where FIND_IN_SET(
+			(select bo.hospital_id from biz_hospital bo 
+			inner join sys_ext_user ses on bo.hospital_id = ses.org_id
+			where ses.id = #{userId}),b.parents_id) 
+		) temp order by length(temp.parents_id)
+	</select>
+	
+	<select id="getHospitalPageByParentsId" resultMap="baseMap" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+	    select * from biz_hospital where hospital_id ='${whereParameters.parentId}'   or parents_id like '%${whereParameters.parentId}%'
+	     order by length(parents_id)
+	</select>
+	
+	<select id="getByRegoinId" resultMap="baseMap" parameterType="java.lang.String">
+	    select 
+	    	bo.* from biz_hospital bo
+	</select>
+	
+	<select id="getAll" resultMap="baseMap" >
+	    select hospital_id, hospital_name,region_id, parent_id, parents_id,address,sort,create_date,contact from biz_hospital 
+	</select>
+	
+	<select id="getHospitalByRegionIds" parameterType="map" resultMap="baseMap">
+		<![CDATA[
+			SELECT
+				id
+			FROM
+				biz_hospital
+		]]>
+		<where>
+			region_id in
+			<foreach collection="regionIds" item="regionId" open="(" separator="," close=")">
+					#{regionId}
+			</foreach>
+		</where>
+	</select>
+	
+	<select id="getByIds" parameterType="map" resultMap="baseMap">
+        <![CDATA[
+            SELECT * 
+        ]]>
+        <![CDATA[
+            FROM
+                biz_hospital
+        ]]>
+        <where>
+            hospital_id in
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                    #{id}
+            </foreach>
+        </where>
+        <![CDATA[
+            ORDER BY parents_id ASC
+        ]]>
+    </select>
+    
+    <select id="getFirstLayer" resultMap="baseMap">
+        <![CDATA[
+            SELECT * 
+        ]]>
+        <![CDATA[
+            FROM
+                biz_hospital
+        ]]>
+        <where>
+				parent_id = '0'
+				OR parent_id = ''
+                OR parent_id IS NULL
+        </where>
+    </select>
+    
+    <select id="findListByPage" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseMap">
+    	<![CDATA[
+            SELECT bz.* 
+        ]]>
+        <![CDATA[
+            FROM
+                biz_hospital bz
+        ]]>
+        <where>
+				<if test="whereParameters.userType != '0'.toString()">
+		 			<if test="whereParameters.regionIds != null and whereParameters.regionIds.length > 0">
+		 			    AND bz.`region_id` in
+						 <foreach collection="whereParameters.regionIds" item="regionId" open="(" separator="," close=")">
+						 		#{regionId}
+						 </foreach>
+		 			</if>
+		 			<if test="whereParameters.orgIds != null and whereParameters.orgIds.length > 0">
+		 			    AND bz.`hospital_id` in
+						 <foreach collection="whereParameters.orgIds" item="orgId" open="(" separator="," close=")">
+						 		#{orgId}
+						 </foreach>
+		 			</if>
+	 			</if>
+	 			<if test="whereParameters.limitRegions != null and whereParameters.limitRegions.size() > 0 ">
+		     		AND bz.`region_id` in
+					 <foreach collection="whereParameters.limitRegions" item="region" open="(" separator="," close=")">
+					 		#{region.id}
+					 </foreach>
+		     	</if>
+	 			<if test="whereParameters.hospitalName != null and whereParameters.hospitalName != '' ">
+		     		AND  locate(#{whereParameters.hospitalName},`hospital_name`) > 0
+		     	</if>
+		     	<if test="whereParameters.address != null and whereParameters.address != '' ">
+		     		AND  locate(#{whereParameters.address},`address`) > 0
+		     	</if>
+		     	<if test="whereParameters.hospitalCode != null and whereParameters.hospitalCode != '' ">
+		     		AND  locate(#{whereParameters.hospitalCode},`hospital_code`) > 0
+		     	</if>
+		     	<if test="whereParameters.hospitalType != null and whereParameters.hospitalType != '' ">
+		     		AND  locate(#{whereParameters.hospitalType},`hospital_type`) > 0
+		     	</if>
+        </where>
+        <![CDATA[
+            ORDER BY bz.create_date desc
+        ]]>
+    </select>
+	
+	<select id="findHospitalByCode" parameterType="map" resultType="Hospital">
+		<![CDATA[
+            SELECT bz.*
+        ]]>
+        <![CDATA[
+            FROM
+                biz_hospital bz
+        ]]>
+        <where>
+        	bz.hospital_code = #{hospitalCode}
+        	<if test="hospitalId != null and hospitalId != '' ">
+        		and hospital_id != #{hospitalId}
+        	</if>
+        </where>
+        <![CDATA[
+            LIMIT 1
+        ]]>
+	</select>
+	
+</mapper>

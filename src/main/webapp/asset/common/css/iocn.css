@@ -1,0 +1,108 @@
+.iocn {background:url(../image/iocn.png) left top no-repeat; vertical-align:middle; display:inline-block;}
+.iocn:hover {opacity:1; transition:all 0.15s ease}
+.icon-border {border: solid 1px #eeeeee; padding: .2em .25em .15em; border-radius: 3px}
+
+.icon-home {background-position:0 0; width:48px; height:48px}
+.icon-home:hover {background-position:0 -48px; width:48px; height:48px;transition: all .5s ease 0s;}
+.icon-news {background-position:-48px 0; width:48px; height:48px}
+.icon-news:hover {background-position:-48px -48px; width:48px; height:48px;transition: all .5s ease 0s;}
+
+.icon-33 {background-position:-216px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-33, ul.page-sidebar-menu > li.on > a .icon-33 {background-position:-216px -120px; width:24px; height:24px}
+
+.icon-grgzt{background-position:-216px -149px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-grgzt, ul.page-sidebar-menu > li.on > a .icon-grgzt {background-position:-216px -175px; width:24px; height:24px}
+
+.icon-jggsgl {background-position:-192px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-jggsgl, ul.page-sidebar-menu > li.on > a .icon-jggsgl {background-position:-192px -120px}
+
+.icon-xtgl{background-position:-168px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-xtgl, ul.page-sidebar-menu > li.on > a .icon-xtgl{background-position:-168px -120px; width:24px; height:24px}
+
+.icon-zjjjl{background-position:-339px -149px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-zjjjl, ul.page-sidebar-menu > li.on > a .icon-zjjjl{background-position:-339px -171px; width:24px; height:24px}
+
+.icon-gwgl {background-position:-24px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-gwgl, ul.page-sidebar-menu > li.on > a .icon-gwgl {background-position:-24px -120px}
+
+.icon-zwgl {background-position:-408px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-zwgl, ul.page-sidebar-menu > li.on > a .icon-zwgl {background-position:-408px -120px; width:24px; height:24px}
+
+.icon-qzgl {background-position:-144px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-qzgl, ul.page-sidebar-menu > li.on > a .icon-qzgl {background-position:-144px -120px; width:24px; height:24px}
+
+
+.icon-event {background-position:-96px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-event, ul.page-sidebar-menu > li.on > a .icon-event {background-position:-96px -120px; width:24px; height:24px}
+
+.icon-shaping {background-position:0px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-shaping, ul.page-sidebar-menu > li.on > a .icon-shaping {background-position:0px -120px; width:24px; height:24px}
+
+.icon-changing {background-position:-432px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-changing, ul.page-sidebar-menu > li.on > a .icon-changing {background-position:-432px -120px; width:24px; height:24px}
+
+.icon-nutrition {background-position:-264px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-nutrition, ul.page-sidebar-menu > li.on > a .icon-nutrition {background-position:-264px -120px; width:24px; height:24px}
+
+.icon-marquee {background-position:-72px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-marquee, ul.page-sidebar-menu > li.on > a .icon-marquee {background-position:-72px -120px; width:24px; height:24px}
+
+.icon-cpgl {background-position:-281px -149px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-cpgl, ul.page-sidebar-menu > li.on > a .icon-cpgl {background-position:-281px -173px; width:24px; height:24px}
+
+.icon-xtpzgl {background-position:-311px -150px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-xtpzgl, ul.page-sidebar-menu > li.on > a .icon-xtpzgl {background-position:-311px -172px; width:24px; height:24px}
+
+.icon-yqcjgl {background-position:-360px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-yqcjgl, ul.page-sidebar-menu > li.on > a .icon-yqcjgl {background-position:-360px -120px; width:24px; height:24px}
+
+.icon-nbncgl {background-position:-120px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-nbncgl, ul.page-sidebar-menu > li.on > a .icon-nbncgl {background-position:-120px -120px; width:24px; height:24px}
+
+.icon-ycyf {background-position:-312px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-ycyf, ul.page-sidebar-menu > li.on > a .icon-ycyf {background-position:-312px -120px; width:24px; height:24px}
+
+.icon-yfdagl {background-position:-336px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-yfdagl, ul.page-sidebar-menu > li.on > a .icon-yfdagl {background-position:-336px -120px; width:24px; height:24px}
+
+.icon-question {background-position:-384px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-question, ul.page-sidebar-menu > li.on > a .icon-question {background-position:-384px -120px; width:24px; height:24px}
+
+.icon-yqzsgl {background-position:-246px -151px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-yqzsgl, ul.page-sidebar-menu > li.on > a .icon-yqzsgl {background-position:-246px -175px; width:24px; height:24px}
+
+.icon-zxry {background-position:-456px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-zxry, ul.page-sidebar-menu > li.on > a .icon-zxry {background-position:-456px -120px; width:24px; height:24px}
+
+.icon-yjdcgl {background-position:-240px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-yjdcgl, ul.page-sidebar-menu > li.on > a .icon-yjdcgl {background-position:-240px -120px; width:24px; height:24px}
+
+.icon-about {background-position:-48px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-about, ul.page-sidebar-menu > li.on > a .icon-about {background-position:-48px -120px; width:24px; height:24px}
+
+.icon-protocol {background-position:-288px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-protocol, ul.page-sidebar-menu > li.on > a .icon-protocol {background-position:-288px -120px; width:24px; height:24px}
+
+.icon-tongzgl {background-position:-336px -96px; width:24px; height:24px}
+ul.page-sidebar-menu > li:hover > a .icon-tongzgl, ul.page-sidebar-menu > li.on > a .icon-tongzgl {background-position:-336px -120px; width:24px; height:24px}
+
+
+/*buttons*/
+.icon-useradd {background-position:0 -168px; width:16px; height:16px; vertical-align:text-top}
+.icon-login {background-position:-32px -168px; width:16px; height:16px; vertical-align:text-top}
+.icon-login-lg {background-position:-48px -168px; width:16px; height:16px; vertical-align:-2px}
+.icon-trash {background-position:-16px -184px; width:16px; height:16px; vertical-align:text-top}
+.icon-search {background-position:0 -200px; width:16px; height:16px; vertical-align:text-top}
+.icon-search-white {background-position:-16px -200px; width:16px; height:16px; vertical-align:text-top}
+.icon-refresh {background-position:-32px -200px; width:16px; height:16px; vertical-align:text-top}
+.icon-refresh-white {background-position:-48px -200px; width:16px; height:16px; vertical-align:text-top}
+
+.iocn-place {background-position:0 -216px; width:24px; height:24px; vertical-align:top}
+.icon-user {background-position:-24px -216px; width:24px; height:24px}
+.icon-lock {background-position:-48px -216px; width:24px; height:24px}
+.icon-code {background-position:-72px -216px; width:24px; height:24px}
+
+/*form*/
+.icon-time {background-position:0 -240px; width:16px; height:16px; vertical-align:text-top}
+.icon-date {background-position:-16px -240px; width:16px; height:16px; vertical-align:text-top}
+.icon-errorx {background-position:-32px -240px; width:16px; height:16px; vertical-align:text-top}

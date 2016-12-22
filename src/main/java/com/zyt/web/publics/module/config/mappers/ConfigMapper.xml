@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.config.dao.SysConfigDao">
+	<sql id="baseColumn">config_key,config_type,config_value,config_dis,parent_confing_key,format_code,level_seq,level_index</sql>	
+	<resultMap type="Config" id="baseMap">
+		<result column="config_key" property="configKey" javaType="String"/>
+		<result column="config_type" property="configType" javaType="String"/>
+		<result column="config_value" property="configValue" javaType="String"/>
+		<result column="config_dis" property="configDis"  javaType="String"/>
+		<result column="parent_confing_key" property="parentConfingKey"  javaType="String"/>
+		<result column="format_code" property="formatCode"  javaType="String"/>
+		<result column="level_seq" property="levelSeq" />
+		<result column="level_index" property="levelIndex" />
+	</resultMap>
+	<!-- 获取所有的系统配置信息 -->
+	<select id="getConfigs" resultMap="baseMap">
+		select <include refid="baseColumn"/> from sys_configs sc ;
+	</select>
+	
+	<!-- 分页获取系统配置信息 -->
+	<select id="getConfigsOfPage" resultMap="baseMap">
+		select <include refid="baseColumn"/> from sys_configs sc order by sc.config_key;
+	</select>
+	
+	<!-- 根据ID获取资源属性 -->
+	<select id="getConfigById" parameterType="String" resultMap="baseMap">
+		select <include refid="baseColumn"/> from sys_configs sc where sc.config_key = #{configId}
+	</select>
+	
+	<!-- 根据Id删除系统配置属性 -->
+	<delete id="deleteConfigById" parameterType="String">
+		delete from sys_configs where config_key=#{configId}
+	</delete>
+	
+	<!-- 根据Id修改系统配置属性 -->
+	<update id="updateConfigById" parameterType="Config">
+		update sys_configs sc 		
+		<set>
+			<if test="configKey!=null and configKey!='' ">
+				sc.config_key = #{configKey}
+			</if>
+		
+			<if test="configType!=null and configType!='' ">
+				,sc.config_type = #{configType}
+			</if>
+		
+			<if test="configValue!=null and configValue!='' ">
+				,sc.config_value = #{configValue}
+			</if>
+			
+			<if test="parentConfingKey !=null and  parentConfingKey !='' ">
+                ,sc.parent_confing_key = #{parentConfingKey}
+            </if>
+            
+			<if test="formatCode !=null and  formatCode !='' ">
+                ,sc.format_code = #{formatCode}
+            </if>
+            
+			<if test="levelSeq !=null and  levelSeq !='' ">
+                ,sc.level_seq = #{levelSeq}
+            </if>
+            
+			<if test="levelIndex !=null and  levelIndex !='' ">
+                ,sc.level_index = #{levelIndex}
+            </if>
+            <if test="configDis !=null and  configDis !='' ">
+                ,sc.config_dis = #{configDis}
+            </if>
+		</set> 	
+		where sc.config_key=#{configKey}
+	</update>
+	
+	<!-- 添加系统属性 -->
+	<insert id="insertConfig" parameterType="Config">
+		insert into sys_configs(<include refid="baseColumn"/>) 
+			values(#{configKey},#{configType},#{configValue},#{configDis},#{parentConfingKey},#{formatCode},#{levelSeq},#{levelIndex});
+	</insert>
+	<!-- 批量删除属性信息 -->
+	<delete id="deleteConfigsByIds" parameterType="java.lang.String">
+		delete from sys_configs where `config_key` in
+		<foreach collection="array" item="key" open="(" separator="," close=")">
+			#{key}
+		</foreach>
+	</delete>
+	
+	
+</mapper>

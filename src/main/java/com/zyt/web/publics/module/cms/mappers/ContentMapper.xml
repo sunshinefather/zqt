@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.cms.dao.ContentDao">
+ 	<resultMap id="baseResult" type="Content">
+			<id property="id" column="id" />
+			<result property="title" column="title" />
+			<result property="summary" column="summary" />
+			<result property="logo" column="logo" />
+			<result property="content" column="content" />
+			<result property="publisher" column="publisher" />
+			<result property="crateTime" column="crate_time" />
+			<result property="categoryId" column="category_id" />
+			<result property="hospitalId" column="hospital_id" />
+			<result property="publishState" column="publish_state" />
+			<result property="str1" column="str1" />
+			<result property="str2" column="str2" />
+			<collection property="atts" column="{contentId=id}" select="com.zyt.web.publics.module.cms.dao.CmsAttDao.loadList" />
+	</resultMap>
+	<sql id="columns">
+		`id`,`title`,`summary`,`logo`,`content`,`publisher`,`crate_time`,`category_id`,`hospital_id`,`publish_state`,`str1`,`str2`
+	</sql>
+	
+	<insert id="insert" parameterType="Content">
+		 <![CDATA[
+            insert into content( `id`,`title`,`summary`,`logo`,`content`,`publisher`,`crate_time`,`category_id`,`hospital_id`,`publish_state`,`str1`,`str2` ) values (#{id},#{title},#{summary},#{logo},#{content},#{publisher},#{crateTime},#{categoryId},#{hospitalId},#{publishState},#{str1},#{str2} )
+	     ]]>
+	</insert>
+	
+	<select id="findObjectById" parameterType="String" resultMap="baseResult">
+		select `id`,`title`,`summary`,`logo`,`content`,`publisher`,`crate_time`,`category_id`,`hospital_id`,`publish_state`,`str1`,`str2` from content 
+		where
+		id=#{id}
+	</select>
+	
+	<select id="findList" resultMap="baseResult" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+		select `id`,`title`,`summary`,`logo`,`content`,`publisher`,`crate_time`,`category_id`,`hospital_id`,`publish_state`,`str1`,`str2` from content
+		<if test="whereParameters!=null and whereParameters.size()>0">
+			<where>
+			<if test="whereParameters.id !=null and whereParameters.id !='' ">
+				 and `id`=#{whereParameters.id}
+			</if>
+			<if test="whereParameters.keyword !=null and whereParameters.keyword !='' ">
+				<![CDATA[ and (instr(title,#{whereParameters.keyword})>0 or instr(content,#{whereParameters.keyword})>0)]]>
+			</if>
+			<if test="whereParameters.title !=null and whereParameters.title !='' ">
+				<![CDATA[ and instr(title,#{whereParameters.title})>0 ]]>
+			</if>
+			<if test="whereParameters.summary !=null and whereParameters.summary !='' ">
+				 and `summary`=#{whereParameters.summary}
+			</if>
+			<if test="whereParameters.content !=null and whereParameters.content !='' ">
+				<![CDATA[ and instr(content,#{whereParameters.content})>0 ]]>
+			</if>
+			<if test="whereParameters.publisher !=null and whereParameters.publisher !='' ">
+				 and `publisher`=#{whereParameters.publisher}
+			</if>
+			<if test="whereParameters.crateTime !=null and whereParameters.crateTime !='' ">
+				 and `crate_time`=#{whereParameters.crateTime}
+			</if>
+			<if test="whereParameters.categoryId !=null and whereParameters.categoryId !='' ">
+				 and `category_id`=#{whereParameters.categoryId}
+			</if>
+			<if test="whereParameters.hospitalId !=null and whereParameters.hospitalId !='' ">
+				 and `hospital_id`=#{whereParameters.hospitalId}
+			</if>
+			<if test="whereParameters.publishState !=null and whereParameters.publishState !='' ">
+				 and `publish_state`=#{whereParameters.publishState}
+			</if>
+			<if test="whereParameters.str1 !=null and whereParameters.str1 !='' ">
+				 and `str1`=#{whereParameters.str1}
+			</if>
+			<if test="whereParameters.str2 !=null and whereParameters.str2 !='' ">
+				 and `str2`=#{whereParameters.str2}
+			</if>
+
+			</where> 
+		</if>
+        order by `crate_time` desc
+	</select>
+	<select id="loadList" parameterType="Content" resultMap="baseResult">
+	   	select `id`,`title`,`summary`,`logo`,`content`,`publisher`,`crate_time`,`category_id`,`hospital_id`,`publish_state`,`str1`,`str2` from content
+		<where>
+			<if test="id !=null and id !='' ">
+				 and `id`=#{id}
+			</if>
+			<if test="title !=null and title !='' ">
+				<![CDATA[ and instr(title,#{title})>0 ]]>
+			</if>
+			<if test="summary !=null and summary !='' ">
+				 and `summary`=#{summary}
+			</if>
+			<if test="logo !=null and logo !='' ">
+				 and `logo`=#{logo}
+			</if>
+			<if test="content !=null and content !='' ">
+				<![CDATA[ and instr(content,#{content})>0 ]]>
+			</if>
+			<if test="publisher !=null and publisher !='' ">
+				 and `publisher`=#{publisher}
+			</if>
+			<if test="crateTime !=null and crateTime !='' ">
+				 and `crate_time`=#{crateTime}
+			</if>
+			<if test="categoryId !=null and categoryId !='' ">
+				 and `category_id`=#{categoryId}
+			</if>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				 and `hospital_id`=#{hospitalId}
+			</if>
+			<if test="publishState !=null and publishState !='' ">
+				 and `publish_state`=#{publishState}
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				 and `str1`=#{str1}
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				 and `str2`=#{str2}
+			</if>
+
+		</where> 
+        order by id desc
+	</select>
+	<update id="update" parameterType="Content">
+		update content 
+		<set>
+			<if test="title !=null and title !='' ">
+				title=#{title},
+			</if>
+			<if test="summary !=null and summary !='' ">
+				summary=#{summary},
+			</if>
+			<if test="logo !=null and logo !='' ">
+				logo=#{logo},
+			</if>
+			<if test="content !=null and content !='' ">
+				content=#{content},
+			</if>
+			<if test="publisher !=null and publisher !='' ">
+				publisher=#{publisher},
+			</if>
+			<if test="crateTime !=null and crateTime !='' ">
+				crate_time=#{crateTime},
+			</if>
+			<if test="categoryId !=null and categoryId !='' ">
+				category_id=#{categoryId},
+			</if>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				hospital_id=#{hospitalId},
+			</if>
+			<if test="publishState !=null and publishState !='' ">
+				publish_state=#{publishState},
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				str1=#{str1},
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				str2=#{str2},
+			</if>
+		</set>
+	 where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from content where id in 
+	   <foreach collection="array" close=")" open="(" separator="," item="item">
+		      #{item}
+	   </foreach>
+	</delete>
+	<select id="maxid" resultType="int">
+	    select max(id) id from content
+	</select>
+	<select id="validate" parameterType="Content" resultType="int">
+      select count(1) as ct from content 
+        <where>
+           <include refid="other_condition"/>
+        </where>
+    </select>
+ 	<sql id="other_condition">
+			<if test="id != null and id != '' " >  and id=#{id}</if>
+			<if test="title != null and title != '' " >  and title=#{title}</if>
+			<if test="summary != null and summary != '' " >  and summary=#{summary}</if>
+			<if test="logo != null and logo != '' " >  and logo=#{logo}</if>
+			<if test="content != null and content != '' " >  and content=#{content}</if>
+			<if test="publisher != null and publisher != '' " >  and publisher=#{publisher}</if>
+			<if test="crateTime != null and crateTime != '' " >  and crate_time=#{crateTime}</if>
+			<if test="categoryId != null and categoryId != '' " >  and category_id=#{categoryId}</if>
+			<if test="hospitalId != null and hospitalId != '' " >  and hospital_id=#{hospitalId}</if>
+			<if test="publishState != null and publishState != '' " >  and publish_state=#{publishState}</if>
+			<if test="str1 != null and str1 != '' " >  and str1=#{str1}</if>
+			<if test="str2 != null and str2 != '' " >  and str2=#{str2}</if>
+
+ 	</sql>
+ 	
+</mapper>

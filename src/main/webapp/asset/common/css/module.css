@@ -1,0 +1,53 @@
+/*NameBox */
+.namebox_l {width:204px; height:360px; float:left; border:1px solid #d4d0be; border-radius:3px;position:relative; margin-bottom:10px; box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05); z-index:1}
+.namebox_c { background:url(../images/iocn_a.png) no-repeat; width:17px; height:344px; z-index:3; position:absolute; left:202px; top:8px}
+.namebox_l dl dt { background:#f7f6f2; height:70px;border-bottom:1px solid #d4d0be; color:#5fa800; font-size:18px; font-family:"Microsoft YaHei"; letter-spacing:2px}
+.namebox_l dl dt .img {display:inline-block;width:50px; height:50px; padding:10px; float:left}
+.namebox_l dl dt .img img {width:50px; height:50px}
+.namebox_l dl dt b {display:inline-block; line-height:70px; text-align:center; width:100px;word-break:break-all; white-space:nowrap; overflow:hidden;}
+.namebox_l dl dd {padding:11px 10px 0 10px; max-height:40px; overflow:hidden;text-overflow:ellipsis}
+.namebox_l dl dd .have {border-radius:20px; background:#ee0032; color:#FFF; width:20px; height:20px; line-height:18px; *line-height:20px; display:inline-block; text-align:center}
+.namebox_r {margin-left:215px; height:360px; border:1px solid #d4d0be; border-radius:3px;position:relative; margin-bottom:10px; box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05); padding:0 12px;z-index:1}
+.namebox_r .title {color:#ff3368; border-bottom:1px solid #d4d0be; height:52px; line-height:52px; font-weight:bold; padding-left:3px; font-size:14px}
+.namebox_r .title .tip {color:#007ec7; font-size:12px}
+.namebox_r .title .btn {float:right}
+.namebox_r .titlenoboder {border-bottom:none}
+.namebox_r .tablebox {width:100%; max-height:163px; overflow:auto}
+.namebox_r .explain {color:#777; line-height:24px; padding:18px 0 0 15px}
+.namebox_r .explain .on {color:#ee0032}
+
+/*Tab */
+.tab {background:url(../images/tabbg.png) bottom repeat-x; height:44px; overflow:hidden}
+.tab li {display:inline-block; float:left; font-weight:bold; color:#666; padding:0 18px; line-height:44px; cursor:pointer}
+.tab li:hover {color:#ff3368}
+.tab li.cur { background:url(../images/tabbg.png) no-repeat center 36px; margin-bottom:-10px; color:#ff3368; cursor:default}
+
+
+.sm_text{width:86px;}
+.bg_text{width:160px;}
+.mid_text{width:112px;}
+.sm_select{width:100px;}
+.rili_input{width:111px;}
+.textwrap{position:relative;}
+.calendar{;background:url(../images/rili_icon.png) no-repeat left 00px;display:block;width:17px;height:17px;}
+.calendar{position:absolute;right:4px;top:-2px;}
+.textwrap .sm_text{padding:0 5px;height:24px;}
+
+.dash_line{border-top:1px dashed #ccc;}
+
+
+.subtitle{color:#007dc7;}
+.deline{height:2px;border-bottom:1px solid #ccc;width:100%}
+.tabcont{display:none;}
+.contdlwrap{border:1px solid #ccc;width:670px;margin:20px 30px;float:left;display:inline;}
+.cont label{display:inline-block;width:80px;text-align:right;}
+.hy_box label{width:50px;margin-right:0;}
+.namebox_r .cont label{width:auto;}
+.width73{width:73px;}
+select.width73{width:83px;}
+.sp_table td,.sp_table th{border-right:1px solid #ccc;text-align:center;}
+.font_weight{font-weight:700;}
+
+.left_bk{width:128px;float:left;overflow:hidden;position:relative;margin-top:30px;margin-left:10px;}
+.right_bk{width:428px;float:left;overflow:hidden;}
+.up_btn{background:#99c935;width:129px;height:26px;position:absolute;top:103px;left:0px;text-align:center;color:#ffffff;}

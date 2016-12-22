@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.sysmanager.dao.RegionDao">
+	
+	 <sql id="baseCoums">id,parent_id,region_name,level_seq,level_index,format_code</sql>
+	 <resultMap type="Region" id="baseResult">
+		<id     property="id" column="id" jdbcType="VARCHAR" javaType="String"/>
+		<result property="parentId" column="parent_id" jdbcType="VARCHAR" javaType="String"/>
+		<result property="regionName" column="region_name" jdbcType="VARCHAR" javaType="String"/>
+		<result property="levelSeq" column="level_seq" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="levelIndex" column="level_index" jdbcType="INTEGER" javaType="Integer"/>
+		<result property="formatCode" column="format_code" jdbcType="VARCHAR" javaType="String"/>
+	</resultMap> 
+	<select id="getRegions" resultMap="baseResult" >
+		select <include refid="baseCoums"/> from sys_region order by level_index,level_seq
+	</select>
+	<select id="getRegionById" parameterType="String" resultMap="baseResult">
+	    select <include refid="baseCoums"/> from sys_region where id=#{id}
+	</select>
+	
+    <insert id="insertRegion" parameterType="Region"  >
+      insert into sys_region(<include refid="baseCoums"/>) values (#{id},#{parentId},#{regionName},#{levelSeq},#{levelIndex},#{formatCode})
+    </insert>
+    <update id="updateRegion" parameterType="Region">
+       <if test="id != null and id != ''">
+         update sys_region set region_name=#{regionName} where id=#{id}
+       </if>
+    </update>
+    <delete id="deleteRegion" parameterType="String">
+      <if test="id != null and id != ''">
+      		delete from sys_region where id=#{id}
+      </if>
+    </delete>
+    <select id="getRegionByUserId" parameterType="String" resultMap="baseResult">
+        <if test="userId != null and userId != ''">
+            SELECT
+				f.id,
+				f.parent_id,
+				f.region_name,
+				f.level_seq,
+				f.level_index,
+				f.format_code
+		FROM
+			sys_user a
+		LEFT JOIN sys_user_group b ON a.id = b.user_id
+		LEFT JOIN sys_role_group c ON b.group_id = c.group_id
+		LEFT JOIN sys_role d ON d.id = c.role_id
+		LEFT JOIN sys_region e ON d.region_id = e.id
+    right join sys_region f on f.format_code LIKE CONCAT(e.format_code,'%')
+		WHERE
+					a.id = #{userId} order by f.level_index,f.level_seq
+      </if>
+    </select>
+    <!-- 根据区域Id获取该区域的所有下级区域以及自己的区域 -->
+	  <select id="getRegionByParents" parameterType="String" resultMap="baseResult">
+            select id,parent_id,region_name,level_seq,level_index,format_code from sys_region where format_code like CONCAT('%',#{id},'%')  or id =  #{id}
+    </select> 
+    
+    
+    <select id="getRegionByParentId" parameterType="map" resultMap="baseResult">
+    	<![CDATA[
+    		select 
+    	]]>
+    	<include refid="baseCoums" />
+    	<![CDATA[
+    		from sys_region a
+    	]]>
+    	<choose>
+    		<when test="parentId != null and parentId != '' ">
+    			<where>
+		    		a.parent_id = #{parentId}
+		    		<if test="regionName !=null and regionName !='' ">
+			          	<![CDATA[ and locate(#{regionName},region_name) > 0 ]]>
+			        </if>
+	    		</where>
+    		</when>
+    		<otherwise>
+    			<where>
+	    			a.parent_id is null or a.parent_id = '' or a.parent_id = '0'
+	    			<if test="regionName !=null and regionName !='' ">
+			          	<![CDATA[ and locate(#{regionName},region_name) > 0 ]]>
+			        </if>
+    			</where>
+    		</otherwise>
+    	</choose>
+    </select>
+    
+    <select id="getRegionByName" parameterType="map" resultMap="baseResult">
+    	<![CDATA[
+    		select 
+    	]]>
+    	<include refid="baseCoums" />
+    	<![CDATA[
+    		from sys_region a
+    	]]>
+    	<where>
+    		a.region_name = #{regionName}
+    	</where>
+    	<![CDATA[
+    		limit 1
+    	]]>
+    </select>
+</mapper>

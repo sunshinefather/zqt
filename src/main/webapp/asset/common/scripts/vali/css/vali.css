@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+.error{
+	padding:1px 1px 1px 15px ;
+	margin:0px;
+	background-image: url('images/exclamation.png');
+	background-repeat: no-repeat;
+	background-position: right center;
+	border-color: #ffa8a8;
+	color: #000 !important;
+}
+.invalid-field {
+	border-color: #ee0032 !important;
+	background: #fde8ed !important; 
+}
+.invalid-field-ico{
+	background-image: url(images/invalid_line.gif);
+	background-repeat: repeat-x;
+	background-position: bottom; 
+	border-color: #ee0032 !important;
+	background: #fde8ed !important; 
+}

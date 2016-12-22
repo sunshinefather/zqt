@@ -1,0 +1,11 @@
+﻿@import "global.css";
+/*Form */
+.forms {margin:20px; overflow:hidden}
+.forms dd { padding-bottom:10px}
+.forms dd input {font-family:tahoma; height:18px; width:220px}
+.forms dd select {font-family:tahoma; padding:2px; height:26px; line-height:26px}
+.forms dd select>option {padding-top:4px !important; height:22px; text-indent:4px}
+.forms dd label {width:80px; text-align:right; display:inline-block}
+.forms dd label span { color:#F30; font-weight:600; vertical-align:-3px; margin-right:3px}
+.bottombox {background:#f0eee7; position:absolute; bottom:0; width:100%; height:39px; border-top:1px solid #c5c2ba;}
+.bottombox .right {text-align:right; padding-top:6px; padding-right:10px}

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.cms.dao.CmsAttDao">
+ 	<resultMap id="baseResult" type="CmsAtt">
+			<id property="id" column="id" />
+			<result property="contentId" column="content_id" />
+			<result property="attId" column="att_id" />
+			<result property="attName" column="att_name" />
+			<result property="attUrl" column="att_url" />
+
+	</resultMap>
+	<sql id="columns">
+		`id`,`content_id`,`att_id`,`att_name`,`att_url`
+	</sql>
+	
+	<insert id="insert" parameterType="CmsAtt">
+		 <![CDATA[
+            insert into cms_att( `id`,`content_id`,`att_id`,`att_name`,`att_url` ) values (#{id},#{contentId},#{attId},#{attName},#{attUrl} )
+	     ]]>
+	</insert>
+	
+	<select id="findObjectById" parameterType="String" resultMap="baseResult">
+		select `id`,`content_id`,`att_id`,`att_name`,`att_url` from cms_att 
+		where
+		id=#{id}
+	</select>
+	
+	<select id="findList" resultMap="baseResult" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+		select `id`,`content_id`,`att_id`,`att_name`,`att_url` from cms_att
+		<if test="whereParameters!=null and whereParameters.size()>0">
+			<where>
+				<if test="whereParameters.id !=null and whereParameters.id !='' ">
+				 and `id`=#{whereParameters.id}
+			</if>
+			<if test="whereParameters.contentId !=null and whereParameters.contentId !='' ">
+				 and `content_id`=#{whereParameters.contentId}
+			</if>
+			<if test="whereParameters.attId !=null and whereParameters.attId !='' ">
+				 and `att_id`=#{whereParameters.attId}
+			</if>
+			<if test="whereParameters.attName !=null and whereParameters.attName !='' ">
+				 and `att_name`=#{whereParameters.attName}
+			</if>
+			<if test="whereParameters.attUrl !=null and whereParameters.attUrl !='' ">
+				 and `att_url`=#{whereParameters.attUrl}
+			</if>
+
+			</where> 
+		</if>
+        order by id desc
+	</select>
+	<select id="loadList" parameterType="CmsAtt" resultMap="baseResult">
+	   	select `id`,`content_id`,`att_id`,`att_name`,`att_url` from cms_att
+		<where>
+			<if test="id !=null and id !='' ">
+				 and `id`=#{id}
+			</if>
+			<if test="contentId !=null and contentId !='' ">
+				 and `content_id`=#{contentId}
+			</if>
+			<if test="attId !=null and attId !='' ">
+				 and `att_id`=#{attId}
+			</if>
+			<if test="attName !=null and attName !='' ">
+				 and `att_name`=#{attName}
+			</if>
+			<if test="attUrl !=null and attUrl !='' ">
+				 and `att_url`=#{attUrl}
+			</if>
+
+		</where> 
+        order by id desc
+	</select>
+	<update id="update" parameterType="CmsAtt">
+		update cms_att 
+		<set>
+			<if test="contentId !=null and contentId !='' ">
+				content_id=#{contentId},
+			</if>
+			<if test="attId !=null and attId !='' ">
+				att_id=#{attId},
+			</if>
+			<if test="attName !=null and attName !='' ">
+				att_name=#{attName},
+			</if>
+			<if test="attUrl !=null and attUrl !='' ">
+				att_url=#{attUrl},
+			</if>
+		</set>
+	 where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from cms_att where id in 
+	   <foreach collection="array" close=")" open="(" separator="," item="item">
+		      #{item}
+	   </foreach>
+	</delete>
+	<select id="maxid" resultType="int">
+	    select max(id) id from cms_att
+	</select>
+	<select id="validate" parameterType="CmsAtt" resultType="int">
+      select count(1) as ct from cms_att 
+        <where>
+           <include refid="other_condition"/>
+        </where>
+    </select>
+ 	<sql id="other_condition">
+			<if test="id != null and id != '' " >  and id=#{id}</if>
+			<if test="contentId != null and contentId != '' " >  and content_id=#{contentId}</if>
+			<if test="attId != null and attId != '' " >  and att_id=#{attId}</if>
+			<if test="attName != null and attName != '' " >  and att_name=#{attName}</if>
+			<if test="attUrl != null and attUrl != '' " >  and att_url=#{attUrl}</if>
+
+ 	</sql>
+</mapper>

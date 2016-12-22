@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.development.dao.DevelopmentDao">
+ 	<resultMap id="baseResult" type="Development">
+			<id property="id" column="id" />
+			<result property="hospitalId" column="hospital_id" />
+			<result property="statisticsTime" column="statistics_time" />
+			<result property="chanzhi" column="chanzhi" />
+			<result property="xiaoshou" column="xiaoshou" />
+			<result property="lirun" column="lirun" />
+			<result property="shuishou" column="shuishou" />
+			<result property="yongshui" column="yongshui" />
+			<result property="yongdian" column="yongdian" />
+			<result property="yongqi" column="yongqi" />
+			<result property="gudingzichantouzi" column="gudingzichantouzi" />
+			<result property="chukouchuanghui" column="chukouchuanghui" />
+			<result property="str1" column="str1" />
+			<result property="str2" column="str2" />
+			<result property="str3" column="str3" />
+			<result property="str4" column="str4" />
+
+	</resultMap>
+	<sql id="columns">
+		`id`,`hospital_id`,`statistics_time`,`chanzhi`,`xiaoshou`,`lirun`,`shuishou`,`yongshui`,`yongdian`,`yongqi`,`gudingzichantouzi`,`chukouchuanghui`,`str1`,`str2`,`str3`,`str4`
+	</sql>
+	
+	<insert id="insert" parameterType="Development">
+		 <![CDATA[
+            insert into development( `id`,`hospital_id`,`statistics_time`,`chanzhi`,`xiaoshou`,`lirun`,`shuishou`,`yongshui`,`yongdian`,`yongqi`,`gudingzichantouzi`,`chukouchuanghui`,`str1`,`str2`,`str3`,`str4` ) values (#{id},#{hospitalId},#{statisticsTime},#{chanzhi},#{xiaoshou},#{lirun},#{shuishou},#{yongshui},#{yongdian},#{yongqi},#{gudingzichantouzi},#{chukouchuanghui},#{str1},#{str2},#{str3},#{str4} )
+	     ]]>
+	</insert>
+	
+	<select id="findObjectById" parameterType="String" resultMap="baseResult">
+		select `id`,`hospital_id`,`statistics_time`,`chanzhi`,`xiaoshou`,`lirun`,`shuishou`,`yongshui`,`yongdian`,`yongqi`,`gudingzichantouzi`,`chukouchuanghui`,`str1`,`str2`,`str3`,`str4` from development 
+		where
+		id=#{id}
+	</select>
+	
+	<select id="getYearExport" resultMap="baseResult">
+		select hospital_id,sum(chanzhi)chanzhi,sum(xiaoshou)xiaoshou,sum(lirun)lirun,sum(shuishou)shuishou,sum(yongshui)yongshui,sum(yongdian)yongdian,sum(yongqi)yongqi,sum(gudingzichantouzi)gudingzichantouzi,sum(chukouchuanghui)chukouchuanghui 
+		 from development d 
+		 <where>
+		     <if test="hospitalId != null and hospitalId != ''">
+		      and hospital_id=#{hospitalId}
+		     </if>
+		     <if test="t1 != null and t1 != ''">
+		      <![CDATA[ and  d.statistics_time>=#{t1}]]>
+		     </if>
+		     <if test="t2 != null and t2 != ''">
+		      <![CDATA[ and  d.statistics_time<=#{t2}]]>
+		     </if>
+		 </where>
+		 GROUP BY hospital_id order by chanzhi desc;
+	</select>
+	
+	<select id="findList" resultMap="baseResult" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+		select `id`,`hospital_id`,`statistics_time`,`chanzhi`,`xiaoshou`,`lirun`,`shuishou`,`yongshui`,`yongdian`,`yongqi`,`gudingzichantouzi`,`chukouchuanghui`,`str1`,`str2`,`str3`,`str4` from development
+		<if test="whereParameters!=null and whereParameters.size()>0">
+			<where>
+			<if test="whereParameters.hospitalId !=null and whereParameters.hospitalId !='' ">
+				 and `hospital_id`=#{whereParameters.hospitalId}
+			</if>
+			<if test="whereParameters.statisticsTime !=null and whereParameters.statisticsTime !='' ">
+				 and `statistics_time`=#{whereParameters.statisticsTime}
+			</if>
+			<if test="whereParameters.chanzhi !=null ">
+				 and `chanzhi`=#{whereParameters.chanzhi}
+			</if>
+			<if test="whereParameters.xiaoshou !=null ">
+				 and `xiaoshou`=#{whereParameters.xiaoshou}
+			</if>
+			<if test="whereParameters.lirun !=null ">
+				 and `lirun`=#{whereParameters.lirun}
+			</if>
+			<if test="whereParameters.shuishou !=null ">
+				 and `shuishou`=#{whereParameters.shuishou}
+			</if>
+			<if test="whereParameters.yongshui !=null ">
+				 and `yongshui`=#{whereParameters.yongshui}
+			</if>
+			<if test="whereParameters.yongdian !=null ">
+				 and `yongdian`=#{whereParameters.yongdian}
+			</if>
+			<if test="whereParameters.yongqi !=null ">
+				 and `yongqi`=#{whereParameters.yongqi}
+			</if>
+			<if test="whereParameters.gudingzichantouzi !=null ">
+				 and `gudingzichantouzi`=#{whereParameters.gudingzichantouzi}
+			</if>
+			<if test="whereParameters.chukouchuanghui !=null ">
+				 and `chukouchuanghui`=#{whereParameters.chukouchuanghui}
+			</if>
+			<if test="whereParameters.str1 !=null and whereParameters.str1 !='' ">
+				 and `str1`=#{whereParameters.str1}
+			</if>
+			<if test="whereParameters.str2 !=null and whereParameters.str2 !='' ">
+				 and `str2`=#{whereParameters.str2}
+			</if>
+			<if test="whereParameters.str3 !=null ">
+				 and `str3`=#{whereParameters.str3}
+			</if>
+			<if test="whereParameters.str4 !=null ">
+				 and `str4`=#{whereParameters.str4}
+			</if>
+
+			</where> 
+		</if>
+        order by `hospital_id`,`statistics_time` desc
+	</select>
+	<select id="loadList" parameterType="Development" resultMap="baseResult">
+	   	select `id`,`hospital_id`,`statistics_time`,`chanzhi`,`xiaoshou`,`lirun`,`shuishou`,`yongshui`,`yongdian`,`yongqi`,`gudingzichantouzi`,`chukouchuanghui`,`str1`,`str2`,`str3`,`str4` from development
+		<where>
+			<if test="id !=null and id !='' ">
+				 and `id`=#{id}
+			</if>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				 and `hospital_id`=#{hospitalId}
+			</if>
+			<if test="statisticsTime !=null and statisticsTime !='' ">
+				 and `statistics_time`=#{statisticsTime}
+			</if>
+			<if test="chanzhi !=null ">
+				 and `chanzhi`=#{chanzhi}
+			</if>
+			<if test="xiaoshou !=null ">
+				 and `xiaoshou`=#{xiaoshou}
+			</if>
+			<if test="lirun !=null ">
+				 and `lirun`=#{lirun}
+			</if>
+			<if test="shuishou !=null ">
+				 and `shuishou`=#{shuishou}
+			</if>
+			<if test="yongshui !=null ">
+				 and `yongshui`=#{yongshui}
+			</if>
+			<if test="yongdian !=null ">
+				 and `yongdian`=#{yongdian}
+			</if>
+			<if test="yongqi !=null ">
+				 and `yongqi`=#{yongqi}
+			</if>
+			<if test="gudingzichantouzi !=null ">
+				 and `gudingzichantouzi`=#{gudingzichantouzi}
+			</if>
+			<if test="chukouchuanghui !=null ">
+				 and `chukouchuanghui`=#{chukouchuanghui}
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				 and `str1`=#{str1}
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				 and `str2`=#{str2}
+			</if>
+			<if test="str3 !=null ">
+				 and `str3`=#{str3}
+			</if>
+			<if test="str4 !=null ">
+				 and `str4`=#{str4}
+			</if>
+
+		</where> 
+        order by `hospital_id`,`statistics_time` desc
+	</select>
+	<update id="update" parameterType="Development">
+		update development 
+		<set>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				hospital_id=#{hospitalId},
+			</if>
+			<if test="statisticsTime !=null and statisticsTime !='' ">
+				statistics_time=#{statisticsTime},
+			</if>
+			<if test="chanzhi !=null ">
+				chanzhi=#{chanzhi},
+			</if>
+			<if test="xiaoshou !=null ">
+				xiaoshou=#{xiaoshou},
+			</if>
+			<if test="lirun !=null ">
+				lirun=#{lirun},
+			</if>
+			<if test="shuishou !=null ">
+				shuishou=#{shuishou},
+			</if>
+			<if test="yongshui !=null ">
+				yongshui=#{yongshui},
+			</if>
+			<if test="yongdian !=null ">
+				yongdian=#{yongdian},
+			</if>
+			<if test="yongqi !=null ">
+				yongqi=#{yongqi},
+			</if>
+			<if test="gudingzichantouzi !=null ">
+				gudingzichantouzi=#{gudingzichantouzi},
+			</if>
+			<if test="chukouchuanghui !=null ">
+				chukouchuanghui=#{chukouchuanghui},
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				str1=#{str1},
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				str2=#{str2},
+			</if>
+			<if test="str3 !=null ">
+				str3=#{str3},
+			</if>
+			<if test="str4 !=null ">
+				str4=#{str4},
+			</if>
+		</set>
+	 where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from development where id in 
+	   <foreach collection="array" close=")" open="(" separator="," item="item">
+		      #{item}
+	   </foreach>
+	</delete>
+	<select id="maxid" resultType="int">
+	    select max(id) id from development
+	</select>
+	<select id="validate" parameterType="Development" resultType="int">
+      select count(1) as ct from development 
+        <where>
+           <include refid="other_condition"/>
+        </where>
+    </select>
+ 	<sql id="other_condition">
+			<if test="id != null and id != '' " >  and id=#{id}</if>
+			<if test="hospitalId != null and hospitalId != '' " >  and hospital_id=#{hospitalId}</if>
+			<if test="statisticsTime != null and statisticsTime != '' " >  and statistics_time=#{statisticsTime}</if>
+			<if test="chanzhi != null and chanzhi != '' " >  and chanzhi=#{chanzhi}</if>
+			<if test="xiaoshou != null and xiaoshou != '' " >  and xiaoshou=#{xiaoshou}</if>
+			<if test="lirun != null and lirun != '' " >  and lirun=#{lirun}</if>
+			<if test="shuishou != null and shuishou != '' " >  and shuishou=#{shuishou}</if>
+			<if test="yongshui != null and yongshui != '' " >  and yongshui=#{yongshui}</if>
+			<if test="yongdian != null and yongdian != '' " >  and yongdian=#{yongdian}</if>
+			<if test="yongqi != null and yongqi != '' " >  and yongqi=#{yongqi}</if>
+			<if test="gudingzichantouzi != null and gudingzichantouzi != '' " >  and gudingzichantouzi=#{gudingzichantouzi}</if>
+			<if test="chukouchuanghui != null and chukouchuanghui != '' " >  and chukouchuanghui=#{chukouchuanghui}</if>
+			<if test="str1 != null and str1 != '' " >  and str1=#{str1}</if>
+			<if test="str2 != null and str2 != '' " >  and str2=#{str2}</if>
+			<if test="str3 != null and str3 != '' " >  and str3=#{str3}</if>
+			<if test="str4 != null and str4 != '' " >  and str4=#{str4}</if>
+
+ 	</sql>
+</mapper>

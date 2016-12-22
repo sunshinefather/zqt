@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.position.dao.PositionDao">
+    
+	<resultMap type="Position" id="baseMap">
+		<id column="position_id" property="positionId"/>
+		<result column="position_name" property="positionName" jdbcType="VARCHAR"/>
+		<result column="organization_id" property="organizationId" jdbcType="VARCHAR"/>
+		<result column="apply_time" property="applyTime" />
+		<association property="organization" column="organization_id" select="com.zyt.web.publics.module.hospital.dao.HospitalDao.getById"/>
+	</resultMap>
+	
+	<sql id="columns">position_id,position_name,organization_id,apply_time</sql>
+	
+	<select id="findList" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseMap">
+	    <![CDATA[
+	       SELECT
+	    ]]>
+	    <include refid="columns" />
+	    <![CDATA[
+           FROM
+                sys_position sp
+           LEFT JOIN biz_hospital bo ON sp.organization_id = bo.hospital_id
+           LEFT JOIN sys_region sr ON sr.id = bo.region_id
+        ]]>
+        <where>
+            <if test="whereParameters.userType != '0'.toString()">
+                <if test="whereParameters.regionIds != null and whereParameters.regionIds.length > 0">
+                    AND bo.`region_id` in
+                     <foreach collection="whereParameters.regionIds" item="regionId" open="(" separator="," close=")">
+                            #{regionId}
+                     </foreach>
+                </if>
+                <if test="whereParameters.orgIds != null and whereParameters.orgIds.length > 0">
+                    AND sp.`organization_id` in
+                     <foreach collection="whereParameters.orgIds" item="orgId" open="(" separator="," close=")">
+                            #{orgId}
+                     </foreach>
+                </if>
+           </if>
+           <if test="whereParameters.positionName != null and whereParameters.positionName != '' ">
+                    <![CDATA[ and locate(TRIM(#{whereParameters.positionName}),position_name) > 0 ]]>
+            </if>
+        </where>
+        <![CDATA[
+            ORDER BY sp.apply_time desc
+         ]]>
+	</select>
+	
+	<insert id="save" parameterType="Position" >
+	    <![CDATA[
+            INSERT INTO sys_position(
+         ]]>
+         <include refid="columns"/>
+        <![CDATA[
+            )VALUE(
+                #{positionId},
+                #{positionName},
+                #{organizationId},
+                #{applyTime}
+             )
+         ]]>
+	</insert>
+	
+	<delete id="delete" parameterType="map">
+	    <![CDATA[
+            DELETE FROM sys_position
+        ]]>
+        <where>
+            position_id  IN
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </where>
+	</delete>
+	
+	<update id="update" parameterType="Position">
+	    <![CDATA[
+            UPDATE sys_position SET
+        ]]>
+        position_id = #{positionId}
+         <if test="positionName != null and positionName != '' ">
+             ,position_name = #{positionName}
+         </if>
+          <if test="organizationId != null and organizationId != '' ">
+             ,organization_id = #{organizationId}
+         </if>
+         <where>
+            position_id = #{positionId}
+        </where>
+	</update>
+	
+	<select id="getById" parameterType="string" resultMap="baseMap">
+	    <![CDATA[
+            SELECT 
+        ]]>
+        <include refid="columns"/>
+        <![CDATA[
+           FROM sys_position 
+         ]]>
+        <where>
+            position_id = #{id}
+        </where>
+	</select>
+	
+	<select id="getByOrgIds" parameterType="map" resultMap="baseMap">
+	    <![CDATA[
+            SELECT 
+        ]]>
+        <include refid="columns"/>
+        <![CDATA[
+           FROM sys_position 
+         ]]>
+        <where>
+            organization_id IN
+            <foreach collection="orgIds" item="orgId"  open="(" separator="," close=")">
+                #{orgId}
+            </foreach>
+        </where>
+	</select>
+	
+	<select id="getByUser" parameterType="map" resultMap="baseMap">
+	    <![CDATA[
+           SELECT
+        ]]>
+        <include refid="columns" />
+        <![CDATA[
+           FROM
+                sys_position sp
+           LEFT JOIN biz_hospital bo ON sp.organization_id = bo.hospital_id
+           LEFT JOIN sys_region sr ON sr.id = bo.region_id
+        ]]>
+        <where>
+            <if test="userType != '0'.toString()">
+                <if test="regionIds != null and regionIds.length > 0">
+                    AND bo.`region_id` in
+                     <foreach collection="regionIds" item="regionId" open="(" separator="," close=")">
+                            #{regionId}
+                     </foreach>
+                </if>
+                <if test="orgIds != null and orgIds.size > 0">
+                    AND sp.`organization_id` in
+                     <foreach collection="orgIds" item="org" open="(" separator="," close=")">
+                            #{org.hospitalId}
+                     </foreach>
+                </if>
+           </if>
+        </where>
+	</select>
+	
+</mapper>

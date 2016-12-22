@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.agreement.dao.AgreementDao">
+ 	<resultMap id="baseResult" type="Agreement">
+			<id property="id" column="id" />
+			<result property="hospitalId" column="hospital_id" />
+			<result property="signedTime" column="signed_time" />
+			<result property="signedBody" column="signed_body" />
+			<result property="invest" column="invest" />
+			<result property="userArea" column="user_area" />
+			<result property="productionContent" column="production_content" />
+			<result property="dgDate" column="dg_date" />
+			<result property="tcDate" column="tc_date" />
+			<result property="specialSupport" column="special_support" />
+			<result property="str1" column="str1" />
+			<result property="str2" column="str2" />
+
+	</resultMap>
+	<sql id="columns">
+		`id`,`hospital_id`,`signed_time`,`signed_body`,`invest`,`user_area`,`production_content`,`dg_date`,`tc_date`,`special_support`,`str1`,`str2`
+	</sql>
+	
+	<insert id="insert" parameterType="Agreement">
+		 <![CDATA[
+            insert into agreement( `id`,`hospital_id`,`signed_time`,`signed_body`,`invest`,`user_area`,`production_content`,`dg_date`,`tc_date`,`special_support`,`str1`,`str2` ) values (#{id},#{hospitalId},#{signedTime},#{signedBody},#{invest},#{userArea},#{productionContent},#{dgDate},#{tcDate},#{specialSupport},#{str1},#{str2} )
+	     ]]>
+	</insert>
+	
+	<select id="findObjectById" parameterType="String" resultMap="baseResult">
+		select `id`,`hospital_id`,`signed_time`,`signed_body`,`invest`,`user_area`,`production_content`,`dg_date`,`tc_date`,`special_support`,`str1`,`str2` from agreement 
+		where
+		id=#{id}
+	</select>
+	
+	<select id="findList" resultMap="baseResult" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+		select `id`,`hospital_id`,`signed_time`,`signed_body`,`invest`,`user_area`,`production_content`,`dg_date`,`tc_date`,`special_support`,`str1`,`str2` from agreement
+		<if test="whereParameters!=null and whereParameters.size()>0">
+			<where>
+				<if test="whereParameters.id !=null and whereParameters.id !='' ">
+				 and `id`=#{whereParameters.id}
+			</if>
+			<if test="whereParameters.hospitalId !=null and whereParameters.hospitalId !='' ">
+				 and `hospital_id`=#{whereParameters.hospitalId}
+			</if>
+			<if test="whereParameters.signedTime !=null and whereParameters.signedTime !='' ">
+				 and `signed_time`=#{whereParameters.signedTime}
+			</if>
+			<if test="whereParameters.signedBody !=null and whereParameters.signedBody !='' ">
+				 and `signed_body`=#{whereParameters.signedBody}
+			</if>
+			<if test="whereParameters.invest !=null and whereParameters.invest !='' ">
+				 and `invest`=#{whereParameters.invest}
+			</if>
+			<if test="whereParameters.userArea !=null and whereParameters.userArea !='' ">
+				 and `user_area`=#{whereParameters.userArea}
+			</if>
+			<if test="whereParameters.productionContent !=null and whereParameters.productionContent !='' ">
+				<![CDATA[ and instr(production_content,#{whereParameters.productionContent})>0 ]]>
+			</if>
+			<if test="whereParameters.dgDate !=null and whereParameters.dgDate !='' ">
+				 and `dg_date`=#{whereParameters.dgDate}
+			</if>
+			<if test="whereParameters.tcDate !=null and whereParameters.tcDate !='' ">
+				 and `tc_date`=#{whereParameters.tcDate}
+			</if>
+			<if test="whereParameters.specialSupport !=null and whereParameters.specialSupport !='' ">
+				 and `special_support`=#{whereParameters.specialSupport}
+			</if>
+			<if test="whereParameters.str1 !=null and whereParameters.str1 !='' ">
+				 and `str1`=#{whereParameters.str1}
+			</if>
+			<if test="whereParameters.str2 !=null and whereParameters.str2 !='' ">
+				 and `str2`=#{whereParameters.str2}
+			</if>
+
+			</where> 
+		</if>
+        order by id desc
+	</select>
+	<select id="loadList" parameterType="Agreement" resultMap="baseResult">
+	   	select `id`,`hospital_id`,`signed_time`,`signed_body`,`invest`,`user_area`,`production_content`,`dg_date`,`tc_date`,`special_support`,`str1`,`str2` from agreement
+		<where>
+			<if test="id !=null and id !='' ">
+				 and `id`=#{id}
+			</if>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				 and `hospital_id`=#{hospitalId}
+			</if>
+			<if test="signedTime !=null and signedTime !='' ">
+				 and `signed_time`=#{signedTime}
+			</if>
+			<if test="signedBody !=null and signedBody !='' ">
+				 and `signed_body`=#{signedBody}
+			</if>
+			<if test="invest !=null and invest !='' ">
+				 and `invest`=#{invest}
+			</if>
+			<if test="userArea !=null and userArea !='' ">
+				 and `user_area`=#{userArea}
+			</if>
+			<if test="productionContent !=null and productionContent !='' ">
+				<![CDATA[ and instr(production_content,#{productionContent})>0 ]]>
+			</if>
+			<if test="dgDate !=null and dgDate !='' ">
+				 and `dg_date`=#{dgDate}
+			</if>
+			<if test="tcDate !=null and tcDate !='' ">
+				 and `tc_date`=#{tcDate}
+			</if>
+			<if test="specialSupport !=null and specialSupport !='' ">
+				 and `special_support`=#{specialSupport}
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				 and `str1`=#{str1}
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				 and `str2`=#{str2}
+			</if>
+
+		</where> 
+        order by id desc
+	</select>
+	<update id="update" parameterType="Agreement">
+		update agreement 
+		<set>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				hospital_id=#{hospitalId},
+			</if>
+			<if test="signedTime !=null and signedTime !='' ">
+				signed_time=#{signedTime},
+			</if>
+			<if test="signedBody !=null and signedBody !='' ">
+				signed_body=#{signedBody},
+			</if>
+			<if test="invest !=null and invest !='' ">
+				invest=#{invest},
+			</if>
+			<if test="userArea !=null and userArea !='' ">
+				user_area=#{userArea},
+			</if>
+			<if test="productionContent !=null and productionContent !='' ">
+				production_content=#{productionContent},
+			</if>
+			<if test="dgDate !=null and dgDate !='' ">
+				dg_date=#{dgDate},
+			</if>
+			<if test="tcDate !=null and tcDate !='' ">
+				tc_date=#{tcDate},
+			</if>
+			<if test="specialSupport !=null and specialSupport !='' ">
+				special_support=#{specialSupport},
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				str1=#{str1},
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				str2=#{str2},
+			</if>
+		</set>
+	 where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from agreement where id in 
+	   <foreach collection="array" close=")" open="(" separator="," item="item">
+		      #{item}
+	   </foreach>
+	</delete>
+	<select id="maxid" resultType="int">
+	    select max(id) id from agreement
+	</select>
+	<select id="validate" parameterType="Agreement" resultType="int">
+      select count(1) as ct from agreement 
+        <where>
+           <include refid="other_condition"/>
+        </where>
+    </select>
+ 	<sql id="other_condition">
+			<if test="id != null and id != '' " >  and id=#{id}</if>
+			<if test="hospitalId != null and hospitalId != '' " >  and hospital_id=#{hospitalId}</if>
+			<if test="signedTime != null and signedTime != '' " >  and signed_time=#{signedTime}</if>
+			<if test="signedBody != null and signedBody != '' " >  and signed_body=#{signedBody}</if>
+			<if test="invest != null and invest != '' " >  and invest=#{invest}</if>
+			<if test="userArea != null and userArea != '' " >  and user_area=#{userArea}</if>
+			<if test="productionContent != null and productionContent != '' " >  and production_content=#{productionContent}</if>
+			<if test="dgDate != null and dgDate != '' " >  and dg_date=#{dgDate}</if>
+			<if test="tcDate != null and tcDate != '' " >  and tc_date=#{tcDate}</if>
+			<if test="specialSupport != null and specialSupport != '' " >  and special_support=#{specialSupport}</if>
+			<if test="str1 != null and str1 != '' " >  and str1=#{str1}</if>
+			<if test="str2 != null and str2 != '' " >  and str2=#{str2}</if>
+
+ 	</sql>
+</mapper>

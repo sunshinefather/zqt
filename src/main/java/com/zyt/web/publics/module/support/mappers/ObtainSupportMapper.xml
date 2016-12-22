@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.support.dao.ObtainSupportDao">
+ 	<resultMap id="baseResult" type="ObtainSupport">
+			<id property="id" column="id" />
+			<result property="hospitalId" column="hospital_id" />
+			<result property="obtainYear" column="obtain_year" />
+			<result property="money" column="money" />
+			<result property="str1" column="str1" />
+			<result property="str2" column="str2" />
+			<result property="str3" column="str3" />
+			<result property="str4" column="str4" />
+
+	</resultMap>
+	<sql id="columns">
+		`id`,`hospital_id`,`obtain_year`,`money`,`str1`,`str2`,`str3`,`str4`
+	</sql>
+	
+	<insert id="insert" parameterType="ObtainSupport">
+		 <![CDATA[
+            insert into obtain_support( `id`,`hospital_id`,`obtain_year`,`money`,`str1`,`str2`,`str3`,`str4` ) values (#{id},#{hospitalId},#{obtainYear},#{money},#{str1},#{str2},#{str3},#{str4} )
+	     ]]>
+	</insert>
+	
+	<select id="findObjectById" parameterType="String" resultMap="baseResult">
+		select `id`,`hospital_id`,`obtain_year`,`money`,`str1`,`str2`,`str3`,`str4` from obtain_support 
+		where
+		id=#{id}
+	</select>
+	
+	<select id="findList" resultMap="baseResult" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+		select `id`,`hospital_id`,`obtain_year`,`money`,`str1`,`str2`,`str3`,`str4` from obtain_support
+		<if test="whereParameters!=null and whereParameters.size()>0">
+			<where>
+			<if test="whereParameters.hospitalId !=null and whereParameters.hospitalId !='' ">
+				 and `hospital_id`=#{whereParameters.hospitalId}
+			</if>
+			<if test="whereParameters.obtainYear !=null and whereParameters.obtainYear !='' ">
+				 and `obtain_year`=#{whereParameters.obtainYear}
+			</if>
+			<if test="whereParameters.money !=null ">
+				 and `money`=#{whereParameters.money}
+			</if>
+			<if test="whereParameters.str1 !=null ">
+				 and `str1`=#{whereParameters.str1}
+			</if>
+			<if test="whereParameters.str2 !=null ">
+				 and `str2`=#{whereParameters.str2}
+			</if>
+			<if test="whereParameters.str3 !=null ">
+				 and `str3`=#{whereParameters.str3}
+			</if>
+			<if test="whereParameters.str4 !=null ">
+				 and `str4`=#{whereParameters.str4}
+			</if>
+
+			</where> 
+		</if>
+        order by `hospital_id`,`obtain_year` desc
+	</select>
+	<select id="loadList" parameterType="ObtainSupport" resultMap="baseResult">
+	   	select `id`,`hospital_id`,`obtain_year`,`money`,`str1`,`str2`,`str3`,`str4` from obtain_support
+		<where>
+			<if test="id !=null and id !='' ">
+				 and `id`=#{id}
+			</if>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				 and `hospital_id`=#{hospitalId}
+			</if>
+			<if test="obtainYear !=null and obtainYear !='' ">
+				 and `obtain_year`=#{obtainYear}
+			</if>
+			<if test="money !=null ">
+				 and `money`=#{money}
+			</if>
+			<if test="str1 !=null ">
+				 and `str1`=#{str1}
+			</if>
+			<if test="str2 !=null ">
+				 and `str2`=#{str2}
+			</if>
+			<if test="str3 !=null ">
+				 and `str3`=#{str3}
+			</if>
+			<if test="str4 !=null ">
+				 and `str4`=#{str4}
+			</if>
+
+		</where> 
+        order by `hospital_id`,`obtain_year` desc
+	</select>
+	<update id="update" parameterType="ObtainSupport">
+		update obtain_support 
+		<set>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				hospital_id=#{hospitalId},
+			</if>
+			<if test="obtainYear !=null and obtainYear !='' ">
+				obtain_year=#{obtainYear},
+			</if>
+			<if test="money !=null ">
+				money=#{money},
+			</if>
+			<if test="str1 !=null ">
+				str1=#{str1},
+			</if>
+			<if test="str2 !=null ">
+				str2=#{str2},
+			</if>
+			<if test="str3 !=null ">
+				str3=#{str3},
+			</if>
+			<if test="str4 !=null ">
+				str4=#{str4},
+			</if>
+		</set>
+	 where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from obtain_support where id in 
+	   <foreach collection="array" close=")" open="(" separator="," item="item">
+		      #{item}
+	   </foreach>
+	</delete>
+	<select id="maxid" resultType="int">
+	    select max(id) id from obtain_support
+	</select>
+	<select id="validate" parameterType="ObtainSupport" resultType="int">
+      select count(1) as ct from obtain_support 
+        <where>
+           <include refid="other_condition"/>
+        </where>
+    </select>
+ 	<sql id="other_condition">
+			<if test="id != null and id != '' " >  and id=#{id}</if>
+			<if test="hospitalId != null and hospitalId != '' " >  and hospital_id=#{hospitalId}</if>
+			<if test="obtainYear != null and obtainYear != '' " >  and obtain_year=#{obtainYear}</if>
+			<if test="money != null and money != '' " >  and money=#{money}</if>
+			<if test="str1 != null and str1 != '' " >  and str1=#{str1}</if>
+			<if test="str2 != null and str2 != '' " >  and str2=#{str2}</if>
+			<if test="str3 != null and str3 != '' " >  and str3=#{str3}</if>
+			<if test="str4 != null and str4 != '' " >  and str4=#{str4}</if>
+
+ 	</sql>
+</mapper>

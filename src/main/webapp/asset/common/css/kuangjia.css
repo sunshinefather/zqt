@@ -1,0 +1,40 @@
+/*初始化*/
+body,html,div,a,p,ul,table,tr,td,li,img{
+    margin: 0;padding: 0;
+}
+body{
+    color: black;
+    font-size: 12px;
+    font-family: "微软雅黑";
+    background: #ffffff;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+input,textarea,select{
+    background: #ffffff;
+}
+.box{
+    width: 100%;
+    height: auto;
+    position: relative;
+    margin: auto;
+    padding-top: 1px;
+    overflow: hidden;
+}
+header{
+    width: 100%;
+    height: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+/*内容区块设置*/
+header{
+    width: 100%;
+    height: 50px;
+}

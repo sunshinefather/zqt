@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.product.dao.ProductDao">
+ 	<resultMap id="baseResult" type="Product">
+			<id property="id" column="id" />
+			<result property="hospitalId" column="hospital_id" />
+			<result property="name" column="name" />
+			<result property="introduce" column="introduce" />
+			<result property="logo" column="logo" />
+			<result property="str1" column="str1" />
+			<result property="str2" column="str2" />
+
+	</resultMap>
+	<sql id="columns">
+		`id`,`hospital_id`,`name`,`introduce`,`logo`,`str1`,`str2`
+	</sql>
+	
+	<insert id="insert" parameterType="Product">
+		 <![CDATA[
+            insert into product( `id`,`hospital_id`,`name`,`introduce`,`logo`,`str1`,`str2` ) values (#{id},#{hospitalId},#{name},#{introduce},#{logo},#{str1},#{str2} )
+	     ]]>
+	</insert>
+	
+	<select id="findObjectById" parameterType="String" resultMap="baseResult">
+		select `id`,`hospital_id`,`name`,`introduce`,`logo`,`str1`,`str2` from product 
+		where
+		id=#{id}
+	</select>
+	
+	<select id="findList" resultMap="baseResult" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+		select `id`,`hospital_id`,`name`,`introduce`,`logo`,`str1`,`str2` from product
+		<if test="whereParameters!=null and whereParameters.size()>0">
+			<where>
+			<if test="whereParameters.hospitalId !=null and whereParameters.hospitalId !='' ">
+				 and `hospital_id`=#{whereParameters.hospitalId}
+			</if>
+			<if test="whereParameters.name !=null and whereParameters.name !='' ">
+				 and `name`=#{whereParameters.name}
+			</if>
+			<if test="whereParameters.introduce !=null and whereParameters.introduce !='' ">
+				 and `introduce`=#{whereParameters.introduce}
+			</if>
+			<if test="whereParameters.logo !=null and whereParameters.logo !='' ">
+				 and `logo`=#{whereParameters.logo}
+			</if>
+			<if test="whereParameters.str1 !=null and whereParameters.str1 !='' ">
+				 and `str1`=#{whereParameters.str1}
+			</if>
+			<if test="whereParameters.str2 !=null and whereParameters.str2 !='' ">
+				 and `str2`=#{whereParameters.str2}
+			</if>
+
+			</where> 
+		</if>
+        order by id desc
+	</select>
+	<select id="loadList" parameterType="Product" resultMap="baseResult">
+	   	select `id`,`hospital_id`,`name`,`introduce`,`logo`,`str1`,`str2` from product
+		<where>
+			<if test="id !=null and id !='' ">
+				 and `id`=#{id}
+			</if>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				 and `hospital_id`=#{hospitalId}
+			</if>
+			<if test="name !=null and name !='' ">
+				 and `name`=#{name}
+			</if>
+			<if test="introduce !=null and introduce !='' ">
+				 and `introduce`=#{introduce}
+			</if>
+			<if test="logo !=null and logo !='' ">
+				 and `logo`=#{logo}
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				 and `str1`=#{str1}
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				 and `str2`=#{str2}
+			</if>
+
+		</where> 
+        order by id desc
+	</select>
+	<update id="update" parameterType="Product">
+		update product 
+		<set>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				hospital_id=#{hospitalId},
+			</if>
+			<if test="name !=null and name !='' ">
+				name=#{name},
+			</if>
+			<if test="introduce !=null and introduce !='' ">
+				introduce=#{introduce},
+			</if>
+			<if test="logo !=null and logo !='' ">
+				logo=#{logo},
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				str1=#{str1},
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				str2=#{str2},
+			</if>
+		</set>
+	 where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from product where id in 
+	   <foreach collection="array" close=")" open="(" separator="," item="item">
+		      #{item}
+	   </foreach>
+	</delete>
+	<select id="maxid" resultType="int">
+	    select max(id) id from product
+	</select>
+	<select id="validate" parameterType="Product" resultType="int">
+      select count(1) as ct from product 
+        <where>
+           <include refid="other_condition"/>
+        </where>
+    </select>
+ 	<sql id="other_condition">
+			<if test="id != null and id != '' " >  and id=#{id}</if>
+			<if test="hospitalId != null and hospitalId != '' " >  and hospital_id=#{hospitalId}</if>
+			<if test="name != null and name != '' " >  and name=#{name}</if>
+			<if test="introduce != null and introduce != '' " >  and introduce=#{introduce}</if>
+			<if test="logo != null and logo != '' " >  and logo=#{logo}</if>
+			<if test="str1 != null and str1 != '' " >  and str1=#{str1}</if>
+			<if test="str2 != null and str2 != '' " >  and str2=#{str2}</if>
+
+ 	</sql>
+</mapper>

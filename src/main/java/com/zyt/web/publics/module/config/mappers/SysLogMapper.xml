@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.config.dao.SysLogDao">
+	<sql id="baseColumn">
+	id,user_id,user_name,
+	login_ip,log_type,log_content,
+	log_time,handle_method
+	</sql>
+	
+	<sql id="extColumn">user_id,user_name,
+	login_ip,log_type,log_content
+	,handle_method,log_time
+	</sql>
+	
+	
+	<resultMap type="SysLog" id="baseMap">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+		<result column="login_ip" property="loginIp"/>
+		<result column="log_type" property="logType"/>
+		<result column="log_content" property="logContent"/>
+		<result column="handle_method" property="handleMethod"/>
+		<result column="log_time" property="logTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 插入日志记录 -->
+	<insert id="insertLog" parameterType="SysLog">
+		insert into sys_logs(<include refid="extColumn"/>) 
+		values(#{userId},#{userName},#{loginIp},#{logType},#{logContent},#{handleMethod},#{logTime});
+	</insert>
+	
+	<!-- 分页获取系统日志信息 -->
+	<select id="getLogsPage" resultMap="baseMap">
+		select <include refid="baseColumn"/> from sys_logs sl order by sl.log_time desc;
+	</select>
+	
+	<!-- 批量删除日志信息 -->
+	<delete id="deleteLogsByIds" parameterType="String">
+		delete from sys_logs where id in
+		<foreach collection="array" open="(" separator="," close=")" item="logId">
+			#{logId}
+		</foreach>
+	</delete>
+	
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.agencyOverview.dao.IAgencyOverviewDao">
+	<sql id="baseColumn">id,title,content,sequence,org_id,date</sql>
+	<resultMap type="AgencyOverview" id="baseMap">
+		<id column="id" property="id"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="content" property="content" />
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+		<result column="date" property="date" jdbcType="TIMESTAMP"/>
+		<result column="sequence" property="sequence"/>
+		  <association property="organization" column="org_id"  javaType="Hospital" select="com.zyt.web.publics.module.hospital.dao.HospitalDao.getById">
+			<id property="hospitalId" column="hospital_id"/>
+			<result property="hospitalName" column="hospital_name"/>
+		</association>
+	</resultMap>
+	
+	<resultMap type="Hospital" id="orgMap">
+		<id column="orgId" property="hospitalId"/>
+		<id column="orgName" property="hospitalName"/>
+		<collection property="agencyOverviews"  ofType="AgencyOverview">
+			<id column="id" property="id"/>
+			<result column="title" property="title" />
+			<result column="content" property="content"/>
+			<result column="org_id" property="orgId" />
+			<result column="date" property="date" />
+			<result column="sequence" property="sequence"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 增加 -->
+	<insert id="add" parameterType="AgencyOverview" >
+	    insert into biz_agencyoverview(<include refid="baseColumn"/>)
+	    values(#{id},#{title},#{content},#{sequence},#{orgId},#{date})
+	</insert>
+	<!-- 根据orgid删除-->
+	<delete id="deleteByOrgIds" >
+		delete from biz_agencyoverview where org_id =#{orgId}
+	</delete>
+	
+	<select id="getPageAgencyOverview" resultMap="orgMap" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+	    select bo.hospital_id orgId,bo.hospital_name orgName ,ba.id,ba.title,ba.content,ba.sequence,ba.org_id,ba.date from biz_agencyoverview ba right JOIN biz_hospital bo on  ba.org_id = bo.hospital_id  
+		<where>
+	        <if test="whereParameters != null">
+	            <!-- 按照机构数组查询 -->
+	            <if test="whereParameters.orgIds != null and whereParameters.orgIds.length > 0">
+	                bo.hospital_id in
+	                <foreach collection="whereParameters.orgIds" open="(" separator="," close=")" item="orgId">
+						#{orgId}
+					</foreach>
+	            </if>
+	        </if>
+	    </where>
+	  order by length(bo.parents_id)
+	</select>
+	<!-- 根据机构id获取 -->
+	<select id="getAgencyOverviewByOrgId" resultMap="baseMap">
+	    select <include refid="baseColumn"/> from biz_agencyoverview where org_id =#{orgId} order by sequence
+	</select>
+	<!-- 根据id获取 -->
+	<select id="getAgencyOverviewById" resultMap="baseMap">
+	    select <include refid="baseColumn"/> from biz_agencyoverview where id =#{id}
+	</select>
+</mapper>

@@ -1,0 +1,3 @@
+$(function(){if($.browser.msie&&$.browser.version=="6.0"&&$("html")[0].scrollHeight>$("html").height())
+$("html").css("overflowY","scroll");})
+$(function(){$("table tr").mouseover(function(){$(this).addClass("over");});$("table tr").mouseout(function(){$(this).removeClass("over");});$("table tr").first().nextAll().click(function(){if($(this).hasClass("click")){$(this).removeClass("click").find(":checkbox").attr("checked",false);}else{$(this).addClass("click").find(":checkbox").attr("checked",true);}});});

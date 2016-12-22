@@ -1,0 +1,1197 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.zyt.web.publics.module.sysmanager.dao.UserDao">
+	 <resultMap type="User" id="baseMap">
+	    <id column="id" property="id" />
+		<result column="user_name" property="userName" />
+		<result column="password" property="password" />
+		<result column="locked" property="locked"/>
+		<result column="expire" property="expire"/>
+		<result column="from" property="from"/>
+		<result column="token" property="token"/>
+		<result column="type" property="type"/>
+		<result column="enabled" property="enabled"/>
+		<result column="imie" property="imie"/>
+		<result column="has_send" property="hasSend"/>
+		<result column="open_id" property="openId"/>
+		<association property="extUser"  resultMap="extUserResultMap"/>
+        <collection property="groups" ofType="Group">
+            <id property="id" column="group_id"/>
+            <result property="groupCode" column="group_code"/>
+            <result property="groupName" column="group_name"/>
+        </collection>
+        <collection property="roles" ofType="Role">
+            <id column="role_id" property="id"/>
+            <result property="roleName" column="role_name"/>
+            <result property="roleCode" column="role_code"/>
+            <association property="region" javaType="Region">
+                <id column="region_id" property="id"/>
+                <result column="region_name" property="regionName"/>
+            </association>
+        </collection>
+	 </resultMap>
+	 
+	 <resultMap type="ExtUser" id="extUserResultMap">
+               <id property="id" column="id"/>
+               <result property="fullName" column="full_name"/>
+               <result property="orgId" column="org_id"/>
+               <result property="nickName" column="nick_name"/>
+               <result property="gender" column="gender"/>
+               <result property="email" column="email"/>
+               <result property="mobile" column="mobile"/>
+               <result property="hideMobile" column="hide_mobile"/>
+               <result property="position" column="position"/>
+               <result property="descriptions" column="descriptions"/>
+               <result property="socialAccount" column="social_account"/>
+               <result property="lastActiveTime" column="last_active_time"/>
+               <result property="registerTime" column="register_time"/>
+               <result property="alipay_account" column="alipayAccount"/>
+               <result property="avatar" column="avatar"/>
+               <result property="biography" column="biography"/>
+               <result property="state" column="state"/>
+               <result property="idCard" column="id_card"/>
+               <result property="professional" column="professional"/>
+               <result property="tel" column="tel"/>
+               <result property="fax" column="fax"/>
+               <result property="tel2" column="tel2"/>
+               <result property="fax2" column="fax2"/>
+               <result property="mobile2" column="mobile2"/>
+               <result column="sort" property="sort"/>
+               <association property="positionBean" column="position" select="com.zyt.web.publics.module.position.dao.PositionDao.getById"/>
+               <association property="avatarImage" column="avatar" select="com.zyt.web.publics.module.image.dao.ImageDao.getImageById"/>
+               <association property="organization" column="org_id" select="com.zyt.web.publics.module.hospital.dao.HospitalDao.getById"/>
+     </resultMap>
+	 
+	<sql id="columns">
+		<![CDATA[
+			`id`,
+			`user_name`,
+			`password`,
+			`locked`,
+			`expire`,
+			`from`,
+			`token`,
+			`imie`,
+			`type`,
+			`enabled`,
+			`has_send`,
+			`open_id`
+		]]>
+	</sql>
+	
+	<sql id="ext_columns">
+		<![CDATA[
+			`id`,
+			`full_name`,
+			`org_id`,
+			`nick_name`,
+			`gender`,
+			`email`,
+			`mobile`,
+			`hide_mobile`,
+			`position`,
+			`social_account`,
+			`last_active_time`,
+			`register_time`,
+			`alipay_account`,
+			`avatar`,
+			`biography`,
+			`state`,
+			`descriptions`,
+			`id_card`,
+			`professional`,
+			`tel`,
+			`fax`,
+			`tel2`,
+            `fax2`,
+            `mobile2`,
+            `sort`
+		]]>
+	</sql>
+	
+	<sql id="user_group_columns">
+		<![CDATA[
+			`user_id`,
+			`group_id`
+		]]>
+	</sql>
+	<select id="findUserByToken" parameterType="java.lang.String" resultMap="baseMap">
+	    SELECT
+	        a.`id`,
+            `user_name`,
+            `password`,
+            `locked`,
+            `expire`,
+            `from`,
+            `token`,
+            `imie`,
+            `type`,
+            `enabled`,
+            `has_send`,
+            `open_id`,
+            `full_name`,
+            `org_id`,
+            `nick_name`,
+            `gender`,
+            `email`,
+            `mobile`,
+            `hide_mobile`,
+            `position`,
+            `social_account`,
+            `last_active_time`,
+            `register_time`,
+            `alipay_account`,
+            `avatar`,
+            `biography`,
+            `state`,
+            `descriptions`,
+            `id_card`,
+            `professional`,
+            `tel`,
+            `fax`,
+            `tel2`,
+            `fax2`,
+            `mobile2`,
+            `sort`
+         from 
+           sys_user a left join sys_ext_user b on a.id = b.id
+	    where token = #{token}
+	</select>
+	<select id="findUserByName" parameterType="java.lang.String" resultMap="baseMap">
+		 <![CDATA[
+		 	SELECT 
+				a.`id`,
+				a.`user_name`,
+				a.`password`,
+				a.`locked`,
+				a.`expire`,
+				a.`from`,
+				a.`token`,
+				a.`imie`,
+				a.`type`,
+				a.`enabled`,
+				a.`open_id`,
+				b.`full_name`,
+				b.`org_id`,
+				b.`nick_name`,
+				b.`gender`,
+				b.`email`,
+				b.`mobile`,
+				b.`hide_mobile`,
+				b.`position`,
+				b.`social_account`,
+				b.`last_active_time`,
+				b.`register_time`,
+				b.`alipay_account`,
+				b.`avatar`,
+				b.`biography`,
+				b.`state`,
+				b.`descriptions`,
+				b.`tel`,
+	            b.`fax`,
+	            b.`tel2`,
+	            b.`fax2`,
+	            b.`mobile2`,
+	            b.`sort`
+		 	FROM sys_user a
+		 	LEFT JOIN sys_ext_user b
+		 	ON a.`id` = b.`id`
+		 ]]>
+		 <where>
+		 	`user_name` = #{userName}
+		 	<choose>
+		 	    <when test="app == false">
+		 	        AND `type` != 300
+		 	        AND `enabled` = 1
+		 	    </when>
+		 	    <when test="app == true">
+		 	        AND `type` = 300
+		 	    </when>
+		 	</choose>
+		 </where>
+	</select>
+	
+	<select id="findMemberList" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseMap">
+	    select
+		 	su.`id`,
+			su.`user_name`,
+	    	seu.`nick_name`,
+	    	seu.`org_id`,
+	    	seu.`register_time`,
+	    	seu.`last_active_time`,
+	    	bo.`hospital_name`
+	    from sys_user su 
+	    left join
+	    sys_ext_user seu on seu.id = su.id
+	    left join
+	    biz_hospital bo on seu.org_id = bo.hospital_id
+	    <if test="whereParameters.regionIds != null and whereParameters.regionIds.length > 0">
+	        LEFT JOIN sys_user_group sug
+		 	ON su.id = sug.user_id
+		 	LEFT JOIN sys_group sg
+		 	ON sug.group_id = sg.id
+	    </if>
+	    where su.type = '300'
+	    <if test="whereParameters.userType != '0'.toString()">
+	 			<if test="whereParameters.regionIds != null and whereParameters.regionIds.length > 0">
+	 			    AND bo.`region_id` in
+					 <foreach collection="whereParameters.regionIds" item="regionId" open="(" separator="," close=")">
+					 		#{regionId}
+					 </foreach>
+	 			</if>
+	 			<if test="whereParameters.orgIds != null and whereParameters.orgIds.length > 0">
+	 			    AND seu.`org_id` in
+					 <foreach collection="whereParameters.orgIds" item="orgId" open="(" separator="," close=")">
+					 		#{orgId}
+					 </foreach>
+	 			</if>
+			 </if>
+		<if test="whereParameters.userName != null and whereParameters.userName!=''">
+	 			    AND su.`user_name` like '%${whereParameters.userName}%'
+	 	</if>
+		<if test="whereParameters.nikeName != null and whereParameters.nikeName!=''">
+		    AND seu.`nick_name` like '%${whereParameters.nikeName}%'
+		</if>
+	 	<if test="whereParameters.orgId != null and whereParameters.orgId!=''">
+	 			    AND seu.`org_id` = '${whereParameters.orgId}'
+	 	</if>	 
+	    order by seu.register_time
+	</select>
+	<!-- 查询系统人员列表用户:主要是区域用户、机构用户和超级用户 -->
+	<select id="findList" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseMap">
+		<![CDATA[
+		 	SELECT 
+		 ]]>
+		 	a.`id`,
+		 	`user_name`,
+		 	`password`,
+		 	`locked`,
+		 	`expire`,
+		 	`from`,
+		 	`token`,
+		 	`type`,
+		 	a.`enabled`,
+		 	a.`open_id`,
+		 	b.`group_id`,
+		 	`group_code`,
+		 	`group_name`,
+		 	d.`id` ext_id,
+		 	`full_name`,
+		 	`nick_name`,
+		 	`email`,
+		 	`last_active_time`,
+		 	`register_time`,
+		 	`state`,
+		 	`gender`,
+		 	g.`region_id`,
+		 	`format_code`,
+		 	e.`parent_id`,
+		 	`region_name`,
+		 	`position`,
+		 	d.`org_id`,
+		 	bo.`hospital_name`,
+		 	d.`professional`
+		 <![CDATA[
+		 	FROM sys_user a
+		 	LEFT JOIN sys_user_group b
+		 	ON a.id = b.user_id
+		 	LEFT JOIN sys_group c
+		 	ON b.group_id = c.id
+		 	LEFT JOIN sys_ext_user d
+		 	ON a.id = d.id
+		 	LEFT JOIN sys_role_group f
+		 	ON c.id = f.group_id
+		 	LEFT JOIN sys_role g
+		 	ON	g.id = f.role_id
+		 	LEFT JOIN sys_region e
+		 	ON	e.id = g.region_id
+		 	LEFT JOIN biz_hospital bo
+		 	on d.org_id = bo.hospital_id
+		 ]]>
+	 	<where>
+	 		 a.`type` != '300' and a.`type` != '201' and a.`type` != '202'
+	 		<if test="whereParameters.userType != '0'.toString()">
+	 			and a.`type` != '0'
+	 			<if test="whereParameters.regionIds != null and whereParameters.regionIds.length > 0">
+	 			    AND g.`region_id` in
+					 <foreach collection="whereParameters.regionIds" item="regionId" open="(" separator="," close=")">
+					 		#{regionId}
+					 </foreach>
+	 			</if>
+	 			<if test="whereParameters.orgIds != null and whereParameters.orgIds.length > 0">
+	 			    AND d.`org_id` in
+					 <foreach collection="whereParameters.orgIds" item="orgId" open="(" separator="," close=")">
+					 		#{orgId}
+					 </foreach>
+	 			</if>
+			 </if>
+			 <if test="whereParameters.userName != null and whereParameters.userName != '' ">
+			 		AND
+			 		`user_name` like '%${whereParameters.userName}%'
+			 </if>
+			 <if test="whereParameters.groupName != null and whereParameters.groupName != '' ">
+			 		AND
+			 		`group_name` like '%${whereParameters.groupName}%'
+			 </if>
+			 <if test="whereParameters.regionName != null and whereParameters.regionName != '' ">
+			 		AND
+			 		`region_name` like '%${whereParameters.regionName}%'
+			 </if>
+			 <if test="whereParameters.type != null and whereParameters.type != '' ">
+			 		AND
+			 		`type` = '${whereParameters.type}'
+			 </if>
+	 	</where>
+		 <![CDATA[
+			ORDER BY d.register_time desc
+			]]>
+	</select>
+	<select id="findExtUserById" parameterType="java.lang.String" resultMap="baseMap">
+	    select <include refid="ext_columns"/> from sys_ext_user seu where seu.id = #{id}
+	</select>
+	<select id="findUserById" parameterType="java.lang.String" resultMap="baseMap">
+		<![CDATA[
+		 	SELECT 
+		 	a.`id`,
+		 	`user_name`,
+		 	`password`,
+		 	`locked`,
+		 	`expire`,
+		 	`from`,
+		 	`token`,
+		 	`imie`,
+		 	`type`,
+		 	`has_send`,
+		 	`open_id`,
+		 	a.`enabled`,
+		 	b.`group_id`,
+		 	`group_code`,
+		 	`group_name`,
+		 	d.`id` ext_id,
+		 	d.`org_id`,
+		 	f.`region_id`,
+		 	`full_name`,
+		 	`nick_name`,
+		 	`email`,
+		 	`avatar`,
+		 	`last_active_time`,
+		 	`register_time`,
+		 	`state`,
+		 	`gender`,
+		 	`mobile`,
+		 	`hide_mobile`,
+		 	`social_account`,
+		 	`role_id`,
+		 	`role_code`,
+		 	`role_name`,
+		 	`position`,
+		 	`descriptions`,
+		 	d.`id_card`,
+		 	d.`professional`,
+		 	d.`tel`,
+		 	d.`fax`,
+		 	d.`tel2`,
+            d.`fax2`,
+            d.`mobile2`,
+            d.`sort`
+		 	FROM sys_user a
+		 	LEFT JOIN sys_user_group b
+		 	ON a.id = b.user_id
+		 	LEFT JOIN sys_group c
+		 	ON b.group_id = c.id
+		 	LEFT JOIN sys_ext_user d
+		 	ON a.id = d.id
+		 	LEFT JOIN sys_role_group e
+		 	ON e.group_id = c.id
+		 	LEFT JOIN sys_role f
+		 	ON f.id = e.role_id
+		 	WHERE a.id = #{id}
+		 ]]>
+	</select>
+	
+	<select id="findUserByIds2" parameterType="map" resultMap="baseMap">
+        <![CDATA[
+            SELECT 
+            a.`id`,
+            `user_name`,
+            `password`,
+            `locked`,
+            `expire`,
+            `from`,
+            `token`,
+            `imie`,
+            `type`,
+            `has_send`,
+            `open_id`,
+            a.`enabled`,
+            b.`group_id`,
+            `group_code`,
+            `group_name`,
+            d.`id` ext_id,
+            d.`org_id`,
+            f.`region_id`,
+            `full_name`,
+            `nick_name`,
+            `email`,
+            `avatar`,
+            `last_active_time`,
+            `register_time`,
+            `state`,
+            `gender`,
+            `mobile`,
+            `hide_mobile`,
+            `social_account`,
+            `role_id`,
+            `role_code`,
+            `role_name`,
+            `position`,
+            `descriptions`,
+            d.`id_card`,
+            d.`professional`,
+            d.`tel`,
+            d.`fax`,
+            d.`tel2`,
+            d.`fax2`,
+            d.`mobile2`,
+            d.`sort`
+            FROM sys_user a
+            LEFT JOIN sys_user_group b
+            ON a.id = b.user_id
+            LEFT JOIN sys_group c
+            ON b.group_id = c.id
+            LEFT JOIN sys_ext_user d
+            ON a.id = d.id
+            LEFT JOIN sys_role_group e
+            ON e.group_id = c.id
+            LEFT JOIN sys_role f
+            ON f.id = e.role_id
+         ]]>
+         <where>
+             a.id IN
+                <foreach collection="ids" item="id" open="(" separator=","  close=")">
+                    #{id}
+                </foreach>
+         </where>
+    </select>
+	
+	<insert id="save" parameterType="User" >
+		<![CDATA[
+			INSERT INTO sys_user(
+		 ]]>
+			<include refid="columns"/>
+		<![CDATA[
+			)VALUE(
+				#{id},
+				#{userName},
+				#{password},
+				#{locked},
+				#{expire},
+				#{from},
+				#{token},
+				#{imie},
+				#{type},
+				#{enabled},
+				#{hasSend},
+				#{openId}
+			)
+		 ]]>
+	</insert>
+	
+	<insert id="saveExt" parameterType="User">
+		<![CDATA[
+			INSERT INTO sys_ext_user(
+		 ]]>
+		<include refid="ext_columns"/>
+		<![CDATA[
+			)VALUE(
+				#{extUser.id},
+				#{extUser.fullName},
+				#{extUser.orgId},
+				#{extUser.nickName},
+				#{extUser.gender},
+				#{extUser.email},
+				#{extUser.mobile},
+				#{extUser.hideMobile},
+				#{extUser.position},
+				#{extUser.socialAccount},
+				#{extUser.lastActiveTime},
+				#{extUser.registerTime},
+				#{extUser.alipayAccount},
+				#{extUser.avatar},
+				#{extUser.biography},
+				#{extUser.state},
+				#{extUser.descriptions},
+				#{extUser.idCard},
+				#{extUser.professional},
+				#{extUser.tel},
+				#{extUser.fax},
+				#{extUser.tel2},
+                #{extUser.fax2},
+                #{extUser.mobile2},
+                #{extUser.sort}
+			)
+		 ]]>
+	</insert>
+	
+	<insert id="saveUserGroupLink" parameterType="User">
+		<![CDATA[
+			INSERT INTO sys_user_group(
+		 ]]>
+			<include refid="user_group_columns"/>
+		<![CDATA[
+			)VALUES
+		]]>
+		<foreach collection="groups" item="group"  separator="," >
+				(
+				#{id},
+				#{group.id}
+				)
+		</foreach>
+	</insert>
+	
+	<delete id="delete" parameterType="User">
+		<![CDATA[
+			DELETE FROM `sys_user` 
+		]]>
+		<where>
+			`id`   = #{id}
+		</where>
+	</delete>
+	
+	<delete id="deleteUserGroupLink" parameterType="User">
+		<![CDATA[
+			DELETE FROM `sys_user_group` 
+		]]>
+		<where>
+			`user_id`   = #{id}
+		</where>
+	</delete>
+	
+	<delete id="deleteExt" parameterType="User">
+		<![CDATA[
+			DELETE FROM `sys_ext_user`  WHERE id = #{id}
+		]]>
+	</delete>
+	
+	<update id="updateByToken" parameterType="java.lang.String">
+	    update sys_user set token = null where id = #{id}
+	</update>
+	
+	<update id="update" parameterType="User">
+		UPDATE	sys_user SET
+			`id` = #{id}
+			<if test="userName != null and userName != '' ">
+				,`user_name` = #{userName}
+			</if>
+			<if test="password != null and password != '' ">
+				,`password` = #{password}
+			</if>
+			<if test="locked != null">
+				,`locked` = #{locked}
+			</if>
+			<if test="expire != null ">
+				,`expire` = #{expire}
+			</if>
+			<if test="from != null and from != ''">
+				,`from` = #{from}
+			</if>
+			<if test="token != null and token != ''">
+				,`token` = #{token}
+			</if>
+			<if test="imie != null">
+				,`imie` = #{imie}
+			</if>
+			<if test="type != null  and type != ''">
+				,`type` = #{type}
+			</if>
+			<if test="enabled != null">
+				,`enabled` = #{enabled}
+			</if>
+			<if test="hasSend != null">
+				,`has_send` = #{hasSend}
+			</if>
+			<if test="openId != null and openId != '' ">
+				,`open_id` = #{openId}
+			</if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	<update id="updateExt" parameterType="User">
+		UPDATE	sys_ext_user SET
+			`id` = #{id}
+			<if test="extUser.fullName != null and extUser.fullName != '' ">
+				,`full_name` = #{extUser.fullName}
+			</if>
+			<if test="extUser.orgId != null">
+				,`org_id` = #{extUser.orgId}
+			</if>
+			<if test="extUser.nickName != null and extUser.nickName != ''">
+				,`nick_name` = #{extUser.nickName}
+			</if>
+			<if test="extUser.gender != null and extUser.gender != '' ">
+				,`gender` = #{extUser.gender}
+			</if>
+			<if test="extUser.email != null and extUser.email != '' ">
+				,`email` = #{extUser.email}
+			</if>
+			<if test="extUser.mobile != null ">
+				,`mobile` = #{extUser.mobile}
+			</if>
+			<if test="extUser.hideMobile != null and extUser.hideMobile != ''">
+				,`hide_mobile` = #{extUser.hideMobile}
+			</if>
+			<if test="extUser.position != null and extUser.position != ''">
+				,`position` = #{extUser.position}
+			</if>
+			<if test="extUser.socialAccount != null ">
+				,`social_account` = #{extUser.socialAccount}
+			</if>
+			<if test="extUser.lastActiveTime != null">
+				,`last_active_time` = #{extUser.lastActiveTime}
+			</if>
+			<if test="extUser.registerTime != null ">
+				,`register_time` = #{extUser.registerTime}
+			</if>
+			<if test="extUser.alipayAccount != null ">
+				,`alipay_account` = #{extUser.alipayAccount}
+			</if>
+			<if test="extUser.avatar != null and extUser.avatar != ''">
+				,`avatar` = #{extUser.avatar}
+			</if>
+			<if test="extUser.biography != null ">
+				,`biography` = #{extUser.biography}
+			</if>
+			<if test="extUser.state != null">
+				,`state` = #{extUser.state}
+			</if>
+			<if test="extUser.descriptions != null  ">
+				,`descriptions` = #{extUser.descriptions}
+			</if>
+			<if test="extUser.professional != null and extUser.professional != ''">
+				,`professional` = #{extUser.professional}
+			</if>
+			<if test="extUser.tel != null  ">
+                ,`tel` = #{extUser.tel}
+            </if>
+            <if test="extUser.fax != null  ">
+                ,`fax` = #{extUser.fax}
+            </if>
+            <if test="extUser.tel2 != null  ">
+                ,`tel2` = #{extUser.tel2}
+            </if>
+            <if test="extUser.fax2 != null  ">
+                ,`fax2` = #{extUser.fax2}
+            </if>
+            <if test="extUser.mobile2 != null  ">
+                ,`mobile2` = #{extUser.mobile2}
+            </if>
+            <if test="extUser.sort != null  and extUser.sort >= 0 ">
+                ,sort = #{extUser.sort}
+            </if>
+            <if test="extUser.idCard != null ">
+                ,id_card = #{extUser.idCard}
+            </if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	<select id="findUserByNameAndPassWord" resultMap="baseMap">
+	    select 
+	        a.`id`,
+            `user_name`,
+            `password`,
+            `locked`,
+            `expire`,
+            `from`,
+            `token`,
+            `imie`,
+            `type`,
+            `enabled`,
+            `open_id`,
+            `has_send`,
+            `full_name`,
+            `org_id`,
+            `nick_name`,
+            `gender`,
+            `email`,
+            `mobile`,
+            `hide_mobile`,
+            `position`,
+            `social_account`,
+            `last_active_time`,
+            `register_time`,
+            `alipay_account`,
+            `avatar`,
+            `biography`,
+            `state`,
+            `descriptions`,
+            `id_card`,
+            `professional`,
+            `tel`,
+            `fax`,
+            `tel2`,
+            `fax2`,
+            `mobile2`,
+            `sort`
+	     from 
+	       sys_user a left join sys_ext_user b on a.id = b.id
+	    where 
+	       `user_name` = #{userName} and `password` = #{passWord}
+	</select>
+	
+	
+	<update id="transform" parameterType ="map">
+		UPDATE	sys_user SET
+		`enabled` = #{state}
+		<where>
+			`id`  in
+			<foreach collection="ids" item="id" open="(" close=")" separator=",">
+				#{id}
+			</foreach>
+		</where>
+	</update>
+	
+	<!-- 查询全部 -->
+	<select id="findUserByAll" parameterType="java.lang.String" resultMap="baseMap">
+		<![CDATA[
+		 	SELECT 
+		 	su.`id`,
+		 	su.`user_name` ,
+		 	seu.`full_name`
+		 	from sys_user su inner join sys_ext_user seu on seu.id = su.id
+		 ]]>
+		 <where>
+		    <if test="orgIds != null and orgIds.length > 0">
+		        seu.org_id in 
+				<foreach collection="orgIds" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		    </if>
+		 </where>
+	</select>
+	
+	<!-- 根据用户姓名，机构名称，职位。获取该机构以及子级机构的所有用户 -->
+	<select id="findUserByOrgAndName"  resultMap="baseMap">
+		<![CDATA[
+		 	SELECT 
+		 	su.`id`,
+		 	su.`user_name` ,
+		 	seu.`full_name`,
+		 	seu.`position`,
+		 	seu.`mobile`,
+		 	bo.`hospital_name`,
+		 	bo.`hospital_id`
+		 	from sys_user su inner join sys_ext_user seu on seu.id = su.id left join biz_hospital bo  on  seu.org_id = bo.hospital_id
+		 ]]>
+		 <where>
+		     <!-- 排除超级管理员和咨询人员，机构管理员，区域管理员-->
+		 	 su.type != 0 AND su.type != 400  AND su.type != 100 AND  su.type != 200 
+		    <if test="orgIds != null and orgIds !=''">
+		      and seu.org_id in 
+				<foreach collection="orgIds" item="orgId" open="(" close=")" separator=",">
+					#{orgId}
+				</foreach>
+		    </if>
+		    <if test="fullName != null and fullName !=''">
+		      and   full_name like CONCAT('%',#{fullName},'%')
+		    </if>
+		    <if test="position != null and position !=''">
+		      and  position = #{position }
+		    </if>
+		 </where>
+	</select>
+	
+	<!-- 根据用户id数组查询用户 -->
+	<select id="findUserByIds"  resultMap="baseMap">
+		<![CDATA[
+		 	SELECT 
+		 	`id`,
+		 	`full_name`
+		 	from  sys_ext_user
+		 ]]>
+		 <where>
+		    <if test="ids != null and ids !=''">
+		       id in 
+				<foreach  collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+		    </if>
+		 </where>
+	</select>
+	<!-- 根据机构Id查询改机构下会员用户   分页 -->
+	<select id="findUserByOrgId"  resultMap="baseMap"  parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+	<![CDATA[
+		 	SELECT 
+		 	seu.`id`,
+		 	seu.`full_name`,
+		 	seu.`position`,
+		 	seu.`avatar`
+		 	from sys_user su inner join sys_ext_user seu on seu.id = su.id
+		]]>
+		 <where>
+		 	org_id =  '${whereParameters.orgId}' and su.type='300'
+		 </where>
+		 order by seu.position desc;
+	</select>
+	<!-- 根据机构Id查询改机构下所有会员用户  不分页 -->
+	<select id="findUserByOrgIdNoPage"  resultMap="baseMap" >
+	<![CDATA[
+		 	SELECT 
+		 	su.`user_name` ,
+		 	seu.`id`,
+		 	seu.`full_name`,
+		 	seu.`position`,
+		 	seu.`avatar`,
+		 	seu.`sort`
+		 	from sys_user su inner join sys_ext_user seu on seu.id = su.id
+		]]>
+		 <where>
+		     su.type='300' and su.`id` != #{userId} and org_id =  #{orgId}
+		 </where>
+		 order by seu.position desc;
+	</select>
+	<!-- 根据机构Ids查询改机构下所有会员用户 -->
+	<select id="findUserByOrgIds"  resultMap="baseMap">
+	<![CDATA[
+		 	SELECT 
+		 	seu.`id`,
+		 	seu.`full_name`,
+		 	seu.`position`,
+		 	seu.`avatar`
+		 	from sys_user su inner join sys_ext_user seu on seu.id = su.id  left join biz_hospital bo on seu.org_id = bo.hospital_id
+		]]>
+		   where  bo.parents_id like CONCAT('%',#{orgId},'%')  or bo.id =#{orgId}
+		 	and su.type='300'
+		 order by seu.position desc;
+	</select>
+	
+	<update id="changePassword" parameterType="map" >
+		UPDATE	
+			sys_user 
+		SET
+			`password` = #{newPwd}
+		<where>
+			`id`  = #{userId}
+			AND
+			password = #{oldPwd}
+		</where>
+	</update>
+	
+	<select id="findAllList" parameterType="map" resultMap="baseMap">
+		<![CDATA[
+		 	SELECT 
+			 	a.`id`,
+			 	`user_name`,
+			 	`password`,
+			 	`locked`,
+			 	`expire`,
+			 	`from`,
+			 	`token`,
+			 	`type`,
+			 	`open_id`,
+			 	a.`enabled`,
+			 	b.`group_id`,
+			 	`group_code`,
+			 	`group_name`,
+			 	d.`id` ext_id,
+			 	`full_name`,
+			 	`nick_name`,
+			 	`email`,
+			 	`last_active_time`,
+			 	`register_time`,
+			 	`state`,
+			 	`gender`,
+			 	g.`region_id`,
+			 	`format_code`,
+			 	e.`parent_id`,
+			 	`region_name`,
+			 	`position`,
+			 	d.`org_id`,
+			 	bo.`hospital_name`
+		 	FROM sys_user a
+		 	LEFT JOIN sys_user_group b
+		 	ON a.id = b.user_id
+		 	LEFT JOIN sys_group c
+		 	ON b.group_id = c.id
+		 	LEFT JOIN sys_ext_user d
+		 	ON a.id = d.id
+		 	LEFT JOIN sys_role_group f
+		 	ON c.id = f.group_id
+		 	LEFT JOIN sys_role g
+		 	ON	g.id = f.role_id
+		 	LEFT JOIN sys_region e
+		 	ON	e.id = g.region_id
+		 	LEFT JOIN biz_hospital bo
+		 	on d.org_id = bo.hospital_id
+		 ]]>
+	 	<where>
+	 		<if test="param.userType != '0'.toString()">
+	 			a.`type` != '0'
+	 			<if test="param.regionIds != null and param.regionIds.length > 0">
+	 			    AND g.`region_id` in
+					 <foreach collection="param.regionIds" item="regionId" open="(" separator="," close=")">
+					 		#{regionId}
+					 </foreach>
+	 			</if>
+	 			<if test="param.orgIds != null and param.orgIds.length > 0">
+	 			    AND d.`org_id` in
+					 <foreach collection="param.orgIds" item="orgId" open="(" separator="," close=")">
+					 		#{orgId}
+					 </foreach>
+	 			</if>
+			 </if>
+			 <if test="param.userName != null and param.userName != '' ">
+			 		AND
+			 		`user_name` like '%${param.userName}%'
+			 </if>
+			 <if test="param.groupName != null and param.groupName != '' ">
+			 		AND
+			 		`group_name` like '%${param.groupName}%'
+			 </if>
+			 <if test="param.regionName != null and param.regionName != '' ">
+			 		AND
+			 		`region_name` like '%${param.regionName}%'
+			 </if>
+	 	</where>
+		 <![CDATA[
+			ORDER BY d.register_time desc
+			]]>
+	</select>
+	<select id="getUsersByProfessional" parameterType="java.lang.String" resultMap="baseMap">
+	    select
+	    	seu.`id`,
+			seu.`full_name`,
+			seu.`org_id`,
+			seu.`nick_name`,
+			seu.`gender`,
+			seu.`email`,
+			seu.`mobile`,
+			seu.`last_active_time`,
+			seu.`register_time`,
+			seu.`avatar`,
+			seu.`descriptions`,
+			seu.`professional`,
+			su.`user_name`
+	    
+	     from sys_user su inner join sys_ext_user seu on seu.id = su.id 
+	     where professional = #{professional}
+	</select>
+	<select id="getProfessionals" resultType="java.lang.String">
+	    select `professional` from sys_ext_user seu INNER JOIN sys_user su on su.id = seu.id 
+	    where su.`type` = 400 and  seu.`professional` is not null and seu.`professional` != ''
+	</select>
+	<!-- 查询咨询人员列表 -->
+	<select id="findProList" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseMap">
+	    select
+	    	seu.`id`,
+			seu.`full_name`,
+			seu.`org_id`,
+			seu.`nick_name`,
+			seu.`gender`,
+			seu.`email`,
+			seu.`mobile`,
+			seu.`last_active_time`,
+			seu.`register_time`,
+			seu.`avatar`,
+			seu.`descriptions`,
+			seu.`professional`,
+			su.`user_name`
+	     from sys_user su inner join sys_ext_user seu on seu.id = su.id
+	     <where>
+	         su.`type` = 400
+	         <if test="whereParameters.userName != null and whereParameters.userName != '' ">
+			 	AND	`user_name` like '%${whereParameters.userName}%'
+			 </if>
+			 <if test="whereParameters.fullName != null and whereParameters.fullName != '' ">
+			 	AND	`full_name` like '%${whereParameters.fullName}%'
+			 </if>
+			 <if test="whereParameters.orgId != null and whereParameters.orgId != '' ">
+			 	AND	`org_id` = '${whereParameters.orgId}'
+			 </if>
+	     </where>
+	     order by seu.register_time
+	</select>
+	
+	<!-- 查询会计人员列表 -->
+	<select id="findAccountantList" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseMap">
+	    select
+	    	seu.`id`,
+			seu.`full_name`,
+			seu.`org_id`,
+			seu.`id_card`,
+			seu.`nick_name`,
+			seu.`gender`,
+			seu.`email`,
+			seu.`mobile`,
+			seu.`last_active_time`,
+			seu.`register_time`,
+			seu.`avatar`,
+			seu.`descriptions`,
+			seu.`professional`,
+			su.`user_name`,
+			su.`enabled`
+	     from sys_user su inner join sys_ext_user seu on seu.id = su.id 
+	     <where>
+	     	su.`type` = 500
+	     	<if test="whereParameters.userName != null and whereParameters.userName != '' ">
+	     		AND  locate(#{whereParameters.userName},su.`user_name`) > 0
+	     	</if>
+	     	<if test="whereParameters.fullName != null and whereParameters.fullName != '' ">
+	     		AND  locate(#{whereParameters.fullName},seu.`full_name`) > 0
+	     	</if>
+	     	<if test="whereParameters.nickName != null and whereParameters.nickName != '' ">
+	     		AND  locate(#{whereParameters.nickName},seu.`nick_name`) > 0
+	     	</if>
+	     </where>
+	     order by seu.register_time
+	</select>
+	<!-- 验证用户名是否存在 -->
+	<select id="validateUser" parameterType="java.lang.String" resultType="java.lang.Integer">
+		 select count(id) from sys_user where `user_name` = #{userName} 
+	</select>
+	<!-- 获取全部会员Id -->
+    <select id="findAllMembers" resultType="java.lang.String">
+        select id from sys_user where `type` = 300 
+    </select>
+    
+    <select id="findUserByOpenId" parameterType="map" resultMap="baseMap">
+    	<![CDATA[
+		 	SELECT
+				a.`id`,
+				a.`user_name`,
+				a.`password`,
+				a.`locked`,
+				a.`expire`,
+				a.`from`,
+				a.`token`,
+				a.`imie`,
+				a.`type`,
+				a.`enabled`,
+				a.`open_id`,
+				b.`full_name`,
+				b.`org_id`,
+				b.`nick_name`,
+				b.`gender`,
+				b.`email`,
+				b.`mobile`,
+				b.`hide_mobile`,
+				b.`position`,
+				b.`social_account`,
+				b.`last_active_time`,
+				b.`register_time`,
+				b.`alipay_account`,
+				b.`avatar`,
+				b.`biography`,
+				b.`state`,
+				b.`descriptions`,
+				b.`tel`,
+	            b.`fax`,
+	            b.`tel2`,
+	            b.`fax2`,
+	            b.`mobile2`,
+	            b.`sort`
+		 	FROM sys_user a
+		 	LEFT JOIN sys_ext_user b
+		 	ON a.`id` = b.`id`
+		 ]]>
+		 <where>
+		 	`open_id` = #{openId}
+		 </where>
+    </select>
+    
+    <select id="selectCount" parameterType="string" resultType="java.lang.Integer">
+    	<![CDATA[
+    		SELECT COUNT(1) FROM sys_user a LEFT JOIN sys_ext_user b ON a.`id` = b.`id`
+    	]]>
+    	<where>
+    		a.type = '300' AND b.org_id = #{hospitalId}
+    	</where>
+    </select>
+    
+    
+    <select id="findUsersByPage" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseMap">
+		<![CDATA[
+		 	SELECT 
+			 	a.`id`,
+			 	`user_name`,
+			 	`password`,
+			 	`locked`,
+			 	`expire`,
+			 	`from`,
+			 	`token`,
+			 	`type`,
+			 	`open_id`,
+			 	a.`enabled`,
+			 	b.`group_id`,
+			 	`group_code`,
+			 	`group_name`,
+			 	d.`id` ext_id,
+			 	`full_name`,
+			 	`nick_name`,
+			 	`email`,
+			 	`last_active_time`,
+			 	`register_time`,
+			 	`state`,
+			 	`gender`,
+			 	g.`region_id`,
+			 	`format_code`,
+			 	e.`parent_id`,
+			 	`region_name`,
+			 	`position`,
+			 	d.`org_id`,
+			 	bo.`hospital_name`
+		 	FROM sys_user a
+		 	LEFT JOIN sys_user_group b
+		 	ON a.id = b.user_id
+		 	LEFT JOIN sys_group c
+		 	ON b.group_id = c.id
+		 	LEFT JOIN sys_ext_user d
+		 	ON a.id = d.id
+		 	LEFT JOIN sys_role_group f
+		 	ON c.id = f.group_id
+		 	LEFT JOIN sys_role g
+		 	ON	g.id = f.role_id
+		 	LEFT JOIN sys_region e
+		 	ON	e.id = g.region_id
+		 	LEFT JOIN biz_hospital bo
+		 	on d.org_id = bo.hospital_id
+		 ]]>
+	 	<where>
+	 		<if test="whereParameters.userType != '0'.toString()">
+	 			a.`type` != '0'
+	 			<if test="whereParameters.regionIds != null and whereParameters.regionIds.length > 0">
+	 			    AND g.`region_id` in
+					 <foreach collection="whereParameters.regionIds" item="regionId" open="(" separator="," close=")">
+					 		#{regionId}
+					 </foreach>
+	 			</if>
+	 			<if test="whereParameters.orgIds != null and whereParameters.orgIds.length > 0">
+	 			    AND d.`org_id` in
+					 <foreach collection="whereParameters.orgIds" item="orgId" open="(" separator="," close=")">
+					 		#{orgId}
+					 </foreach>
+	 			</if>
+			 </if>
+			 <if test="whereParameters.userName != null and whereParameters.userName != '' ">
+			 		AND
+			 		`user_name` like '%${whereParameters.userName}%'
+			 </if>
+			 <if test="whereParameters.groupName != null and whereParameters.groupName != '' ">
+			 		AND
+			 		`group_name` like '%${whereParameters.groupName}%'
+			 </if>
+			 <if test="whereParameters.regionName != null and whereParameters.regionName != '' ">
+			 		AND
+			 		`region_name` like '%${whereParameters.regionName}%'
+			 </if>
+	 	</where>
+		 <![CDATA[
+			ORDER BY d.register_time desc
+			]]>
+	</select>
+    
+    
+</mapper>

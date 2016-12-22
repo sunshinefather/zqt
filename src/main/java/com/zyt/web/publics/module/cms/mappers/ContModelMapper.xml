@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.cms.dao.ContModelDao">
+ 	<resultMap id="baseResult" type="ContModel">
+			<id property="id" column="id" />
+			<result property="hospitalId" column="hospital_id" />
+			<result property="name" column="name" />
+			<result property="parentId" column="parent_id" />
+			<result property="navigateId" column="navigate_id" />
+			<result property="levelSeq" column="level_seq" />
+			<result property="levelIndex" column="level_index" />
+			<result property="formatCode" column="format_code" />
+			<result property="str1" column="str1" />
+			<result property="str2" column="str2" />
+			<result property="navigateName" column="navigate_name"/>
+
+	</resultMap>
+	<sql id="columns">
+		`id`,`hospital_id`,`name`,`parent_id`,`navigate_id`,`level_seq`,`level_index`,`format_code`,`str1`,`str2`
+	</sql>
+	
+	<insert id="insert" parameterType="ContModel">
+		 <![CDATA[
+            insert into cont_model( `id`,`hospital_id`,`name`,`parent_id`,`navigate_id`,`level_seq`,`level_index`,`format_code`,`str1`,`str2` ) values (#{id},#{hospitalId},#{name},#{parentId},#{navigateId},#{levelSeq},#{levelIndex},#{formatCode},#{str1},#{str2} )
+	     ]]>
+	</insert>
+	
+	<select id="findObjectById" parameterType="String" resultMap="baseResult">
+		select `id`,`hospital_id`,`name`,`parent_id`,`navigate_id`,`level_seq`,`level_index`,`format_code`,`str1`,`str2` from cont_model 
+		where
+		id=#{id}
+	</select>
+	
+	<select id="findList" resultMap="baseResult" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
+		select b.*,a.`name` as  navigate_name from navigate a JOIN cont_model b on a.id=b.navigate_id
+		<if test="whereParameters!=null and whereParameters.size()>0">
+			<where>
+			<if test="whereParameters.hospitalId !=null and whereParameters.hospitalId !='' ">
+				 and b.`hospital_id`=#{whereParameters.hospitalId}
+			</if>
+			<if test="whereParameters.name !=null and whereParameters.name !='' ">
+				 and b.`name`=#{whereParameters.name}
+			</if>
+			<if test="whereParameters.parentId !=null and whereParameters.parentId !='' ">
+				 and b.`parent_id`=#{whereParameters.parentId}
+			</if>
+			<if test="whereParameters.navigateId !=null and whereParameters.navigateId !='' ">
+				 and b.`navigate_id`=#{whereParameters.navigateId}
+			</if>
+			</where> 
+		</if>
+        order by b.`level_seq`
+	</select>
+	<select id="loadList" parameterType="ContModel" resultMap="baseResult">
+	   	select `id`,`hospital_id`,`name`,`parent_id`,`navigate_id`,`level_seq`,`level_index`,`format_code`,`str1`,`str2` from cont_model
+		<where>
+			<if test="id !=null and id !='' ">
+				 and `id`=#{id}
+			</if>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				 and `hospital_id`=#{hospitalId}
+			</if>
+			<if test="name !=null and name !='' ">
+				 and `name`=#{name}
+			</if>
+			<if test="parentId !=null and parentId !='' ">
+				 and `parent_id`=#{parentId}
+			</if>
+			<if test="navigateId !=null and navigateId !='' ">
+				 and `navigate_id`=#{navigateId}
+			</if>
+			<if test="levelSeq !=null and levelSeq !='' ">
+				 and `level_seq`=#{levelSeq}
+			</if>
+			<if test="levelIndex !=null and levelIndex !='' ">
+				 and `level_index`=#{levelIndex}
+			</if>
+			<if test="formatCode !=null and formatCode !='' ">
+				 and `format_code`=#{formatCode}
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				 and `str1`=#{str1}
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				 and `str2`=#{str2}
+			</if>
+
+		</where> 
+        order by `level_seq`
+	</select>
+	<update id="update" parameterType="ContModel">
+		update cont_model 
+		<set>
+			<if test="hospitalId !=null and hospitalId !='' ">
+				hospital_id=#{hospitalId},
+			</if>
+			<if test="name !=null and name !='' ">
+				name=#{name},
+			</if>
+			<if test="parentId !=null and parentId !='' ">
+				parent_id=#{parentId},
+			</if>
+			<if test="navigateId !=null and navigateId !='' ">
+				navigate_id=#{navigateId},
+			</if>
+			<if test="levelSeq !=null and levelSeq !='' ">
+				level_seq=#{levelSeq},
+			</if>
+			<if test="levelIndex !=null and levelIndex !='' ">
+				level_index=#{levelIndex},
+			</if>
+			<if test="formatCode !=null and formatCode !='' ">
+				format_code=#{formatCode},
+			</if>
+			<if test="str1 !=null and str1 !='' ">
+				str1=#{str1},
+			</if>
+			<if test="str2 !=null and str2 !='' ">
+				str2=#{str2},
+			</if>
+		</set>
+	 where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from cont_model where id in 
+	   <foreach collection="array" close=")" open="(" separator="," item="item">
+		      #{item}
+	   </foreach>
+	</delete>
+	<select id="maxid" resultType="int">
+	    select max(id) id from cont_model
+	</select>
+	<select id="validate" parameterType="ContModel" resultType="int">
+      select count(1) as ct from cont_model 
+        <where>
+           <include refid="other_condition"/>
+        </where>
+    </select>
+ 	<sql id="other_condition">
+			<if test="id != null and id != '' " >  and id=#{id}</if>
+			<if test="hospitalId != null and hospitalId != '' " >  and hospital_id=#{hospitalId}</if>
+			<if test="name != null and name != '' " >  and name=#{name}</if>
+			<if test="parentId != null and parentId != '' " >  and parent_id=#{parentId}</if>
+			<if test="navigateId != null and navigateId != '' " >  and navigate_id=#{navigateId}</if>
+			<if test="levelSeq != null and levelSeq != '' " >  and level_seq=#{levelSeq}</if>
+			<if test="levelIndex != null and levelIndex != '' " >  and level_index=#{levelIndex}</if>
+			<if test="formatCode != null and formatCode != '' " >  and format_code=#{formatCode}</if>
+			<if test="str1 != null and str1 != '' " >  and str1=#{str1}</if>
+			<if test="str2 != null and str2 != '' " >  and str2=#{str2}</if>
+
+ 	</sql>
+</mapper>

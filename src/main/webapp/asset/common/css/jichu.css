@@ -1,0 +1,37 @@
+/*初始化*/
+body,html,div,a,p,ul,table,tr,td,li,img{
+    margin: 0;padding: 0;
+}
+body{
+    color: black;
+    font-size: 14px;
+    font-family: "微软雅黑";
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+.box{
+    width: 100%;
+    height: auto;
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+}
+/*
+内容区*/
+.box li{
+    padding-left: 20px;
+    line-height: 35px;
+    background: #efefef;
+    border-bottom: 1px solid #b9b9b9;
+}
+.box_content_xiangqing{
+    float: right;
+    margin-right: 30px;
+    color: #4871e2;
+    cursor: pointer;
+}

@@ -1,0 +1,83 @@
+body {background:#f4f4f4; color:#141414; font-family:'Tahoma','Open Sans', 'Microsoft YaHei', 'Arial';padding: 0px !important; margin: 0px !important;font-size:12.5px}
+ul, ol {list-style: none outside none; list-style-type:none; padding:0; margin:0}
+a,input{outline:none;}
+li > .controls {display: inline-block}
+
+.search-form { float:left; display:block; margin-bottom:12px}
+.search-form-bg {background:#faf8f0; border:1px solid #faebcc; border-radius:2px; padding:7px 0}
+.search-form > li {display: inline-block; box-sizing: border-box; padding-top:4px; padding-bottom:2px; position: relative; float: left; margin-right:4px}
+.search-form > li > label {font-weight:300; float: left;text-align: right; color:#666; display: inline-block; margin-right:8px; margin-top:5px; font-size:12px; min-width:80px}
+.search-form > li input {padding:2px 6px 3px!important}
+.form-drop span { margin-left:-18px}
+
+
+.form-lg {float:left; display:block; margin-bottom:12px}
+.form-lg ul {margin:20px}
+.form-lg ul > li > label {float: left;text-align: right; color:#333; display: inline-block; margin-right:8px; margin-top:7px; font-size:12px; min-width:80px}
+.form-lg ul > li  input { width:300px}
+.form-lg ul > li {margin-top:18px}
+.form-lg ul > li span.tp_txt {display: block; width: 500px; line-height: 16px;
+padding-top: 6px; color: #999; font-size:12px}
+
+.page-container {position:absolute;_position:relative;z-index:2;top:63px;right:0;bottom:0;left:0;_height:100%;margin:0; background:#f4f4f4;}
+.page-sidebar {position:absolute; top:0; bottom:0;left:0; float:left; width:210px;_height:100%; overflow:hidden;}
+.page-content {position:absolute; top:0;right:0; bottom:0; left:210px;overflow:auto;_height:100%; background:#fff; box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.06);min-width:77px; overflow-x:hidden;box-shadow:0 0px 1px #c3c3c3}
+
+.page-content iframe {position:absolute;top:0;left:0;width:100%;height:100%}
+
+.stickup {background:#FFF; z-index:800}
+.isStuck {right:0; left:0;}
+.mxlogo {background:#1570a5; height:62px; border-bottom:1px solid #115e8a}
+.mxlogo a {color:#fff !important}
+
+
+/***table***/
+.table-cont {margin:0 15px}
+.table input[type="checkbox"] {border:0; background:none; padding:0}
+.table tr th {font-size:12px; font-weight:300; border-bottom: 1px solid #d9d9d9; color:#666; background:#f8f8f8; background-image:linear-gradient(to bottom,#f9f9f9,#f6f6f6)}
+.table tr td {border-bottom: 1px solid #e2e2e2;border-top:1px solid #e2e2e2;}
+.table tr:first-child td {border-top:#fff!important}
+.table .cur td {background:#f1f8fd}
+.table input[type="checkbox"] {margin-top:3px}
+.table-no-th {border-top:1px solid #fff; margin-top:0}
+.table span.filename {display:block; color:#004890}
+.table span.description {display:block; color:#333; overflow: hidden; padding-top:4px}
+.table span.keyword {display:block; color:#333; overflow: hidden; padding-top:4px}
+.table span.keyword b {color:#d23522; font-weight:400}
+.table-sm tr th{padding-top:4px!important; padding-bottom:3px!important}
+.table-sm input {padding:4px; margin:0; margin-top:-2px;box-shadow:none}
+.table-sm input.nostyle {border:none; cursor:default; box-shadow:none}
+
+
+
+/***page-content-title***/
+.breadcrumb {border-radius:0; margin-bottom:0; border-bottom:1px solid #eaeaea; height:39px; color:#555; padding:0 10px; line-height:38px}
+.breadcrumb li i {margin-right:2px; margin-top:5px}
+.breadcrumb > li + li:before {color: #aaa; font-size:16px; content: url(../image/breadcrumb_before.png)}
+.date-range { background:#fff; padding:6px 12px 5px; border-radius:2px; margin-top:-3px; color:#ff8b62; border:1px solid #cfcfcf}
+
+.headroom {position: fixed;top: 0;left: 0;right: 0; z-index:1000} 
+
+.contpad-15 {margin:12px 15px;clear:both}
+.contpad-15-nomar {margin:0 15px; overflow:hidden}
+.contpad-15-nomar table {margin:0 auto; padding:0;}
+
+/***pages***/
+.holder {margin: 15px 0;}
+.holder a {cursor: pointer;margin: 0 1px;color: #333; border:1px solid #d7d7d7; background:#f6f5f5; border-radius:2px; padding:5px 10px; text-decoration:none}
+.holder a:hover {background-color: #ebebeb; border-color:#b9b9b9; color: #2a2a2a;}
+
+.holder a.jp-previous { margin-right: 10px}
+.holder a.jp-next { margin-left: 10px}
+.holder a.jp-current, a.jp-current:hover { color: #fff; font-weight: bold; background:#2d78a0; border-color:#2d78a0}
+.holder a.jp-current, a.jp-current:hover {cursor: default}
+.holder a.jp-disabled, a.jp-disabled:hover {color:#bbb; background-color:#f6f5f5; border-color:#d7d7d7}
+.holder a.jp-display {display:none}
+.holder span { margin: 0 3px; }
+
+/***txet spacing***/
+.spacing1 {letter-spacing:1em}
+.spacing2 {letter-spacing:1.5em}
+.spacing3 {letter-spacing:2em}
+.spacing4 {letter-spacing:3em}
+.spacing5 {letter-spacing:4em}

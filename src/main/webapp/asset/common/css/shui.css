@@ -1,0 +1,49 @@
+
+/*水*/
+
+.shui_nav li{
+    float: left;
+    display: block;
+    width: 150px;
+    border: 1px solid #f6f6f6;
+    text-align: center;
+    line-height: 40px;
+    background: #2baff1;
+    cursor: pointer;
+}
+.shui_nav li a{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.shui_nav li a:hover{
+   background: #2084da;
+}
+.shui_body{
+    width: 100%;
+    height: 600px;
+    margin-top:50px;
+}
+.shui_body iframe{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.shui_twoji{
+    display: none;
+}
+.shui_li:hover .shui_twoji{
+    display: block;
+}
+/*
+供水管网图*/
+.title{
+    line-height: 40px;
+    padding-left: 20px;
+}
+.dangqian{
+    color: #2890e9;
+}
+.xuanzhong{
+    background:#2084da ;
+}

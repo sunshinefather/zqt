@@ -1,0 +1,47 @@
+.box table tr {
+    background: none;
+}
+
+.box table tr td {
+    width: auto;
+}
+
+.box table tr td:first-child {
+    width: 150px;
+    text-align: right;
+}
+
+.box table tr td:last-child {
+    text-align: left;
+    padding: 5px;
+    padding-left: 10px;
+}
+td .daolu_kuangimg {
+    width: 200px;
+    height: 130px;
+    text-align: center;
+}
+
+td .daolu_kuangimg img {
+    width: auto;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
+    cursor: pointer;
+}
+textarea{
+    height: 80px;
+}
+td{
+    border: none;
+}
+.delete_file{
+    display: none;
+    font-size: 16px;
+    color: red;
+    font-weight: bolder;
+    line-height: 20px;
+    cursor: pointer;
+    float: left;
+    margin-top: 2px;
+}
