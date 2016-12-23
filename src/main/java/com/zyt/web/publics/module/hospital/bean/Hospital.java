@@ -125,8 +125,37 @@ public class Hospital implements Serializable {
 	private String highSalaryEnd;//高薪企业结束时间
 	private String registeredCapital;//注册资本
 	private String bln;//营业执照号
+	private String blnImg;//营业执照证件
 	private String peoples;//企业人数
 	private String technicalPatent;//技术专利
+	private String shuiwuDJ;//税务登记证号码
+	private String shuiwuDJImg;//税务登记证图
+	private String orgNum;//组织机构代码
+	private String orgImg;//组织机构图
+	private String officeAdd;//办公地址
+	private String industryCategory;//行业分类
+	private String manageCategorry;//管理分类
+	
+	private String guotut1;//国土证时间1
+	private String guotumj1;//国土证面积1
+	private String guotuNum1;//国土证1土体证号
+	
+	private String guotut2;//国土证时间1
+	private String guotumj2;//国土证面积1
+	private String guotuNum2;//国土证1土体证号
+	
+	private String guotut3;//国土证时间1
+	private String guotumj3;//国土证面积1
+	private String guotuNum3;//国土证1土体证号
+	
+	private String guotut4;//国土证时间1
+	private String guotumj4;//国土证面积1
+	private String guotuNum4;//国土证1土体证号
+	
+	private String guotut5;//国土证时间1
+	private String guotumj5;//国土证面积1
+	private String guotuNum5;//国土证1土体证号
+	
 	private List<AgencyOverview> agencyOverviews;
 
 	public String getHospitalId() {
@@ -371,6 +400,350 @@ public class Hospital implements Serializable {
 
 	public void setTechnicalPatent(String technicalPatent) {
 		this.technicalPatent = technicalPatent;
+	}
+
+	/**  
+	 * @Title:  getBlnImg <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getBlnImg() {
+		return blnImg;
+	}
+
+	/**  
+	 * @Title:  setBlnImg <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setBlnImg(String blnImg) {
+		this.blnImg = blnImg;
+	}
+
+	/**  
+	 * @Title:  getShuiwuDJ <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getShuiwuDJ() {
+		return shuiwuDJ;
+	}
+
+	/**  
+	 * @Title:  setShuiwuDJ <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setShuiwuDJ(String shuiwuDJ) {
+		this.shuiwuDJ = shuiwuDJ;
+	}
+
+	/**  
+	 * @Title:  getShuiwuDJImg <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getShuiwuDJImg() {
+		return shuiwuDJImg;
+	}
+
+	/**  
+	 * @Title:  setShuiwuDJImg <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setShuiwuDJImg(String shuiwuDJImg) {
+		this.shuiwuDJImg = shuiwuDJImg;
+	}
+
+	/**  
+	 * @Title:  getOrgNum <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getOrgNum() {
+		return orgNum;
+	}
+
+	/**  
+	 * @Title:  setOrgNum <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setOrgNum(String orgNum) {
+		this.orgNum = orgNum;
+	}
+
+	/**  
+	 * @Title:  getOrgImg <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getOrgImg() {
+		return orgImg;
+	}
+
+	/**  
+	 * @Title:  setOrgImg <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setOrgImg(String orgImg) {
+		this.orgImg = orgImg;
+	}
+
+	/**  
+	 * @Title:  getOfficeAdd <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getOfficeAdd() {
+		return officeAdd;
+	}
+
+	/**  
+	 * @Title:  setOfficeAdd <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setOfficeAdd(String officeAdd) {
+		this.officeAdd = officeAdd;
+	}
+
+	/**  
+	 * @Title:  getIndustryCategory <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getIndustryCategory() {
+		return industryCategory;
+	}
+
+	/**  
+	 * @Title:  setIndustryCategory <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setIndustryCategory(String industryCategory) {
+		this.industryCategory = industryCategory;
+	}
+
+	/**  
+	 * @Title:  getManageCategorry <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getManageCategorry() {
+		return manageCategorry;
+	}
+
+	/**  
+	 * @Title:  setManageCategorry <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setManageCategorry(String manageCategorry) {
+		this.manageCategorry = manageCategorry;
+	}
+
+	/**  
+	 * @Title:  getGuotut1 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotut1() {
+		return guotut1;
+	}
+
+	/**  
+	 * @Title:  setGuotut1 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotut1(String guotut1) {
+		this.guotut1 = guotut1;
+	}
+
+	/**  
+	 * @Title:  getGuotumj1 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotumj1() {
+		return guotumj1;
+	}
+
+	/**  
+	 * @Title:  setGuotumj1 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotumj1(String guotumj1) {
+		this.guotumj1 = guotumj1;
+	}
+
+	/**  
+	 * @Title:  getGuotuNum1 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotuNum1() {
+		return guotuNum1;
+	}
+
+	/**  
+	 * @Title:  setGuotuNum1 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotuNum1(String guotuNum1) {
+		this.guotuNum1 = guotuNum1;
+	}
+
+	/**  
+	 * @Title:  getGuotut2 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotut2() {
+		return guotut2;
+	}
+
+	/**  
+	 * @Title:  setGuotut2 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotut2(String guotut2) {
+		this.guotut2 = guotut2;
+	}
+
+	/**  
+	 * @Title:  getGuotumj2 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotumj2() {
+		return guotumj2;
+	}
+
+	/**  
+	 * @Title:  setGuotumj2 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotumj2(String guotumj2) {
+		this.guotumj2 = guotumj2;
+	}
+
+	/**  
+	 * @Title:  getGuotuNum2 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotuNum2() {
+		return guotuNum2;
+	}
+
+	/**  
+	 * @Title:  setGuotuNum2 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotuNum2(String guotuNum2) {
+		this.guotuNum2 = guotuNum2;
+	}
+
+	/**  
+	 * @Title:  getGuotut3 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotut3() {
+		return guotut3;
+	}
+
+	/**  
+	 * @Title:  setGuotut3 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotut3(String guotut3) {
+		this.guotut3 = guotut3;
+	}
+
+	/**  
+	 * @Title:  getGuotumj3 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotumj3() {
+		return guotumj3;
+	}
+
+	/**  
+	 * @Title:  setGuotumj3 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotumj3(String guotumj3) {
+		this.guotumj3 = guotumj3;
+	}
+
+	/**  
+	 * @Title:  getGuotuNum3 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotuNum3() {
+		return guotuNum3;
+	}
+
+	/**  
+	 * @Title:  setGuotuNum3 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotuNum3(String guotuNum3) {
+		this.guotuNum3 = guotuNum3;
+	}
+
+	/**  
+	 * @Title:  getGuotut4 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotut4() {
+		return guotut4;
+	}
+
+	/**  
+	 * @Title:  setGuotut4 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotut4(String guotut4) {
+		this.guotut4 = guotut4;
+	}
+
+	/**  
+	 * @Title:  getGuotumj4 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotumj4() {
+		return guotumj4;
+	}
+
+	/**  
+	 * @Title:  setGuotumj4 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotumj4(String guotumj4) {
+		this.guotumj4 = guotumj4;
+	}
+
+	/**  
+	 * @Title:  getGuotuNum4 <BR>    
+	 * @return: String <BR>  
+	 */
+	public String getGuotuNum4() {
+		return guotuNum4;
+	}
+
+	/**  
+	 * @Title:  setGuotuNum4 <BR>   
+	 * @return: String <BR> 
+	 */
+	public void setGuotuNum4(String guotuNum4) {
+		this.guotuNum4 = guotuNum4;
+	}
+
+	public String getGuotut5() {
+		return guotut5;
+	}
+
+	public void setGuotut5(String guotut5) {
+		this.guotut5 = guotut5;
+	}
+
+	public String getGuotumj5() {
+		return guotumj5;
+	}
+
+	public void setGuotumj5(String guotumj5) {
+		this.guotumj5 = guotumj5;
+	}
+
+	public String getGuotuNum5() {
+		return guotuNum5;
+	}
+
+	public void setGuotuNum5(String guotuNum5) {
+		this.guotuNum5 = guotuNum5;
 	}
 	
 }

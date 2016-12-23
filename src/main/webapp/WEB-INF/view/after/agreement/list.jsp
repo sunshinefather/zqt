@@ -8,9 +8,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>政企通管理系统</title>
-<meta name="description" content="政企通管理系统" />
-<meta name="keywords" content="政企通管理系统" />
+<title>企业协议约定</title>
+<meta name="description" content="企业协议约定" />
+<meta name="keywords" content="企业协议约定" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/common/css/layout.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/common/css/pop.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/common/css/combo.select.css"/>

@@ -4,10 +4,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="zh-cn">
 <head>
-<title>掌宇通系统管理</title>
+<title>企业产品信息</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="掌宇通系统管理" />
-<meta name="keywords" content="掌宇通系统管理" />
+<meta name="description" content="企业产品信息" />
+<meta name="keywords" content="企业产品信息" />
 <link rel="stylesheet" href="<c:url value="/asset/common/css/layout.css"/>" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="/asset/common/css/module.css"/>" type="text/css"/>
 <link rel="stylesheet" href="<c:url value="/asset/common/scripts/zTree_v3/css/zTreeStyle/zTreeStyle.css"/>" />

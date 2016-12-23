@@ -28,6 +28,29 @@
 		<result column="logo" property="logo"/>
 		<result column="has_child" property="hasChild"/>
 		<result column="sort" property="sort"/>
+		<result column="blnImg" property="blnImg"/>
+		<result column="shuiwuDJ" property="shuiwuDJ"/>
+		<result column="shuiwuDJImg" property="shuiwuDJImg"/>
+		<result column="orgNum" property="orgNum"/>
+		<result column="orgImg" property="orgImg"/>
+		<result column="officeAdd" property="officeAdd"/>
+		<result column="industryCategory" property="industryCategory"/>
+		<result column="manageCategorry" property="manageCategorry"/>
+		<result column="guotut1" property="guotut1"/>
+		<result column="guotut2" property="guotut2"/>
+		<result column="guotut3" property="guotut3"/>
+		<result column="guotut4" property="guotut4"/>
+		<result column="guotut5" property="guotut5"/>
+		<result column="guotumj1" property="guotumj1"/>
+		<result column="guotumj2" property="guotumj2"/>
+		<result column="guotumj3" property="guotumj3"/>
+		<result column="guotumj4" property="guotumj4"/>
+		<result column="guotumj5" property="guotumj5"/>
+		<result column="guotuNum1" property="guotuNum1"/>
+		<result column="guotuNum2" property="guotuNum2"/>
+		<result column="guotuNum3" property="guotuNum3"/>
+		<result column="guotuNum4" property="guotuNum4"/>
+		<result column="guotuNum5" property="guotuNum5"/>
 	</resultMap>
 	
 	<select id="getHospitals" resultMap="baseMap" parameterType="map">
@@ -70,7 +93,14 @@
 	</select>
 		
 	<insert id="insertHospital" parameterType="Hospital">
-	    insert into biz_hospital values(#{hospitalId},#{hospitalName},#{hospitalType},#{isHighSalary},#{highSalaryStart},#{highSalaryEnd},#{createDate},#{registeredCapital},#{contact},#{contact2},#{contactPhone},#{contactPhone2},#{address},#{bln},#{peoples},#{technicalPatent},#{introduction},#{parentId},#{parentsId},#{grade},#{regionId},#{lng},#{lat},#{logo},#{hasChild},#{sort})
+	    insert into biz_hospital values(#{hospitalId},#{hospitalName},#{hospitalType},#{isHighSalary},
+	    #{highSalaryStart},#{highSalaryEnd},#{createDate},#{registeredCapital},#{contact},#{contact2},
+	    #{contactPhone},#{contactPhone2},#{address},#{bln},#{peoples},#{technicalPatent},#{introduction},
+	    #{parentId},#{parentsId},#{grade},#{regionId},#{lng},#{lat},#{logo},#{hasChild},#{sort},
+	    #{blnImg},#{shuiwuDJ},#{shuiwuDJImg},#{orgNum},#{orgImg},#{officeAdd},#{industryCategory},#{manageCategorry},
+	    #{guotut1},#{guotumj1},#{guotuNum1},#{guotut2},#{guotumj2},#{guotuNum2},#{guotut3},#{guotumj3},#{guotuNum3},#{guotut4},
+	    #{guotumj4},#{guotuNum4},#{guotut5},#{guotumj5},#{guotuNum5}
+	    )
 	</insert>
 	
 	<update id="updateHospital" parameterType="Hospital">
@@ -122,6 +152,75 @@
 	    </if>
 	      <if test="technicalPatent != null and technicalPatent != ''">
 	        ,technicalPatent = #{technicalPatent}
+	    </if>
+	      <if test="blnImg != null and blnImg != ''">
+	        ,blnImg = #{blnImg}
+	    </if>
+	      <if test="shuiwuDJ != null and shuiwuDJ != ''">
+	        ,shuiwuDJ = #{shuiwuDJ}
+	    </if>
+	      <if test="shuiwuDJImg != null and shuiwuDJImg != ''">
+	        ,shuiwuDJImg = #{shuiwuDJImg}
+	    </if>
+	      <if test="orgNum != null and orgNum != ''">
+	        ,orgNum = #{orgNum}
+	    </if>
+	      <if test="orgImg != null and orgImg != ''">
+	        ,orgImg = #{orgImg}
+	    </if>
+	      <if test="officeAdd != null and officeAdd != ''">
+	        ,officeAdd = #{officeAdd}
+	    </if>
+	      <if test="industryCategory != null and industryCategory != ''">
+	        ,industryCategory = #{industryCategory}
+	    </if>
+	      <if test="manageCategorry != null and manageCategorry != ''">
+	        ,manageCategorry = #{manageCategorry}
+	    </if>
+	      <if test="guotut1 != null and guotut1 != ''">
+	        ,guotut1 = #{guotut1}
+	    </if>
+	      <if test="guotumj1 != null and guotumj1 != ''">
+	        ,guotumj1 = #{guotumj1}
+	    </if>
+	      <if test="guotuNum1 != null and guotuNum1 != ''">
+	        ,guotuNum1 = #{guotuNum1}
+	    </if>
+	      <if test="guotut2 != null and guotut2 != ''">
+	        ,guotut2 = #{guotut2}
+	    </if>
+	      <if test="guotumj2 != null and guotumj2 != ''">
+	        ,guotumj2 = #{guotumj2}
+	    </if>
+	      <if test="guotuNum2 != null and guotuNum2 != ''">
+	        ,guotuNum2 = #{guotuNum2}
+	    </if>
+	      <if test="guotut3 != null and guotut3 != ''">
+	        ,guotut3 = #{guotut3}
+	    </if>
+	      <if test="guotumj3 != null and guotumj3 != ''">
+	        ,guotumj3 = #{guotumj3}
+	    </if>
+	      <if test="guotuNum3 != null and guotuNum3 != ''">
+	        ,guotuNum3 = #{guotuNum3}
+	    </if>
+	      <if test="guotut4 != null and guotut4 != ''">
+	        ,guotut4 = #{guotut4}
+	    </if>
+	      <if test="guotumj4 != null and guotumj4 != ''">
+	        ,guotumj4 = #{guotumj4}
+	    </if>
+	      <if test="guotuNum4 != null and guotuNum4 != ''">
+	        ,guotuNum4 = #{guotuNum4}
+	    </if>
+	      <if test="guotut5 != null and guotut5 != ''">
+	        ,guotut5 = #{guotut5}
+	    </if>
+	      <if test="guotumj5 != null and guotumj5 != ''">
+	        ,guotumj5 = #{guotumj5}
+	    </if>
+	    <if test="guotuNum5 != null and guotuNum5 != ''">
+	        ,guotuNum5 = #{guotuNum5}
 	    </if>
 	    where hospital_id = #{hospitalId}
 	</update>
@@ -276,6 +375,18 @@
 		     	</if>
 		     	<if test="whereParameters.hospitalType != null and whereParameters.hospitalType != '' ">
 		     		AND  locate(#{whereParameters.hospitalType},`hospital_type`) > 0
+		     	</if>
+		     	<if test="whereParameters.contact != null and whereParameters.contact != '' ">
+		     		AND  locate(#{whereParameters.contact},`contact`) > 0
+		     	</if>
+		     	<if test="whereParameters.contactPhone != null and whereParameters.contactPhone != '' ">
+		     		AND  locate(#{whereParameters.contactPhone},`contact_phone`) > 0
+		     	</if>
+		     	<if test="whereParameters.createDate != null and whereParameters.createDate != '' ">
+		     		<![CDATA[ AND  `create_date` >= #{whereParameters.createDate} ]]>
+		     	</if>
+		     	<if test="whereParameters.createDate1 != null and whereParameters.createDate1 != '' ">
+		     		<![CDATA[ AND `create_date` <=#{whereParameters.createDate1} ]]>
 		     	</if>
         </where>
         <![CDATA[

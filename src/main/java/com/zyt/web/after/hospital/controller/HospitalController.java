@@ -1,11 +1,15 @@
 package com.zyt.web.after.hospital.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +18,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zyt.web.after.config.service.SysConfigService;
 import com.zyt.web.after.hospital.service.HospitalService;
 import com.zyt.web.after.sysmanager.service.IRegionService;
 import com.zyt.web.after.sysmanager.service.IUserService;
 import com.zyt.web.publics.base.BaseController;
 import com.zyt.web.publics.base.JsonEntity;
 import com.zyt.web.publics.base.mybatis.pagination.PaginationAble;
+import com.zyt.web.publics.module.config.bean.SysConfig;
 import com.zyt.web.publics.module.hospital.bean.Hospital;
 import com.zyt.web.publics.module.sysmanager.bean.Region;
 import com.zyt.web.publics.module.sysmanager.bean.User;
@@ -31,10 +38,15 @@ public class HospitalController extends BaseController {
 
 	@Autowired
 	private HospitalService hospitalService;
+	
 	@Autowired
 	IRegionService regionService;
+	
 	@Autowired
 	IUserService userService;
+	
+	@Resource
+	private SysConfigService sysConfigService;
 	
 	@RequestMapping(value = "/index")
 	public String index() {
@@ -138,11 +150,35 @@ public class HospitalController extends BaseController {
 
 	@RequestMapping(value = "/add")
 	public String add(Model model) {
+		List<String> list=new ArrayList<String>();
+		SysConfig scf = sysConfigService.getConfigById("industry_categorys");
+		if(scf!=null && StringUtils.isNotEmpty(scf.getConfigValue())){
+			String[] objs= scf.getConfigValue().split(",");
+			for(String obj: objs){
+				String[] str= obj.split(":");
+				if(str.length==2){
+					list.add(str[1].replaceAll("\"",""));
+				}
+			}
+		}
+		model.addAttribute("listcaty",list);
 		return "after/hospital/add";
 	}
 
 	@RequestMapping(value = "/edit/{id}")
 	public String query(Model model, @PathVariable String id) {
+		List<String> list=new ArrayList<String>();
+		SysConfig scf = sysConfigService.getConfigById("industry_categorys");
+		if(scf!=null && StringUtils.isNotEmpty(scf.getConfigValue())){
+			String[] objs= scf.getConfigValue().split(",");
+			for(String obj: objs){
+				String[] str= obj.split(":");
+				if(str.length==2){
+					list.add(str[1].replaceAll("\"",""));
+				}
+			}
+		}
+		model.addAttribute("listcaty",list);
 		Hospital organization = hospitalService.getById(id);
 		model.addAttribute("obj", organization);
 		return "after/hospital/add";

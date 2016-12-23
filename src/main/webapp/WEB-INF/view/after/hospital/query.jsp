@@ -17,6 +17,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/asset/after/js/wu-style.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/asset/common/scripts/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/asset/common/js/tools.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/asset/common/scripts/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
 <div class="topfixed">
@@ -32,10 +33,23 @@
 
 <div class="content">
 	<form action="${pageContext.request.contextPath}/after/hospital/listorgan" method="post" id="userSearchForm" style="display: none">
-		<dl class="forms" style="padding-bottom: 132px;">
+		<dl class="forms" style="padding-bottom: 22px;">
 			<dd>
 				<label for="search_userName">企业名称：</label>
 				<input id="hospitalName" value="" type="text"  name="hospitalName"  style="margin-left: 4px;"/>
+			</dd>
+			<dd>
+				<label for="contact">企业法人：</label>
+				<input id="contact" value="" type="text"  name="contact"  style="margin-left: 4px;"/>
+			</dd>
+			<dd>
+				<label for="contactPhone">法人电话：</label>
+				<input id="contactPhone" value="" type="text"  name="contactPhone"  style="margin-left: 4px;"/>
+			</dd>
+			<dd>
+				<label for="search_userName">注册时间：</label>
+				<input id="createDate" value="" type="text" style="width: 100px;" name="createDate" class="Wdate" onclick="WdatePicker({autoPickDate:true,dateFmt:'yyyy-MM-dd'})"/> ~ 
+				<input id="createDate1" value="" type="text"  style="width: 100px;" name="createDate1" class="Wdate" onclick="WdatePicker({autoPickDate:true,dateFmt:'yyyy-MM-dd'})"/>
 			</dd>
 		</dl>
 		<div class="bottombox" style="width:420px;">
@@ -49,14 +63,13 @@
 		  <thead>
 		 	<tr>
 			    <th width="20"><input type="checkbox" id="checkAll" value="" name=""></input></th>
-			    <th width="85">企业名称</th>
-			    <th width="65">企业类别</th>
+			    <th width="90">企业名称</th>
+			    <th width="60">企业类别</th>
 		        <th width="40">注册资本(万元)</th>
 			    <th width="30">是否高新企业</th>
-			    <th width="45">高新企业获得时间</th>
-			    <th width="45">高新企业结束时间</th>
+			    <th width="50">高新企业获得时间</th>
+			    <th width="50">高新企业结束时间</th>
 			    <th width="30">用工人数</th>
-			    <th width="60">更新信息</th>
 			   </tr>
 		  </thead>
 		  <tbody>
@@ -71,7 +84,6 @@
 			    <td style="word-break:break-all" >${organ.highSalaryStart}</td>
 			    <td style="word-break:break-all" >${organ.highSalaryEnd}</td>
 			    <td style="word-break:break-all" >${organ.peoples}</td>
-			    <td style="word-break:break-all"class="center"><a href="${pageContext.request.contextPath}/after/obtainSupport/list?hospitalId=${organ.hospitalId }">所获扶持</a>&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/after/product/list?hospitalId=${organ.hospitalId }">产品信息</a></td>
 			  </tr>
 		    </c:forEach>
 		  </tbody>
