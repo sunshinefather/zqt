@@ -20,7 +20,7 @@
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
-  <!--   -->
+  <!--  
   <filter>
      <filter-name>DistributedSessionFilter</filter-name>
      <filter-class>com.zyt.web.publics.cluster.DistributedSessionFilter</filter-class>
@@ -29,6 +29,7 @@
      <filter-name>DistributedSessionFilter</filter-name>
      <url-pattern>/*</url-pattern>
   </filter-mapping>
+   -->
   <filter>
     <filter-name>EncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
