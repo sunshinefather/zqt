@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.feedback.dao.FeedBackDao">
+	<resultMap type="FeedBack" id="baseResult">
+		<id column="feedBackId" property="feedBackId"/>
+		<result column="content" property="content"/>
+		<result column="motherId" property="motherId"/>
+		<result column="createDate" property="createDate"/>
+		<result column="readState" property="readState"/>
+		<result column="webReadState" property="webReadState"/>
+		<result column="imageId" property="imageId"/>
+	</resultMap>
+	
+	<sql id="columns">
+		feedBackId,
+		content,
+		motherId,
+		createDate,
+		readState,
+		webReadState,
+		imageId
+	</sql>
+	
+	
+	<select id="findList" parameterType="com.wishcloud.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseResult">
+		<![CDATA[
+			SELECT
+		]]>
+		<include refid="columns"/>
+		<![CDATA[
+			FROM
+				feed_back a
+		]]>
+		<where>
+			<if test="whereParameters.motherId != null and whereParameters.motherId != ''">
+				motherId = #{whereParameters.motherId}
+			</if>
+		</where>
+		<![CDATA[
+			ORDER BY 
+		]]>
+		<choose>
+			<when test="whereParameters.app != null and whereParameters.app == true">
+				a.readState asc,
+			</when>
+			<otherwise>
+				a.webReadState asc,
+			</otherwise>
+		</choose>
+		<![CDATA[
+			a.createDate desc
+		]]>
+	</select>
+	
+	<select id="findById" parameterType="string" resultMap="baseResult">
+		<![CDATA[
+			SELECT
+		]]>
+		<include refid="columns"/>
+		<![CDATA[
+			FROM
+				feed_back a
+		]]>
+		<where>
+			a.feedBackId  = #{id}
+		</where>
+	</select>
+	
+<!-- 增加-->
+	<insert id="insertFeedBack" parameterType="FeedBack">
+	    insert into feed_back(feedBackId,content,motherId,createDate,readState,webReadState,imageId)
+	    	  values(#{feedBackId},#{content},#{motherId},#{createDate},#{readState},#{webReadState},#{imageId})
+	</insert> 
+	
+	
+	<delete id="batchDelete" parameterType="map">
+		<![CDATA[
+			DELETE 
+				a.*
+			FROM
+				feed_back a
+			WHERE
+			a.feedBackId IN 
+		]]>
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterType="FeedBack">
+		UPDATE feed_back 
+		<set>
+			<if test="content !=null and content !='' ">
+				content=#{content},
+			</if>
+			<if test="motherId !=null and motherId !='' ">
+				motherId=#{motherId},
+			</if>
+			<if test="readState !=null  ">
+				readState=#{readState},
+			</if>
+			<if test="webReadState != null ">
+				webReadState = #{webReadState},
+			</if>
+			<if test="imageId != null and imageId != '' ">
+				imageId = #{imageId},
+			</if>
+		</set>
+	 where feedBackId=#{feedBackId}
+	</update>
+
+</mapper>

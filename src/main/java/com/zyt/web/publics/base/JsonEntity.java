@@ -22,6 +22,7 @@ public class JsonEntity implements Serializable {
 
 	private int code;//影响数据条数,用于判断是否修改、插入或删除是否成功
 	
+	private Integer totals;//总记录数
 	public String getStatus() {
 		return status;
 	}
@@ -57,6 +58,14 @@ public class JsonEntity implements Serializable {
 		}else{
 			this.status = fail;
 		}
+	}
+
+	public Integer getTotals() {
+		return totals;
+	}
+
+	public void setTotals(Integer totals) {
+		this.totals = totals;
 	}
 
 	/**

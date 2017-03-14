@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyt.web.publics.module.feedback.dao.FeedBackReplayDao">
+ 	<resultMap id="baseResult" type="FeedBackReplay">
+			<id property="feedBackReplayId" column="feedBackReplayId" />
+			<result property="content" column="content" />
+			<result property="replayer" column="replayer" />
+			<result property="replayDate" column="replayDate" />
+			<result property="feedBackId" column="feedBackId"/>
+			<result column="imageId" property="imageId"/>
+	</resultMap>
+	<sql id="columns">
+		`feedBackReplayId`,`content`,`replayer`,`replayDate`,`feedBackId`,`imageId`
+	</sql>
+	
+	<insert id="insert" parameterType="FeedBackReplay">
+		 <![CDATA[
+            insert into feed_back_replay( `feedBackReplayId`,`content`,`replayer`,`replayDate`,`feedBackId`,`imageId` ) values (#{feedBackReplayId},#{content},#{replayer},#{replayDate},#{feedBackId},#{imageId} )
+	     ]]>
+	</insert>
+	
+	<select id="findObjectById" parameterType="String" resultMap="baseResult">
+		select `feedBackReplayId`,`content`,`replayer`,`replayDate`,`feedBackId`,`imageId` from feed_back_replay 
+		where
+		feedBackReplayId=#{id}
+	</select>
+	
+	<select id="findList" resultMap="baseResult" parameterType="com.wishcloud.web.publics.base.mybatis.pagination.PaginationAble">
+		select `feedBackReplayId`,`content`,`replayer`,`replayDate`,`feedBackId`,`imageId` from feed_back_replay
+		<if test="whereParameters!=null and whereParameters.size()>0">
+			<where>
+				<if test="whereParameters.feedBackReplayId !=null and whereParameters.feedBackReplayId !='' ">
+					 and `feedBackReplayId`=#{whereParameters.feedBackReplayId}
+				</if>
+				<if test="whereParameters.content !=null and whereParameters.content !='' ">
+					<![CDATA[ and instr(content,#{whereParameters.content})>0 ]]>
+				</if>
+				<if test="whereParameters.replayer !=null and whereParameters.replayer !='' ">
+					 and `replayer`=#{whereParameters.replayer}
+				</if>
+				<if test="replayDate !=null ">
+					 and `replayDate`=#{replayDate}
+				</if>
+			</where> 
+		</if>
+        order by replayDate desc
+	</select>
+	<select id="loadList" parameterType="FeedBackReplay" resultMap="baseResult">
+	   	select `feedBackReplayId`,`content`,`replayer`,`replayDate`,`feedBackId`,`imageId` from feed_back_replay
+		<where>
+			<if test="feedBackReplayId !=null and feedBackReplayId !='' ">
+				 and `feedBackReplayId`=#{feedBackReplayId}
+			</if>
+			<if test="content !=null and content !='' ">
+				<![CDATA[ and instr(content,#{content})>0 ]]>
+			</if>
+			<if test="replayer !=null and replayer !='' ">
+				 and `replayer`=#{replayer}
+			</if>
+			<if test="replayDate !=null ">
+				 and `replayDate`=#{replayDate}
+			</if>
+			<if test="feedBackId !=null and feedBackId !='' ">
+				 and `feedBackId`=#{feedBackId}
+			</if>
+		</where> 
+        order by replayDate desc
+	</select>
+	<update id="update" parameterType="FeedBackReplay">
+		update feed_back_replay 
+		<set>
+			<if test="content !=null and content !='' ">
+				content=#{content},
+			</if>
+			<if test="replayer !=null and replayer !='' ">
+				replayer=#{replayer},
+			</if>
+			<if test="replayDate !=null ">
+				replayDate=#{replayDate},
+			</if>
+			<if test="feedBackId !=null and feedBackId !='' ">
+				feedBackId=#{feedBackId},
+			</if>
+			<if test="imageId != null and imageId != '' ">
+				imageId=#{imageId},
+			</if>
+		</set>
+	 where feedBackReplayId=#{feedBackReplayId}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from feed_back_replay where feedBackReplayId in 
+	   <foreach collection="array" close=")" open="(" separator="," item="item">
+		      #{item}
+	   </foreach>
+	</delete>
+	<select id="maxid" resultType="int">
+	    select max(feedBackReplayId) id from feed_back_replay
+	</select>
+	<select id="validate" parameterType="FeedBackReplay" resultType="int">
+      select count(1) as ct from feed_back_replay 
+        <where>
+           <include refid="other_condition"/>
+        </where>
+    </select>
+ 	<sql id="other_condition">
+			<if test="feedBackReplayId != null and feedBackReplayId != '' " >  and feedBackReplayId=#{feedBackReplayId}</if>
+			<if test="content != null and content != '' " >  and content=#{content}</if>
+			<if test="replayer != null and replayer != '' " >  and replayer=#{replayer}</if>
+			<if test="replayDate != null and replayDate != '' " >  and replayDate=#{replayDate}</if>
+ 	</sql>
+</mapper>
