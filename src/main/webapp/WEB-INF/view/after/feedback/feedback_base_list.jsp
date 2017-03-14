@@ -19,7 +19,8 @@
 <div class="topfixed">
 <div class="current"><s></s><a href="#">首页</a> >> <span>意见反馈管理</span></div>
 <div class="btnbox">
-<input type="button" value="删除" class="btn_grey" id="delete"/>
+<!-- <input type="button" value="删除" class="btn_grey" id="delete"/> -->
+<input type="button" value="刷新" class="btn_grey" onclick="location.reload()"/>
 </div>
 </div>
 <div class="content">
@@ -28,10 +29,9 @@
 	<thead>
 	  <tr>
 	    <th width="20"><input type="checkbox" id="checkAll"  name="all"></input></th>
-	    <th width="80">用户名</th>
-	    <th width="100">问题来源</th>
+	    <th width="80">用户</th>
 	    <th width="250">意见</th>
-	    <th width="100">时间</th>
+	    <th width="100">反馈时间</th>
 	    <th width="50">操作</th>
 	    </tr>
 	</thead>
@@ -39,14 +39,7 @@
 	    <c:forEach items="${list }" var="obj">
 		  <tr style="font-weight:600" value="${obj.feedBackId}">
 			  	<td class="ck"><input type="checkbox" value="${obj.feedBackId }"  name="feedback" class="check"></input></td>
-			    <td style="word-break:break-all">${obj.remoteUser.remoteExtUser.fullName }</td>
-			    <td>
-			    	<c:choose>
-   						<c:when test="${obj.remoteUser.type eq '300'}">孕宝客户端</c:when>
-    					<c:when test="${obj.remoteUser.type eq '201'}">孕宝医生端</c:when>
-    					<c:otherwise></c:otherwise>
-					</c:choose>
-			    </td>
+			    <td style="word-break:break-all">${obj.user.extUser.fullName }</td>
 			    <td>${fn:substring(obj.content,0,40) }</td>
 				<td><fmt:formatDate value="${obj.createDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td><a class="reply" id="${obj.feedBackId }" href="javascript:void(0)">

@@ -128,7 +128,7 @@ width: 49%;
 			<li>
 				<dl>
 					<dd>
-						<label style="font-weight: 700;">反馈人:</label> <span>${obj.remoteUser.remoteExtUser.fullName}</span>
+						<label style="font-weight: 700;">反馈人:</label> <span>${obj.user.extUser.fullName}</span>
 					</dd>
 					<dd>
 						<label style="font-weight: 700;">反馈时间:</label> <span
@@ -140,11 +140,12 @@ width: 49%;
 						<div
 							style="width: 600px; white-space: normal; word-break: break-all; overflow: hidden;">${obj.content}</div>
 					</dd>
+					<c:if test="${obj.imageAttachments !=null && fn:length(obj.imageAttachments) gt 0}"></c:if>
 					<dd>
 						<label style="float: left; margin-right:  8px; font-weight: 700;">反馈图片:</label>
 						<div style="width: 600px; white-space: normal; word-break: break-all; overflow: hidden;">
 						<c:forEach items="${obj.imageAttachments}" var="c">
-    						<img src='${pageContext.request.contextPath}${c.webAddr }' class='img' data-name="image">
+    						<img src='${c.webAdd}' class='img' data-name="image">
 	    				</c:forEach>
 						</div>
 					</dd>
@@ -160,6 +161,27 @@ width: 49%;
 	</div>
 </body>
 <script type="text/javascript">
+Date.prototype.format = function(format) {
+    var date = {
+           "M+": this.getMonth() + 1,
+           "d+": this.getDate(),
+           "h+": this.getHours(),
+           "m+": this.getMinutes(),
+           "s+": this.getSeconds(),
+           "q+": Math.floor((this.getMonth() + 3) / 3),
+           "S+": this.getMilliseconds()
+    };
+    if (/(y+)/i.test(format)) {
+           format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    for (var k in date) {
+           if (new RegExp("(" + k + ")").test(format)) {
+                  format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                         ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+           }
+    }
+    return format;
+}
 var $contentBox = $(".contentBox");//列表框 ul
 var $inputCont = $("#replyInput");//输入的内容
 	
@@ -216,8 +238,7 @@ var $inputCont = $("#replyInput");//输入的内容
 			 async : false,
 			 success : function(data) {
 				 console.log(data)
-				 $.each(data, function(index, value) { 
-					 console.log(index)
+				 $.each(data, function(index, value) {
 					 obtainrSingleReplyCont(value)
 					 }); 
 			 }
@@ -230,7 +251,7 @@ var $inputCont = $("#replyInput");//输入的内容
 		var replyList = $("<li></li>");
 		//姓名
 		var name = $("<p class='name fontColor'></p>");
-		name.html(obtainData.remoteUser.remoteExtUser.fullName||obtainData.replayer);
+		name.html(obtainData.user.extUser.fullName||obtainData.replayer);
 		replyList.append(name);
 		//内容
 		var $div=$("<div><div>");
@@ -240,8 +261,9 @@ var $inputCont = $("#replyInput");//输入的内容
 		if(obtainData.imageAttachments!=null){
 			$.each(obtainData.imageAttachments,function(num,val){
 				var $img=$("<img src='' class='img'>");
-				console.log(val.webAddr)
-				$img.attr("src","${pageContext.request.contextPath}"+val.webAddr)
+				console.log(val.webAdd)
+				//$img.attr("src","${pageContext.request.contextPath}"+val.webAdd)
+				$img.attr("src",val.webAdd)
 				$div.append($img);
 			});
 		}
@@ -249,7 +271,7 @@ var $inputCont = $("#replyInput");//输入的内容
 		replyList.append($div);
 		//时间
 		var time = $("<p class='titme fontColor'></p>");
-		time.html(obtainData.replayDate)
+		time.html(new Date(obtainData.replayDate).format('yyyy-MM-dd hh:mm:ss'))
 		replyList.append(time);
 		
 		$contentBox.append(replyList);

@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.zyt.web.after.api.service.FeedBackApiService;
 import com.zyt.web.after.feedback.service.FeedBackReplayService;
 import com.zyt.web.after.feedback.service.FeedBackService;
 import com.zyt.web.publics.base.JsonEntity;
 import com.zyt.web.publics.base.mybatis.pagination.PaginationAble;
-import com.zyt.web.publics.module.attachment.bean.Attachment;
 import com.zyt.web.publics.module.feedback.bean.FeedBack;
 import com.zyt.web.publics.module.feedback.bean.FeedBackReplay;
+import com.zyt.web.publics.module.image.bean.Image;
 import com.zyt.web.publics.module.sysmanager.bean.User;
 
 @Service
@@ -82,8 +84,8 @@ public class FeedBackApiServiceImpl implements FeedBackApiService {
 					
 					List<String> imageList = new ArrayList<String>();
 					if(feedBackReplay.getImageAttachments() != null && feedBackReplay.getImageAttachments().size() > 0){
-						for (Attachment attachment: feedBackReplay.getImageAttachments()) {
-							imageList.add(attachment.getWebAddr());
+						for (Image attachment: feedBackReplay.getImageAttachments()) {
+							imageList.add(attachment.getWebAdd());
 						}
 					}
 					data.put("imageList",imageList);
@@ -118,8 +120,8 @@ public class FeedBackApiServiceImpl implements FeedBackApiService {
 				
 				List<String> imageList = new ArrayList<String>();
 				if(feedBack.getImageAttachments() != null && feedBack.getImageAttachments().size() > 0){
-					for (Attachment attachment: feedBack.getImageAttachments()) {
-						imageList.add(attachment.getWebAddr());
+					for (Image attachment: feedBack.getImageAttachments()) {
+						imageList.add(attachment.getWebAdd());
 					}
 				}
 				data.put("imageList",imageList);
@@ -138,8 +140,8 @@ public class FeedBackApiServiceImpl implements FeedBackApiService {
 							
 							List<String> replatImageList = new ArrayList<String>();
 							if(feedBackReplay.getImageAttachments() != null && feedBackReplay.getImageAttachments().size() > 0){
-								for (Attachment attachment: feedBackReplay.getImageAttachments()) {
-									replatImageList.add(attachment.getWebAddr());
+								for (Image attachment: feedBackReplay.getImageAttachments()) {
+									replatImageList.add(attachment.getWebAdd());
 								}
 							}
 							replay.put("imageList",replatImageList);

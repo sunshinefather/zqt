@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.type.Alias;
-import com.zyt.web.publics.module.attachment.bean.Attachment;
+import com.zyt.web.publics.module.image.bean.Image;
 import com.zyt.web.publics.module.sysmanager.bean.User;
 
 /**
@@ -34,7 +34,7 @@ public class FeedBackReplay implements Serializable {
 	/**
 	 * 图片实体列表
 	 */
-	private List<Attachment> imageAttachments;
+	private List<Image> imageAttachments;
 	
 	//回复用户
 	private User user;
@@ -74,10 +74,10 @@ public class FeedBackReplay implements Serializable {
 	public void setImageId(String imageId) {
 		this.imageId = imageId;
 	}
-	public List<Attachment> getImageAttachments() {
+	public List<Image> getImageAttachments() {
 		return imageAttachments;
 	}
-	public void setImageAttachments(List<Attachment> imageAttachments) {
+	public void setImageAttachments(List<Image> imageAttachments) {
 		this.imageAttachments = imageAttachments;
 	}
 	public User getUser() {

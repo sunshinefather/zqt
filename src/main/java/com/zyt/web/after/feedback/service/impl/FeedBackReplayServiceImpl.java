@@ -3,18 +3,21 @@ package com.zyt.web.after.feedback.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.zyt.web.after.feedback.service.FeedBackReplayService;
 import com.zyt.web.publics.base.AbstractServiceImpl;
 import com.zyt.web.publics.base.BaseDAO;
 import com.zyt.web.publics.base.mybatis.pagination.PaginationAble;
-import com.zyt.web.publics.module.attachment.bean.Attachment;
-import com.zyt.web.publics.module.attachment.dao.IAttachmentDao;
 import com.zyt.web.publics.module.feedback.bean.FeedBackReplay;
 import com.zyt.web.publics.module.feedback.dao.FeedBackReplayDao;
+import com.zyt.web.publics.module.image.bean.Image;
+import com.zyt.web.publics.module.image.dao.ImageDao;
 import com.zyt.web.publics.utils.UUIDUtils;
 
 
@@ -24,7 +27,7 @@ public class FeedBackReplayServiceImpl extends AbstractServiceImpl<FeedBackRepla
 	private FeedBackReplayDao feedBackReplayDao;
     
     @Autowired
-	private IAttachmentDao attachmentDao;
+	private ImageDao imageDao;
 	
 	@Override
 	public BaseDAO<FeedBackReplay> dao() {
@@ -52,10 +55,10 @@ public class FeedBackReplayServiceImpl extends AbstractServiceImpl<FeedBackRepla
 	public FeedBackReplay findObjectById(String id) {
 		FeedBackReplay feedBackReplay =  super.findObjectById(id);
 		if(StringUtils.isNotBlank(feedBackReplay.getImageId())){//循环查询图片实体
-			List<Attachment> attachments = new ArrayList<Attachment>();
+			List<Image> attachments = new ArrayList<Image>();
 			String [] imageIds = feedBackReplay.getImageId().split(",");
 			for (String imageId : imageIds) {
-				Attachment attachment = attachmentDao.getById(imageId);
+				Image attachment = imageDao.getImageById(imageId);
 				if(attachment != null){
 					attachments.add(attachment);
 				}
@@ -70,10 +73,10 @@ public class FeedBackReplayServiceImpl extends AbstractServiceImpl<FeedBackRepla
 		List<FeedBackReplay> feedBackReplayList = super.findList(paginationAble);
 		for (FeedBackReplay feedBackReplay : feedBackReplayList) {
 			if(StringUtils.isNotBlank(feedBackReplay.getImageId())){//循环查询图片实体
-				List<Attachment> attachments = new ArrayList<Attachment>();
+				List<Image> attachments = new ArrayList<Image>();
 				String [] imageIds = feedBackReplay.getImageId().split(",");
 				for (String imageId : imageIds) {
-					Attachment attachment = attachmentDao.getById(imageId);
+					Image attachment = imageDao.getImageById(imageId);
 					if(attachment != null){
 						attachments.add(attachment);
 					}
@@ -89,10 +92,10 @@ public class FeedBackReplayServiceImpl extends AbstractServiceImpl<FeedBackRepla
 		List<FeedBackReplay> feedBackReplayList = super.queryList(params);
 		for (FeedBackReplay feedBackReplay : feedBackReplayList) {
 			if(StringUtils.isNotBlank(feedBackReplay.getImageId())){//循环查询图片实体
-				List<Attachment> attachments = new ArrayList<Attachment>();
+				List<Image> attachments = new ArrayList<Image>();
 				String [] imageIds = feedBackReplay.getImageId().split(",");
 				for (String imageId : imageIds) {
-					Attachment attachment = attachmentDao.getById(imageId);
+					Image attachment = imageDao.getImageById(imageId);
 					if(attachment != null){
 						attachments.add(attachment);
 					}

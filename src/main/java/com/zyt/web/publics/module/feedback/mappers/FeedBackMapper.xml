@@ -22,7 +22,7 @@
 	</sql>
 	
 	
-	<select id="findList" parameterType="com.wishcloud.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseResult">
+	<select id="findList" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble" resultMap="baseResult">
 		<![CDATA[
 			SELECT
 		]]>

@@ -3,21 +3,24 @@ package com.zyt.web.after.feedback.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.zyt.web.after.feedback.service.FeedBackReplayService;
 import com.zyt.web.after.feedback.service.FeedBackService;
 import com.zyt.web.publics.base.mybatis.pagination.PaginationAble;
-import com.zyt.web.publics.module.attachment.bean.Attachment;
-import com.zyt.web.publics.module.attachment.dao.IAttachmentDao;
 import com.zyt.web.publics.module.feedback.bean.FeedBack;
 import com.zyt.web.publics.module.feedback.bean.FeedBackReplay;
 import com.zyt.web.publics.module.feedback.dao.FeedBackDao;
+import com.zyt.web.publics.module.image.bean.Image;
+import com.zyt.web.publics.module.image.dao.ImageDao;
 import com.zyt.web.publics.module.sysmanager.dao.UserDao;
 import com.zyt.web.publics.utils.UUIDUtils;
 
@@ -31,7 +34,7 @@ public class FeedBackServiceImpl  implements FeedBackService{
 	private FeedBackReplayService feedBackReplayService;
 	
 	@Autowired
-	private IAttachmentDao attachmentDao;
+	private ImageDao imageDao;
 	
 	@Autowired
 	private UserDao userDao;
@@ -43,10 +46,10 @@ public class FeedBackServiceImpl  implements FeedBackService{
 				 for (FeedBack feedBack : feedBacks) {
 					feedBack.setUser(userDao.findUserById(feedBack.getMotherId()));
 					if(StringUtils.isNotBlank(feedBack.getImageId())){//循环查询图片实体
-						List<Attachment> attachments = new ArrayList<Attachment>();
+						List<Image> attachments = new ArrayList<Image>();
 						String [] imageIds = feedBack.getImageId().split(",");
 						for (String imageId : imageIds) {
-							Attachment attachment = attachmentDao.getById(imageId);
+							Image attachment = imageDao.getImageById(imageId);
 							if(attachment != null){
 								attachments.add(attachment);
 							}
@@ -63,10 +66,10 @@ public class FeedBackServiceImpl  implements FeedBackService{
 		FeedBack feedBack = feedBackDao.findById(id);
 		if (feedBack != null) {
 			if(StringUtils.isNotBlank(feedBack.getImageId())){//循环查询图片实体
-				List<Attachment> attachments = new ArrayList<Attachment>();
+				List<Image> attachments = new ArrayList<Image>();
 				String [] imageIds = feedBack.getImageId().split(",");
 				for (String imageId : imageIds) {
-					Attachment attachment = attachmentDao.getById(imageId);
+					Image attachment = imageDao.getImageById(imageId);
 					if(attachment != null){
 						attachments.add(attachment);
 					}

@@ -25,7 +25,7 @@
 		feedBackReplayId=#{id}
 	</select>
 	
-	<select id="findList" resultMap="baseResult" parameterType="com.wishcloud.web.publics.base.mybatis.pagination.PaginationAble">
+	<select id="findList" resultMap="baseResult" parameterType="com.zyt.web.publics.base.mybatis.pagination.PaginationAble">
 		select `feedBackReplayId`,`content`,`replayer`,`replayDate`,`feedBackId`,`imageId` from feed_back_replay
 		<if test="whereParameters!=null and whereParameters.size()>0">
 			<where>
