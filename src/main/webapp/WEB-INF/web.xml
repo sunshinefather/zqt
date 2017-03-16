@@ -84,14 +84,6 @@
     <url-pattern>/public/upload/*</url-pattern>
     <url-pattern>/api/public/upload/*</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>uploadVideo</servlet-name>
-    <servlet-class>com.zyt.web.publics.servlet.UploadVideoServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>uploadVideo</servlet-name>
-    <url-pattern>/public/uploadVideo/*</url-pattern>
-  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>/index</welcome-file>
   </welcome-file-list>
