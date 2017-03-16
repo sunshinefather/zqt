@@ -30,7 +30,7 @@ public class UserAPIServiceImpl implements UserAPIService {
 		try {
 			if (StringUtils.isNotBlank(userName)
 					&& StringUtils.isNotBlank(password)) {
-				User user = userService.findUserByName(userName,true);
+				User user = userService.findUserByName(userName,null);
 				if (user != null) {
 					user = userService.findUserById(user.getId());//防止用户组丢失问题
 					if(user.isEnabled()){
@@ -143,7 +143,7 @@ public class UserAPIServiceImpl implements UserAPIService {
 	public String modifyPassword(String userName, String newPassword) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("status", 0);
-		User user = userService.findUserByName(userName, true);
+		User user = userService.findUserByName(userName,null);
 		if(user == null){
 			result.put("msg", "用户名不存在!");
 		}else{

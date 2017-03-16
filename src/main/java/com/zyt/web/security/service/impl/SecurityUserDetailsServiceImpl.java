@@ -27,7 +27,7 @@ public class SecurityUserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String userName)	throws UsernameNotFoundException {
 		
 		Collection<GrantedAuthority> grantedAuthoritys = new ArrayList<GrantedAuthority>();
-		User user = securityUserDao.findUserByName(userName,false);
+		User user = securityUserDao.findUserByName(userName,null);
 		if (user == null) {
 			throw new UsernameNotFoundException(String.format(
 					"用户名： [%s] 没找到", userName));

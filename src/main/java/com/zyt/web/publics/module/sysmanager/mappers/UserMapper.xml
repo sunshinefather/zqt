@@ -309,7 +309,6 @@
 		 	on d.org_id = bo.hospital_id
 		 ]]>
 	 	<where>
-	 		 a.`type` != '1' and a.`type` != '201' and a.`type` != '202'
 	 		<if test="whereParameters.userType != '0'.toString()">
 	 			and a.`type` != '0'
 	 			<if test="whereParameters.regionIds != null and whereParameters.regionIds.length > 0">

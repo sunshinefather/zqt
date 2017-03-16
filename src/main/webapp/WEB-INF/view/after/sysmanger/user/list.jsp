@@ -43,7 +43,7 @@
 					<select id="search_type"  name="type" style="display: inline-block;">
 			          <option  value="">-- 请选择 --</option>
 			          <option <c:if test="${type == '0' }">selected="selected"</c:if> value="0">系统管理员</option>
-			          <option <c:if test="${type == '1' }">selected="selected"</c:if> value="100">企业用户</option>
+			          <option <c:if test="${type == '1' }">selected="selected"</c:if> value="1">企业用户</option>
 		        </select>
 			</dd>
 		</dl>
