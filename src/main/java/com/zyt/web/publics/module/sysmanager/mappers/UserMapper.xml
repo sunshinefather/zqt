@@ -201,11 +201,11 @@
 		 	`user_name` = #{userName}
 		 	<choose>
 		 	    <when test="app == false">
-		 	        AND `type` != 300
-		 	        AND `enabled` = 1
+		 	        AND `type` != 1 
+		 	        AND `enabled` = 1 
 		 	    </when>
 		 	    <when test="app == true">
-		 	        AND `type` = 300
+		 	        AND `type` = 1 
 		 	    </when>
 		 	</choose>
 		 </where>
@@ -231,7 +231,7 @@
 		 	LEFT JOIN sys_group sg
 		 	ON sug.group_id = sg.id
 	    </if>
-	    where su.type = '300'
+	    where su.type = '1'
 	    <if test="whereParameters.userType != '0'.toString()">
 	 			<if test="whereParameters.regionIds != null and whereParameters.regionIds.length > 0">
 	 			    AND bo.`region_id` in
@@ -309,7 +309,7 @@
 		 	on d.org_id = bo.hospital_id
 		 ]]>
 	 	<where>
-	 		 a.`type` != '300' and a.`type` != '201' and a.`type` != '202'
+	 		 a.`type` != '1' and a.`type` != '201' and a.`type` != '202'
 	 		<if test="whereParameters.userType != '0'.toString()">
 	 			and a.`type` != '0'
 	 			<if test="whereParameters.regionIds != null and whereParameters.regionIds.length > 0">
@@ -832,7 +832,7 @@
 		 	from sys_user su inner join sys_ext_user seu on seu.id = su.id
 		]]>
 		 <where>
-		 	org_id =  '${whereParameters.orgId}' and su.type='300'
+		 	org_id =  '${whereParameters.orgId}' and su.type='1'
 		 </where>
 		 order by seu.position desc;
 	</select>
@@ -849,7 +849,7 @@
 		 	from sys_user su inner join sys_ext_user seu on seu.id = su.id
 		]]>
 		 <where>
-		     su.type='300' and su.`id` != #{userId} and org_id =  #{orgId}
+		     su.type='1' and su.`id` != #{userId} and org_id =  #{orgId}
 		 </where>
 		 order by seu.position desc;
 	</select>
@@ -864,7 +864,7 @@
 		 	from sys_user su inner join sys_ext_user seu on seu.id = su.id  left join biz_hospital bo on seu.org_id = bo.hospital_id
 		]]>
 		   where  bo.parents_id like CONCAT('%',#{orgId},'%')  or bo.id =#{orgId}
-		 	and su.type='300'
+		 	and su.type='1'
 		 order by seu.position desc;
 	</select>
 	
@@ -1054,7 +1054,7 @@
 	</select>
 	<!-- 获取全部会员Id -->
     <select id="findAllMembers" resultType="java.lang.String">
-        select id from sys_user where `type` = 300 
+        select id from sys_user where `type` = 1 
     </select>
     
     <select id="findUserByOpenId" parameterType="map" resultMap="baseMap">
@@ -1107,7 +1107,7 @@
     		SELECT COUNT(1) FROM sys_user a LEFT JOIN sys_ext_user b ON a.`id` = b.`id`
     	]]>
     	<where>
-    		a.type = '300' AND b.org_id = #{hospitalId}
+    		a.type = '1' AND b.org_id = #{hospitalId}
     	</where>
     </select>
     

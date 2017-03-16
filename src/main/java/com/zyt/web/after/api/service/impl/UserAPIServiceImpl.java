@@ -30,32 +30,41 @@ public class UserAPIServiceImpl implements UserAPIService {
 		try {
 			if (StringUtils.isNotBlank(userName)
 					&& StringUtils.isNotBlank(password)) {
-				User user = userService.findUserByNameAndPassWord(userName,password);
+				User user = userService.findUserByName(userName,true);
 				if (user != null) {
-					user.getExtUser().setLastActiveTime(new Date());
-					user.setToken(UUIDUtils.getUUID());
-					userService.update(user);
-					result.put("token", user.getToken());
-					result.put("nickname", StringUtils.isBlank(user.getExtUser().getNickName())?"":user.getExtUser().getNickName());
-					result.put("username", user.getUsername());
-					result.put("userId", user.getId());
-					result.put("userType", user.getType());
-					result.put("photo", user.getExtUser().getAvatarImage() == null ? user.getExtUser().getAvatar()==null?"":user.getExtUser().getAvatar() : user.getExtUser().getAvatarImage().getWebAdd());
-					result.put("orgId", user.getExtUser().getOrgId() == null?"":user.getExtUser().getOrgId());
-					result.put("position", user.getExtUser().getPositionBean() == null ? "" : user.getExtUser().getPositionBean().getPositionName());
-					result.put("mobile", user.getExtUser().getMobile() == null ? "" : user.getExtUser().getMobile());
-					result.put("mobile2", user.getExtUser().getMobile2() == null ? "" : user.getExtUser().getMobile2());
-					result.put("fax", user.getExtUser().getFax() == null ? "" : user.getExtUser().getFax());
-					result.put("fax2", user.getExtUser().getFax2() == null ? "" : user.getExtUser().getFax2());
-					result.put("tel", user.getExtUser().getTel() == null ? "" : user.getExtUser().getTel());
-					result.put("tel2", user.getExtUser().getTel2() == null ? "" : user.getExtUser().getTel2());
-					result.put("name", user.getExtUser().getFullName() == null ? "" : user.getExtUser().getFullName());
-					result.put("orgName",user.getExtUser().getOrganization() == null?"":user.getExtUser().getOrganization().getHospitalName());
-					result.put("hashSend",user.isHasSend());
-					result.put("gender",user.getExtUser().getGender() == null?"":user.getExtUser().getGender());
-					((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getServletContext().setAttribute(user.getToken(),user);
+					user = userService.findUserById(user.getId());//防止用户组丢失问题
+					if(user.isEnabled()){
+						if(password.equals(user.getPassword())){
+							user.getExtUser().setLastActiveTime(new Date());
+							user.setToken(UUIDUtils.getUUID());
+							userService.update(user);
+							result.put("token", user.getToken());
+							result.put("nickname", StringUtils.isBlank(user.getExtUser().getNickName())?"":user.getExtUser().getNickName());
+							result.put("username", user.getUsername());
+							result.put("userId", user.getId());
+							result.put("userType", user.getType());
+							result.put("photo", user.getExtUser().getAvatarImage() == null ? user.getExtUser().getAvatar()==null?"":user.getExtUser().getAvatar() : user.getExtUser().getAvatarImage().getWebAdd());
+							result.put("orgId", user.getExtUser().getOrgId() == null?"":user.getExtUser().getOrgId());
+							result.put("position", user.getExtUser().getPositionBean() == null ? "" : user.getExtUser().getPositionBean().getPositionName());
+							result.put("mobile", user.getExtUser().getMobile() == null ? "" : user.getExtUser().getMobile());
+							result.put("mobile2", user.getExtUser().getMobile2() == null ? "" : user.getExtUser().getMobile2());
+							result.put("fax", user.getExtUser().getFax() == null ? "" : user.getExtUser().getFax());
+							result.put("fax2", user.getExtUser().getFax2() == null ? "" : user.getExtUser().getFax2());
+							result.put("tel", user.getExtUser().getTel() == null ? "" : user.getExtUser().getTel());
+							result.put("tel2", user.getExtUser().getTel2() == null ? "" : user.getExtUser().getTel2());
+							result.put("name", user.getExtUser().getFullName() == null ? "" : user.getExtUser().getFullName());
+							result.put("orgName",user.getExtUser().getOrganization() == null?"":user.getExtUser().getOrganization().getHospitalName());
+							result.put("hashSend",user.isHasSend());
+							result.put("gender",user.getExtUser().getGender() == null?"":user.getExtUser().getGender());
+							((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getServletContext().setAttribute(user.getToken(),user);
+							}else{
+								result.put("msg", "用户密码不正确");	
+							}
+					}else{
+						result.put("msg", "用户禁止登陆!");	
+					}
 				} else{
-					result.put("msg", "用户名或密码错误!");
+					result.put("msg", "用户名未注册!");
 				}
 			} else{
 				result.put("msg", "用户名或密码不能为空!");
