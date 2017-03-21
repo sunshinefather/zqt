@@ -79,19 +79,20 @@ public enum UploadFileType {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("minSize", 1);
 			// 其它文件最大值,10M
-			params.put("maxSize", 100 * 1024 * 1024);
+			params.put("maxSize", 10 * 1024 * 1024);
 			// 文件后缀
 			params.put("suffix", "zip,rar,7z,doc,wav,amr,wov,doc,docx,xls,xlsx,ppt,pptx,txt,mp4,mp3,rmvb,3gp,png,jpg,gif,apk,ipa,mp4,rmvb,3gp,avi,pdf");
 			return params;
 		}
 	};
+	
 	// 默认值
 	public Map<String, Object> getFileTypeParams() {
 		Map<String, Object> params = new HashMap<String, Object>();
 		// 文件最小值
 		params.put("minSize", 1);
-		// 文件最大值5M
-		params.put("maxSize", 5 * 1024 * 1024);
+		// 文件最大值10M
+		params.put("maxSize", 10 * 1024 * 1024);
 		// 文件后缀
 		params.put("suffix", "txt,mp4,mp3,rmvb,3gp,png,jpg,gif,apk,ipa");
 		return params;

@@ -114,6 +114,8 @@ public class UploadServlet extends HttpServlet {
 						String fileContentType = req.getParameter("dir");
 						if (fileContentType == null && attrs.containsKey("dir")) {
 							fileContentType = attrs.get("dir");
+						}else{
+							fileContentType="file";
 						}
 						// 文件长度
 						long fileLength = fileItem.getSize();
