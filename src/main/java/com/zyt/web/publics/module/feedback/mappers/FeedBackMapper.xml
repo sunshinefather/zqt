@@ -12,13 +12,13 @@
 	</resultMap>
 	
 	<sql id="columns">
-		feedBackId,
-		content,
-		motherId,
-		createDate,
-		readState,
-		webReadState,
-		imageId
+		distinct a.feedBackId,
+		a.content,
+		a.motherId,
+		a.createDate,
+		a.readState,
+		a.webReadState,
+		a.imageId 
 	</sql>
 	
 	
@@ -29,11 +29,14 @@
 		<include refid="columns"/>
 		<![CDATA[
 			FROM
-				feed_back a
+				feed_back a left join feed_back_replay b on a.feedBackId=b.feedBackId
 		]]>
 		<where>
-			<if test="whereParameters.motherId != null and whereParameters.motherId != ''">
-				motherId = #{whereParameters.motherId}
+			<if test='whereParameters.motherId != null and whereParameters.motherId != "" and whereParameters.motherId != "admin" '>
+				a.motherId = #{whereParameters.motherId} or b.replayer = #{whereParameters.motherId} 
+			</if>
+			<if test='whereParameters.motherId != null and whereParameters.motherId != "" and whereParameters.motherId == "admin"'>
+				a.motherId is not null 
 			</if>
 		</where>
 		<![CDATA[
