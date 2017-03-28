@@ -40,18 +40,7 @@
 			</if>
 		</where>
 		<![CDATA[
-			ORDER BY 
-		]]>
-		<choose>
-			<when test="whereParameters.app != null and whereParameters.app == true">
-				a.readState asc,
-			</when>
-			<otherwise>
-				a.webReadState asc,
-			</otherwise>
-		</choose>
-		<![CDATA[
-			a.createDate desc
+			ORDER BY a.createDate desc 
 		]]>
 	</select>
 	
