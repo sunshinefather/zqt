@@ -24,6 +24,7 @@ public class Product implements Serializable {
 	private String logo;
 	private String str1;
 	private String str2;
+	private String hospitalName;//企业名称
 	public void setId( String id ) {
 		this.id = id;
 	}
@@ -65,6 +66,14 @@ public class Product implements Serializable {
 	}
 	public String getStr2(){
 		return str2;
+	}
+
+	public String getHospitalName() {
+		return hospitalName;
+	}
+ 
+	public void setHospitalName(String hospitalName) {
+		this.hospitalName = hospitalName;
 	}
 
     

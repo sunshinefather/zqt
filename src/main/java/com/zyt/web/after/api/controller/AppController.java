@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.zyt.web.after.agreement.service.IAgreementService;
 import com.zyt.web.after.cms.service.IContentService;
 import com.zyt.web.after.development.service.IDevelopmentService;
@@ -26,6 +23,7 @@ import com.zyt.web.publics.module.cms.bean.CmsAtt;
 import com.zyt.web.publics.module.cms.bean.Content;
 import com.zyt.web.publics.module.development.bean.Development;
 import com.zyt.web.publics.module.hospital.bean.Hospital;
+import com.zyt.web.publics.module.product.bean.Product;
 import com.zyt.web.publics.module.sysmanager.bean.User;
 import com.zyt.web.publics.utils.date.DateUtil;
 
@@ -259,7 +257,22 @@ public class AppController extends ApiController{
         	return js;
         }
         page.getWhereParameters().put("hospitalId",StringUtils.isNotEmpty(companyId)?companyId:userWidthCompanyId);
-        page.setResults(productService.findList(page));
+		List<Product> products = productService.findList(page);
+	    if(products!=null && !products.isEmpty()){
+	      Map<String,String> map = new HashMap<String,String>();
+           for(Product product:products){
+        	   String name = map.get(product.getHospitalId());
+        	   if(StringUtils.isNotEmpty(name)){
+            	   product.setHospitalName(name); 
+        	   }else{
+            	   name = hospitalService.getById(product.getHospitalId()).getHospitalName();   
+            	   map.put(product.getHospitalId(),name);
+            	   product.setHospitalName(name); 
+        	   }
+
+           }
+	    }
+        page.setResults(products);
         js.setData(page);
 		return js;
 	}
@@ -268,7 +281,11 @@ public class AppController extends ApiController{
 	@ResponseBody
 	public JsonEntity productById(@PathVariable("id")String id){
 		JsonEntity js =new JsonEntity();
-		js.setData(productService.findObjectById(id));
+		Product product = productService.findObjectById(id);
+		  if(product!=null){
+			  product.setHospitalName(hospitalService.getById(product.getHospitalId()).getHospitalName());
+		  }
+		js.setData(product);
 		return js;
 	}
 	
