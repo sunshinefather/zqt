@@ -245,7 +245,7 @@ public class AppController extends ApiController{
            User user = getUser(token);
            if(user!=null){
         	   userWidthCompanyId=user.getExtUser().getOrgId(); 
-        	   if("admin".equals(user.getId()) && StringUtils.isBlank(companyId)){
+        	   if("0".equals(user.getType()) && StringUtils.isBlank(companyId)){
         		   companyId="admin";
         	   }
            }
