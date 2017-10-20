@@ -21,6 +21,7 @@ public class DateConverter implements Converter<String, Date>{
 
     public DateConverter() {//循序不能调整
     	patterns.add("yyyy-MM-dd HH:mm:ss");
+    	patterns.add("yyyy-MM-dd HH:mm");
     	patterns.add("yyyy-MM-dd");
     }
     

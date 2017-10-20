@@ -11,7 +11,9 @@
 <meta name="keywords" content="政企通管理系统" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/common/css/layout.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/asset/common/css/pop.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/asset/common/css/combo.select.css"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/asset/common/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/asset/common/js/jquery.combo.select.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/asset/after/js/wu-style.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/asset/common/scripts/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/asset/common/scripts/vali/vali.js"></script>
@@ -50,7 +52,7 @@
         	<label for="type" style="margin-left: -4px;">
         		<span>*</span>所属企业：
         	</label>
-        	<select style="width:140px;" name="extUser.orgId">
+        	<select style="width:140px;" name="extUser.orgId" id="orgId">
         		<option value="">请选择</option>
 			    <c:forEach items="${orgList}" var="org" >
         			<option value="${org.hospitalId}"  <c:if test="${obj.extUser.orgId == org.hospitalId }">selected="selected"</c:if>>${org.hospitalName}</option>
@@ -84,6 +86,7 @@
 	var groupMap = new HashMap();
 	var group_index = "";
 	$(function(){
+		$('#orgId').comboSelect();
 		$("#type").focus();
 		$("#saveUserBtn").click(function(){
 			var f = $("dl.forms");
