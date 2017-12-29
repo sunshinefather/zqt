@@ -51,6 +51,8 @@
 		<result column="guotuNum3" property="guotuNum3"/>
 		<result column="guotuNum4" property="guotuNum4"/>
 		<result column="guotuNum5" property="guotuNum5"/>
+		<result column="student_syb" property="studentSyb"/>
+		<result column="student_syb_join_park" property="studentSybJoinPark"/>
 	</resultMap>
 	
 	<select id="getHospitals" resultMap="baseMap" parameterType="map">
@@ -99,7 +101,7 @@
 	    #{parentId},#{parentsId},#{grade},#{regionId},#{lng},#{lat},#{logo},#{hasChild},#{sort},
 	    #{blnImg},#{shuiwuDJ},#{shuiwuDJImg},#{orgNum},#{orgImg},#{officeAdd},#{industryCategory},#{manageCategorry},
 	    #{guotut1},#{guotumj1},#{guotuNum1},#{guotut2},#{guotumj2},#{guotuNum2},#{guotut3},#{guotumj3},#{guotuNum3},#{guotut4},
-	    #{guotumj4},#{guotuNum4},#{guotut5},#{guotumj5},#{guotuNum5}
+	    #{guotumj4},#{guotuNum4},#{guotut5},#{guotumj5},#{guotuNum5},#{studentSyb},#{studentSybJoinPark}
 	    )
 	</insert>
 	
@@ -221,6 +223,12 @@
 	    </if>
 	    <if test="guotuNum5 != null and guotuNum5 != ''">
 	        ,guotuNum5 = #{guotuNum5}
+	    </if>
+	    <if test="studentSyb != null and studentSyb != ''">
+	        ,student_syb = #{studentSyb}
+	    </if>
+	    <if test="studentSybJoinPark != null and studentSybJoinPark != ''">
+	        ,student_syb_join_park = #{studentSybJoinPark}
 	    </if>
 	    where hospital_id = #{hospitalId}
 	</update>

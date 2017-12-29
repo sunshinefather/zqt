@@ -65,10 +65,12 @@
 			    <th width="20"><input type="checkbox" id="checkAll" value="" name=""></input></th>
 			    <th width="90">企业名称</th>
 			    <th width="60">企业类别</th>
-		        <th width="40">注册资本(万元)</th>
-			    <th width="30">是否高新企业</th>
+		        <th width="50">注册资本(万元)</th>
+			    <th width="50">是否高新企业</th>
+			    <th width="50">大学生创业企业</th>
+			    <th width="70">大学生创业企业已入住园区</th>
 			    <th width="50">高新企业获得时间</th>
-			    <th width="50">高新企业结束时间</th>
+			    <th width="55">高新企业结束时间</th>
 			    <th width="30">用工人数</th>
 			   </tr>
 		  </thead>
@@ -81,6 +83,8 @@
 			    <td style="word-break:break-all">${fn:escapeXml(organ.hospitalType )}</td>
 			    <td style="word-break:break-all">${fn:escapeXml(organ.registeredCapital )}</td>
 			    <td style="word-break:break-all" >${organ.isHighSalary}</td>
+			    <td style="word-break:break-all" ><c:if test="${organ.studentSyb eq '2'}">是</c:if><c:if test="${organ.studentSyb ne '2'}">否</c:if></td>
+			    <td style="word-break:break-all" ><c:if test="${organ.studentSybJoinPark eq '2'}">是</c:if><c:if test="${organ.studentSybJoinPark ne '2'}">否</c:if></td>
 			    <td style="word-break:break-all" >${organ.highSalaryStart}</td>
 			    <td style="word-break:break-all" >${organ.highSalaryEnd}</td>
 			    <td style="word-break:break-all" >${organ.peoples}</td>

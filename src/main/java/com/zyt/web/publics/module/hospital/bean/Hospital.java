@@ -155,6 +155,8 @@ public class Hospital implements Serializable {
 	private String guotut5;//国土证时间1
 	private String guotumj5;//国土证面积1
 	private String guotuNum5;//国土证1土体证号
+	private String studentSyb;//是否大学生创业企业
+	private String studentSybJoinPark;//大学生创业企业是否已经住入园区
 	
 	private List<AgencyOverview> agencyOverviews;
 
@@ -744,6 +746,22 @@ public class Hospital implements Serializable {
 
 	public void setGuotuNum5(String guotuNum5) {
 		this.guotuNum5 = guotuNum5;
+	}
+
+	public String getStudentSyb() {
+		return studentSyb;
+	}
+
+	public void setStudentSyb(String studentSyb) {
+		this.studentSyb = studentSyb;
+	}
+
+	public String getStudentSybJoinPark() {
+		return studentSybJoinPark;
+	}
+
+	public void setStudentSybJoinPark(String studentSybJoinPark) {
+		this.studentSybJoinPark = studentSybJoinPark;
 	}
 	
 }

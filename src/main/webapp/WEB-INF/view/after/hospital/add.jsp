@@ -26,7 +26,7 @@ b{
 color:red;
 }
 .cont label {
-width: 120px;
+width: 180px;
 }
 </style>
 <script type="text/javascript">
@@ -150,6 +150,22 @@ KindEditor.ready(function(K) {
              <select name="isHighSalary" id="isHighSalary">
                <option value="否" <c:if test="${obj.isHighSalary eq '否'}">selected="selected"</c:if>>否</option>
                <option value="是" <c:if test="${obj.isHighSalary eq '是'}">selected="selected"</c:if>>是</option>
+             </select>
+          </dd>
+          <em class="clear"></em>
+           <dd class="ysn">
+           <label for="contactPhone">是否大学生创业企业：</label>
+             <select name="studentSyb" id="studentSyb">
+               <option value="1" <c:if test="${obj.studentSyb eq '1'}">selected="selected"</c:if>>否</option>
+               <option value="2" <c:if test="${obj.studentSyb eq '2'}">selected="selected"</c:if>>是</option>
+             </select>
+          </dd>
+          <em class="clear"></em>
+           <dd class="ysn">
+           <label for="contactPhone">大学生创业企业是否已住入园区：</label>
+             <select name="studentSybJoinPark" id="studentSybJoinPark">
+               <option value="1" <c:if test="${obj.studentSybJoinPark eq '1'}">selected="selected"</c:if>>否</option>
+               <option value="2" <c:if test="${obj.studentSybJoinPark eq '2'}">selected="selected"</c:if>>是</option>
              </select>
           </dd>
           <em class="clear"></em>
